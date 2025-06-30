@@ -1,0 +1,120 @@
+/* V7 Progress Bar Styles - Converted to CSS Modules */
+
+/* V8 Design System Compliant - Progress wrapper */
+.progressWrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--progress-spacing, 8px);
+}
+
+.progressBar {
+  position: relative;
+  width: 100%;
+  height: var(--progress-height, 10px);
+  background: var(--dark-overlay, rgba(0, 0, 0, 0.6));
+  border-radius: var(--progress-border-radius, 5px);
+  cursor: pointer;
+  overflow: visible;
+  -webkit-backdrop-filter: var(--backdrop-blur-light, blur(5px));
+  backdrop-filter: var(--backdrop-blur-light, blur(5px));
+  transition: all var(--transition-smooth, 0.3s cubic-bezier(0.4, 0, 0.2, 1));
+  z-index: 1;
+}
+
+.progressBar:hover {
+  height: calc(var(--progress-height, 10px) + 2px);
+  background: rgba(0, 0, 0, 0.7);
+}
+
+/* V7 doesn't need separate track - handled by progressBar background */
+
+.progressFill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: var(--primary-blue-alpha, rgba(96, 165, 250, 0.8));
+  border-radius: var(--progress-border-radius, 5px);
+  transition: none;
+}
+
+.progressThumb {
+  position: absolute;
+  right: -8px;
+  top: -3px;
+  width: 16px;
+  height: 16px;
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  z-index: 20;
+}
+
+.progressBar:hover .progressThumb {
+  opacity: 1;
+}
+
+.progressBuffering {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-xs);
+}
+
+.timeDisplay {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--time-font-size, 13px);
+  color: var(--time-color, white);
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: var(--time-letter-spacing, 0.5px);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+  pointer-events: none;
+}
+
+.currentTime {
+  color: var(--text-primary, white);
+}
+
+.duration {
+  color: var(--text-primary, white);
+}
+
+/* V7 Mobile optimizations */
+@media (max-width: 768px) {
+  .progressBar {
+    height: 8px; /* Larger touch target */
+  }
+  
+  .progressThumb {
+    width: 16px;
+    height: 16px;
+    opacity: 1; /* Always visible on mobile */
+  }
+  
+  .timeDisplay {
+    font-size: var(--font-size-sm);
+  }
+}
+
+/* V7 Touch device optimizations */
+@media (pointer: coarse) {
+  .progressBar {
+    height: 10px;
+    padding: 5px 0; /* Larger touch area */
+  }
+  
+  .progressThumb {
+    opacity: 1;
+    width: 18px;
+    height: 18px;
+  }
+}

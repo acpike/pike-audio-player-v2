@@ -1,0 +1,128 @@
+/* Space Black Background Foundation - V8 Design System */
+/* Version: V1_Rewrite_1.5.7a */
+
+/**
+ * Space Black background with depth gradients
+ * 
+ * Creates a deep space effect using multiple radial gradients
+ * for dimensional depth while maintaining performance.
+ */
+.spaceBackground {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  background: 
+    /* Subtle depth gradients for dimensional effect */
+    radial-gradient(circle at 20% 80%, var(--depth-overlay-1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, var(--depth-overlay-2) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, var(--depth-overlay-3) 0%, transparent 50%),
+    /* Deep space black foundation */
+    linear-gradient(135deg, 
+      var(--true-black) 0%,
+      var(--deep-charcoal) 25%,
+      var(--dark-gray) 50%,
+      var(--deep-charcoal) 75%,
+      var(--true-black) 100%
+    );
+}
+
+/**
+ * Enhanced Glass Morphism for Space Black theme
+ * 
+ * Provides subtle glass effects that work well against
+ * the deep space background while maintaining readability.
+ */
+.glassSpace {
+  background: 
+    linear-gradient(135deg, 
+      var(--glass-white-high) 0%,
+      var(--glass-white-mid) 50%,
+      var(--glass-white-low) 100%
+    ),
+    var(--glass-space-base);
+  
+  /* Enhanced backdrop filter for space theme */
+  backdrop-filter: blur(24px) saturate(200%) brightness(1.1);
+  -webkit-backdrop-filter: blur(24px) saturate(200%) brightness(1.1);
+  
+  border: 1px solid var(--glass-border);
+  
+  /* Enhanced shadow system for depth */
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.6),
+    0 2px 8px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+}
+
+/**
+ * Invisible Glass Effect for Cover Art
+ * 
+ * Provides only the light-reflecting backdrop-filter effects
+ * without any visible borders or backgrounds. Pure glow amplification.
+ */
+.glassInvisible {
+  /* Invisible background */
+  background: transparent;
+  
+  /* Light-amplifying backdrop filter only */
+  backdrop-filter: saturate(150%) brightness(1.2);
+  -webkit-backdrop-filter: saturate(150%) brightness(1.2);
+  
+  /* No borders or shadows */
+  border: none;
+  box-shadow: none;
+}
+
+/**
+ * Dynamic Glow System (Foundation)
+ * 
+ * Provides the base structure for dynamic glow effects.
+ * The actual glow color will be set via CSS custom properties
+ * from the extracted cover art colors.
+ */
+.dynamicGlow {
+  position: relative;
+  transition: all var(--transition-smooth, 0.3s ease);
+}
+
+.dynamicGlow::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, 
+    var(--current-glow-color, rgba(96, 165, 250, 0.4)),
+    transparent 50%,
+    var(--current-glow-color, rgba(96, 165, 250, 0.4))
+  );
+  border-radius: inherit;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity var(--transition-smooth, 0.3s ease);
+  will-change: opacity;
+}
+
+.dynamicGlow:hover::after,
+.dynamicGlow.active::after {
+  opacity: 0.8;
+}
+
+/**
+ * Performance optimizations for space background
+ */
+.spaceBackground,
+.glassSpace,
+.dynamicGlow {
+  /* V7 GPU acceleration */
+  will-change: transform;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
