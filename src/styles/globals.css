@@ -1,0 +1,226 @@
+/* DESIGN SYSTEM - Master Plan Compliant */
+
+:root {
+  /* Primary Color Palette */
+  --primary-blue: rgba(96, 165, 250, 1);
+  --primary-blue-alpha: rgba(96, 165, 250, 0.8);
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.5);
+  --dark-overlay: rgba(0, 0, 0, 0.6);
+  --text-primary: white;
+  --text-secondary: rgba(255, 255, 255, 0.8);
+  
+  /* Space Black Foundation Variables */
+  --true-black: #000000;
+  --deep-charcoal: #0a0a0a;
+  --dark-gray: #141414;
+  --depth-overlay-1: rgba(15, 15, 15, 0.8);
+  --depth-overlay-2: rgba(25, 25, 25, 0.6);
+  --depth-overlay-3: rgba(20, 20, 20, 0.7);
+  
+  /* Enhanced Glass Morphism Variables */
+  --glass-space-base: rgba(20, 20, 20, 0.8);
+  --glass-white-high: rgba(255, 255, 255, 0.06);
+  --glass-white-mid: rgba(255, 255, 255, 0.02);
+  --glass-white-low: rgba(255, 255, 255, 0.01);
+  --glass-border-space: rgba(255, 255, 255, 0.08);
+  
+  /* Dynamic Glow System */
+  --current-glow-color: rgba(96, 165, 250, 0.4);
+  
+  /* Play Button System */
+  --play-button-size: 220px;
+  --play-icon-size: 110px;
+  --loading-spinner-size: 60px;
+  --play-button-scale-hover: 1.05;
+  --play-button-scale-active: 0.95;
+  
+  /* Audio Player System */
+  --audio-player-gap: 25px;
+  --cover-size-portrait: 85vw;
+  --cover-max-size: 400px;
+  --cover-margin-bottom: 25px;
+  
+  /* Landscape Layout System - Final proportions from compiled version */
+  --landscape-audio-width: 40%; /* Proper baseline proportion */
+  --landscape-tracklist-width: 58%; /* Balanced track list width */
+  --landscape-gap: 0.5%; /* Minimal gap maintained */
+  
+  /* Progress Bar System */
+  --progress-bottom: 8px;
+  --progress-horizontal: 20px;
+  --progress-spacing: 8px;
+  --progress-z-index: 5;
+  --progress-height: 10px;
+  --progress-border-radius: 5px;
+
+  /* Border Radius System */
+  --radius-xs: 3px;   /* Small elements, progress buffering */
+  --radius-sm: 5px;   /* Progress bar */
+  --radius-md: 8px;   /* Track thumbnails, debug panel */
+  --radius-lg: 12px;  /* Track items, buttons */
+  --radius-xl: 16px;  /* Preview buttons */
+  --radius-2xl: 20px; /* Cover art */
+  --radius-3xl: 24px; /* Main container */
+  --radius-4xl: 30px; /* TagsToggle mobile */
+  --radius-5xl: 32px; /* TagsToggle default */
+  --radius-full: 50%; /* Circular elements */
+  
+  /* Typography Scale System */
+  --font-size-2xs: 7px;   /* TagsToggle mobile text */
+  --font-size-xs: 8px;    /* TagsToggle small text */
+  --font-size-sm: 11px;   /* Status text, time display */
+  --font-size-base: 12px; /* Preview buttons, debug panel */
+  --font-size-md: 13px;   /* Track tags, track duration landscape */
+  --font-size-lg: 14px;   /* Description text, track duration */
+  --font-size-landscape: 15px; /* AudioPlayer landscape adjustments */
+  --font-size-xl: 16px;   /* Track list title mobile, description */
+  --font-size-2xl: 17px;  /* Track titles */
+  --font-size-3xl: 18px;  /* Track list title */
+  --font-size-4xl: 20px;  /* Track title mobile small */
+  --font-size-5xl: 24px;  /* Track title mobile */
+  --font-size-6xl: 32px;  /* Main track title */
+
+  /* V7 Time Display */
+  --time-font-size: var(--font-size-md);
+  --time-color: white;
+  --time-letter-spacing: 0.5px;
+  --time-blur: 3px;
+  
+  /* V7 Play Button */
+  --play-button-size: 220px;
+  --play-button-scale-landscape: 0.58;
+  --play-button-scale-mobile: 0.45;
+  --play-button-scale-ipad: 0.71;
+  
+  /* V7 Responsive Breakpoints */
+  --mobile-max: 768px;
+  --iphone-se-max: 568px;
+  --ipad-landscape-min: 1000px;
+  --ipad-landscape-max: 900px;
+  
+  /* V7 Animation Timing */
+  --transition-smooth: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-quick: 0.2s ease;
+  --transition-linear: 0.1s linear;
+  
+  /* V8 Layout Variables */
+  --spacing-xs: 5px;
+  --spacing-sm: 12px;
+  --spacing-md: 15px;
+  --spacing-lg: 20px;
+  --spacing-xl: 25px;
+  --spacing-xxl: 35px;
+  --container-padding-sm: 15px;
+  --container-padding-md: 20px;
+  --container-padding-lg: 35px;
+  --track-list-max-height: 75vh;
+  --track-list-gap: 15px;
+  --track-list-header-spacing: 15px;
+  
+  /* V7 Glass Morphism */
+  --backdrop-blur: blur(10px);
+  --backdrop-blur-light: blur(5px);
+  --backdrop-blur-heavy: blur(15px);
+}
+
+/* V7 Global Styles - Converted from lines 41-101 */
+
+/* V7 Performance optimizations - lines 50-70 */
+* {
+  box-sizing: border-box;
+  /* Prevent text selection during animations */
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* V7 Force GPU acceleration on animated elements - lines 57-70 */
+.cover,
+.play-button,
+.tracklist li,
+.track-thumbnail,
+.button-container {
+  will-change: transform;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-perspective: 1000px;
+  perspective: 1000px;
+}
+
+/* V7 iframe optimization - lines 41-48 */
+html, body {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  overflow: hidden !important;
+}
+
+#root {
+  width: 100vw !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+
+/* V7 Body styles - lines 72-85 */
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  color: white;
+  background: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  padding-top: max(20px, env(safe-area-inset-top));
+  padding-bottom: max(20px, env(safe-area-inset-bottom));
+  padding-left: max(20px, env(safe-area-inset-left));
+  padding-right: max(20px, env(safe-area-inset-right));
+}
+
+/* V7 Glass Morphism Base - Moved to ResponsiveLayout.module.css */
+
+/* V7 Device-specific classes - From device detection logic */
+.touch-device {
+  /* Touch device optimizations */
+}
+
+.low-performance {
+  /* Low-end device optimizations */
+}
+
+/* V7 Landscape mode foundation - From lines 2801-2817 */
+.landscape-mode {
+  /* CSS-only landscape mode - no DOM manipulation */
+}
+
+/* Mobile body overrides - from compiled CSS */
+@media (max-width: 768px) and (max-height: 1024px) {
+  body {
+    padding: 0 !important;
+    display: block !important;
+  }
+}
+
+/* V7 Utility Classes - Design System */
+.glass-morphism {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: var(--backdrop-blur);
+}
+
+.smooth-transition {
+  transition: all var(--transition-smooth);
+}
+
+.gpu-optimized {
+  will-change: transform;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}

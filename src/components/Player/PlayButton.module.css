@@ -1,0 +1,108 @@
+/* Play Button Styles - CSS Modules with Design System Variables */
+
+.playButton {
+  /* Base styles with design system variables */
+  width: var(--play-button-size);
+  height: var(--play-button-size);
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transform: scale(1);
+  transform-origin: center center;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+  background-color: rgba(255, 255, 255, 0.05);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform, background-color, border-color, box-shadow;
+}
+
+.playButton:hover {
+  background: rgba(255, 255, 255, 0.08);
+  transform: scale(var(--play-button-scale-hover));
+  box-shadow: 0 0 25px rgba(255, 255, 255, 0.6);
+  border-color: rgba(255, 255, 255, 0.9);
+}
+
+.playButton:active {
+  transform: scale(var(--play-button-scale-active));
+  transition: all 0.1s ease;
+}
+
+.playIcon {
+  fill: white;
+  width: var(--play-icon-size);
+  height: var(--play-icon-size);
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  transition: none;
+  pointer-events: none;
+}
+
+.loadingSpinner {
+  width: var(--loading-spinner-size);
+  height: var(--loading-spinner-size);
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top: 3px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Modern Landscape mode scaling - CSS Module Data Attributes */
+.playButton[data-landscape="true"] {
+  width: var(--play-button-size); /* Maintain base dimensions */
+  height: var(--play-button-size);
+  transform: scale(0.77); /* Base scale for desktop */
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  flex-shrink: 0;
+}
+
+.playButton[data-landscape="true"]:hover {
+  transform: scale(0.77); /* Match hover scale */
+}
+
+.playButton[data-landscape="true"]:active {
+  transform: scale(0.69); /* Match active scale */
+}
+
+.playIcon[data-landscape="true"] {
+  width: 50%;
+  height: 50%;
+}
+
+/* Mobile landscape scaling */
+@media (max-width: 768px) {
+  .playButton[data-landscape="true"] {
+    transform: scale(0.45); /* Scale to ~100px */
+  }
+  
+  .playButton[data-landscape="true"]:hover {
+    transform: scale(0.45);
+  }
+  
+  .playButton[data-landscape="true"]:active {
+    transform: scale(0.40);
+  }
+}
+
+/* iPad landscape scaling */
+@media (orientation: landscape) and (min-width: 1000px) and (max-height: 900px) {
+  .playButton[data-landscape="true"] {
+    transform: scale(0.71); /* Scale to ~156px */
+  }
+  
+  .playButton[data-landscape="true"]:hover {
+    transform: scale(0.71);
+  }
+  
+  .playButton[data-landscape="true"]:active {
+    transform: scale(0.65);
+  }
+}
+

@@ -1,0 +1,247 @@
+:root {
+  --track-scale-active: 1.05;
+  --track-thumbnail-scale-active: 1.12;
+  --track-elevation-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+  --track-glow-inner-opacity: 0.35;
+  --track-glow-outer-opacity: 0.18;
+  --track-thumbnail-glow-opacity: 0.5;
+  --track-active-z-index: 10;
+}
+
+.trackItem {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+  border-radius: var(--radius-lg);
+  scroll-snap-align: start;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* Clean floating effect */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  
+  position: relative;
+  overflow: visible;
+  will-change: transform;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.trackItem:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.trackItem.active {
+  /* Focus on color-tinted background - glow effect moved to ::before pseudo-element */
+  background: rgba(var(--glow-r, 96), var(--glow-g, 165), var(--glow-b, 250), 0.18);
+  border-color: rgba(var(--glow-r, 96), var(--glow-g, 165), var(--glow-b, 250), 0.5);
+  transform: scale(var(--track-scale-active));
+  z-index: var(--track-active-z-index);
+  box-shadow: var(--track-elevation-shadow); /* Only drop shadow, no glow */
+}
+
+.trackItem.active::before {
+  /* Glow effect on pseudo-element to avoid text blurring */
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: var(--radius-lg);
+  z-index: -1;
+  box-shadow: 
+    0 0 8px rgba(var(--glow-r, 96), var(--glow-g, 165), var(--glow-b, 250), 0.3), /* Very tight backlight */
+    0 0 16px rgba(var(--glow-r, 96), var(--glow-g, 165), var(--glow-b, 250), 0.15), /* Minimal outer glow */
+    0 0 30px rgba(var(--glow-r, 96), var(--glow-g, 165), var(--glow-b, 250), 0.08); /* Extended glow for adjacent tracks */
+}
+
+/* Subtle radiated glow effect on tracks adjacent to active track */
+.trackItem.active + .trackItem::before,
+.trackItem.active ~ .trackItem:nth-child(2)::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: var(--radius-lg);
+  z-index: -2;
+  box-shadow: 0 0 12px rgba(var(--glow-r, 96), var(--glow-g, 165), var(--glow-b, 250), 0.05); /* Very subtle radiated glow */
+}
+
+.trackThumbnail {
+  width: 60px;
+  height: 60px;
+  border-radius: var(--radius-md);
+  object-fit: cover;
+  flex-shrink: 0;
+  transition: box-shadow 0.3s ease;
+  
+  /* GPU acceleration */
+  will-change: transform;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+}
+
+.trackItem.active .trackThumbnail {
+  transform: scale(var(--track-thumbnail-scale-active));
+  box-shadow: 
+    0 0 6px rgba(var(--glow-r, 96), var(--glow-g, 165), var(--glow-b, 250), 0.4), /* Very tight thumbnail glow */
+    0 0 12px rgba(var(--glow-r, 96), var(--glow-g, 165), var(--glow-b, 250), 0.2); /* Subtle outer */
+}
+
+.trackInfo {
+  flex: 1;
+  min-width: 0; /* Allows text truncation */
+  overflow: visible; /* Allow glow effects to extend beyond text area */
+  display: flex;
+  flex-direction: column;
+  gap: 0; /* No gap between title row and duration */
+}
+
+.trackTitle {
+  font-size: var(--font-size-2xl);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin: 0 !important;
+  margin-bottom: 0 !important; /* Force override browser default h3 margin */
+  padding: 0 !important;
+  color: white;
+  line-height: 1 !important; /* Force very tight line height */
+  
+  /* Text truncation */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+  min-width: 0;
+}
+
+.trackTopRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+}
+
+.trackDuration {
+  font-size: var(--font-size-lg);
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+  font-weight: 400;
+  line-height: 1; /* Very tight line height */
+}
+
+.trackTags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 8px; /* Space from duration when tags are present */
+}
+
+.trackTag {
+  font-size: var(--font-size-md);
+  padding: 3px 9px;
+  border-radius: var(--radius-lg);
+  background: rgba(96, 165, 250, 0.2);
+  border: 1px solid rgba(96, 165, 250, 0.4);
+  color: #93c5fd;
+  font-weight: 500;
+}
+
+.previewButtons {
+  display: flex;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.previewButton {
+  padding: 6px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-xl);
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.8);
+  font-size: var(--font-size-base);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.previewButton:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+/* Modern Landscape mode optimizations - CSS Module Data Attributes */
+@media (orientation: landscape) {
+  .trackItem[data-landscape="true"] {
+    width: 100%; /* Full width utilization */
+    padding: 12px 16px; /* Slightly wider horizontal padding */
+    gap: 16px; /* Optimized spacing for landscape */
+  }
+  
+  .trackThumbnail[data-landscape="true"] {
+    width: 55px; /* Slightly larger for better visual balance */
+    height: 55px;
+  }
+  
+  .trackInfo[data-landscape="true"] {
+    flex: 1;
+    min-width: 0; /* Maintain text truncation */
+  }
+  
+  .trackTitle[data-landscape="true"] {
+    font-size: var(--font-size-2xl);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin-bottom: 3px;
+  }
+  
+  .trackDuration[data-landscape="true"] {
+    font-size: var(--font-size-md);
+  }
+  
+  .previewButtons[data-landscape="true"] {
+    min-width: 35px; /* Reduced space needed for single button */
+  }
+  
+  .previewButton[data-landscape="true"] {
+    padding: 6px 14px; /* Better proportions for single button */
+    font-size: var(--font-size-base);
+    min-width: 50px; /* Consistent button sizing */
+  }
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  .trackItem {
+    padding: 12px;
+    gap: 12px;
+  }
+  
+  .trackThumbnail {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .trackTitle {
+    font-size: var(--font-size-lg);
+  }
+  
+  .previewButton {
+    padding: 4px 8px;
+    font-size: var(--font-size-sm);
+  }
+}

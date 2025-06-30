@@ -1,0 +1,70 @@
+.trigger {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 50px;
+  height: 50px;
+  z-index: 9999;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.panel {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: rgba(0, 0, 0, 0.9);
+  border: 1px solid rgba(96, 165, 250, 0.3);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  font-family: 'Monaco', 'Menlo', monospace;
+  font-size: var(--font-size-base);
+  color: #fff;
+  z-index: 10000;
+  min-width: 250px;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  border-bottom: 1px solid rgba(96, 165, 250, 0.3);
+  padding-bottom: 8px;
+}
+
+.header h3 {
+  margin: 0;
+  font-size: var(--font-size-lg);
+  color: rgba(96, 165, 250, 1);
+}
+
+.close {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: var(--font-size-3xl);
+  cursor: pointer;
+  padding: 0;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.close:hover {
+  color: rgba(96, 165, 250, 1);
+}
+
+.content p {
+  margin: 4px 0;
+  line-height: 1.4;
+}
+
+.content strong {
+  color: rgba(96, 165, 250, 1);
+}

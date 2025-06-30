@@ -1,0 +1,120 @@
+/* Responsive Layout - CSS Modules Implementation */
+
+/* Glass Morphism Base */
+.player {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 900px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: var(--radius-3xl);
+  padding: 40px;
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 
+    0 25px 80px rgba(0, 0, 0, 0.4),
+    0 15px 30px rgba(0, 0, 0, 0.3),
+    inset 0 1px rgba(255, 255, 255, 0.1);
+  gap: 30px;
+  
+  /* Allow glow effects to extend beyond player boundaries */
+  overflow: visible;
+}
+
+/* Device-specific classes */
+.touchDevice {
+  /* Touch device optimizations */
+}
+
+.lowPerformance {
+  /* Low-end device optimizations */
+}
+
+/* Landscape mode foundation */
+
+/* Phone Detection: ≤768px */
+@media (max-width: 768px) {
+  .player {
+    padding: 20px;
+    max-width: 100%;
+  }
+}
+
+/* iPad Detection: >950px and ≤1200px */
+@media (min-width: 951px) and (max-width: 1200px) {
+  .player {
+    max-width: 800px;
+  }
+}
+
+/* Desktop: >1200px */
+@media (min-width: 1201px) {
+  .player {
+    max-width: 900px;
+  }
+}
+
+/* Modern Landscape Mode - CSS Module Data Attributes */
+@media (orientation: landscape) {
+  .player[data-landscape="true"] {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: var(--landscape-gap);
+    max-width: none;
+    width: 100%;
+    height: 100vh; /* Constrain entire player to viewport height */
+    max-height: 100vh; /* Backup constraint */
+    padding: 0 15px 0 0;
+    overflow: visible; /* Allow glow effects to extend beyond player boundaries */
+  }
+  
+  /* 40/60 Split: AudioPlayer takes 40% width and moves closer to left edge */
+  .player[data-landscape="true"] > :first-child {
+    flex: 0 0 var(--landscape-audio-width);
+    max-width: var(--landscape-audio-width);
+    height: calc(100% + 20px);
+    margin: 0;
+    padding: 0;
+    position: relative;
+    left: -10px;
+    top: -10px;
+  }
+  
+  /* 40/60 Split: TrackList takes 58% width */
+  .player[data-landscape="true"] > :nth-child(2) {
+    flex: 0 0 var(--landscape-tracklist-width);
+    max-width: var(--landscape-tracklist-width);
+  }
+  
+  /* DebugPanel remains unaffected by width constraints */
+  .player[data-landscape="true"] > :last-child {
+    flex: none;
+  }
+
+  /* Landscape layout for phones - Tighter spacing */
+  @media (orientation: landscape) and (min-width: 750px) and (max-width: 950px) {
+    .player[data-landscape="true"] {
+      gap: calc(var(--landscape-gap) - 0.5%);
+      padding: 8px 12px;
+    }
+  }
+  
+  /* Landscape layout for tablets and larger - More generous spacing */
+  @media (orientation: landscape) and (min-width: 951px) {
+    .player[data-landscape="true"] {
+      gap: calc(var(--landscape-gap) + 1%);
+      padding: 12px 20px;
+      max-width: 1200px;
+    }
+  }
+}
+
+/* iPhone SE specific optimizations */
+@media (max-width: 568px) and (max-height: 320px) {
+  .player {
+    padding: 15px;
+  }
+}
