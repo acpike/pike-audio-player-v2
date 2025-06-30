@@ -28,6 +28,15 @@ interface PlayButtonProps {
 export const PlayButton: React.FC<PlayButtonProps> = ({ togglePlayPause, isPlaying, isLoading }) => {
   const { isLandscapeMode } = useUIStore();
 
+  // QA Compliant CSS Modules class helpers
+  const getPlayButtonClass = () => {
+    return isLandscapeMode ? styles.playButtonLandscape : styles.playButton;
+  };
+
+  const getPlayIconClass = () => {
+    return isLandscapeMode ? styles.playIconLandscape : styles.playIcon;
+  };
+
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
@@ -36,16 +45,15 @@ export const PlayButton: React.FC<PlayButtonProps> = ({ togglePlayPause, isPlayi
 
   return (
     <button 
-      className={styles.playButton}
+      className={getPlayButtonClass()}
       onClick={handleClick}
       disabled={isLoading}
       aria-label={isPlaying ? 'Pause' : 'Play'}
-      data-landscape={isLandscapeMode}
     >
       {isLoading ? (
         <div className={styles.loadingSpinner} />
       ) : (
-        <svg className={styles.playIcon} viewBox={`0 0 ${UI_CONSTANTS.ICON_VIEWBOX_SIZE} ${UI_CONSTANTS.ICON_VIEWBOX_SIZE}`} data-landscape={isLandscapeMode}>
+        <svg className={getPlayIconClass()} viewBox={`0 0 ${UI_CONSTANTS.ICON_VIEWBOX_SIZE} ${UI_CONSTANTS.ICON_VIEWBOX_SIZE}`}>
           {isPlaying ? (
             // Pause icon
             <>

@@ -37,14 +37,15 @@
   
   /* Audio Player System */
   --audio-player-gap: 25px;
-  --cover-size-portrait: 85vw;
-  --cover-max-size: 400px;
+  --cover-size-portrait: 90vw;
+  --cover-max-size: 350px;
   --cover-margin-bottom: 25px;
   
   /* Landscape Layout System - Final proportions from compiled version */
   --landscape-audio-width: 40%; /* Proper baseline proportion */
   --landscape-tracklist-width: 58%; /* Balanced track list width */
   --landscape-gap: 0.5%; /* Minimal gap maintained */
+  --cover-size-landscape: 280px;  /* Fixed landscape cover size */
   
   /* Progress Bar System */
   --progress-bottom: 8px;

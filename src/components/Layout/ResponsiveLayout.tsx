@@ -36,18 +36,15 @@ export const ResponsiveLayout: React.FC<ResponsiveLayoutProps> = ({ children }) 
     }
   }, [setTagsToggle]);
 
-  // V8 Modern CSS Module approach - data attributes instead of global classes
-  const getPlayerProps = () => {
-    return {
-      className: styles.player,
-      'data-landscape': isLandscapeMode,
-      'data-device': deviceType
-    };
+  // QA Compliant CSS Modules class selector
+  const getPlayerClass = () => {
+    if (isLandscapeMode) return styles.playerLandscape;
+    return styles.player;
   };
 
 
   return (
-    <div {...getPlayerProps()}>
+    <div className={getPlayerClass()}>
       {children}
     </div>
   );

@@ -28,9 +28,22 @@ export const TrackList: React.FC<TrackListProps> = ({ playTrack }) => {
   const { currentTrackIndex } = useAudioStore();
   const { isLandscapeMode } = useUIStore();
 
+  // QA Compliant CSS Modules class helpers
+  const getTrackListClass = () => {
+    return isLandscapeMode ? styles.trackListLandscape : styles.trackList;
+  };
+
+  const getTrackListHeaderClass = () => {
+    return isLandscapeMode ? styles.trackListHeaderLandscape : styles.trackListHeader;
+  };
+
+  const getTrackListContainerClass = () => {
+    return isLandscapeMode ? styles.trackListContainerLandscape : styles.trackListContainer;
+  };
+
   return (
-    <div className={styles.trackList} data-landscape={isLandscapeMode}>
-      <div className={styles.trackListHeader} data-landscape={isLandscapeMode}>
+    <div className={getTrackListClass()}>
+      <div className={getTrackListHeaderClass()}>
         {isLandscapeMode && (
           <div className={styles.nowPlayingHeader}>
             {currentTrackIndex !== null ? (
@@ -48,7 +61,7 @@ export const TrackList: React.FC<TrackListProps> = ({ playTrack }) => {
         )}
         <TagsToggle />
       </div>
-      <div className={styles.trackListContainer} data-landscape={isLandscapeMode}>
+      <div className={getTrackListContainerClass()}>
         {trackData.map((track, index) => (
           <TrackItem
             key={index}

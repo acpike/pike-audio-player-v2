@@ -45,6 +45,68 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
   const previousTrackRef = useRef<Track | null>(null);
 
+  // CSS Modules class helpers - QA Compliant
+  const getAudioPlayerClass = () => {
+    return isLandscapeMode ? styles.audioPlayerLandscape : styles.audioPlayer;
+  };
+
+  const getCoverWrapperClass = () => {
+    if (isLandscapeMode && isDescriptionExpanded) return styles.coverWrapperLandscapeExpanded;
+    if (isLandscapeMode) return styles.coverWrapperLandscape;
+    return styles.coverWrapper;
+  };
+
+  const getCoverArtClass = () => {
+    if (isLandscapeMode && hasTrackBeenSelected) return styles.coverArtLandscapeWithTrack;
+    if (isLandscapeMode) return styles.coverArtLandscape;
+    if (hasTrackBeenSelected) return styles.coverArtWithTrack;
+    return styles.coverArt;
+  };
+
+  const getButtonContainerClass = () => {
+    return isLandscapeMode ? styles.buttonContainerLandscape : styles.buttonContainer;
+  };
+
+  const getTrackInfoClass = () => {
+    return styles.trackInfo;
+  };
+
+  const getTrackTitleClass = () => {
+    const baseClass = styles.trackTitleBase;
+    const specificClass = isLandscapeMode ? styles.trackTitleLandscape : styles.trackTitle;
+    return `${baseClass} ${specificClass}`;
+  };
+
+  const getStatusTextClass = () => {
+    const baseClass = styles.statusTextBase;
+    const specificClass = isLandscapeMode ? styles.statusTextLandscape : styles.statusText;
+    return `${baseClass} ${specificClass}`;
+  };
+
+  const getDescriptionWrapperClass = () => {
+    if (isLandscapeMode && isDescriptionExpanded) return styles.descriptionWrapperLandscapeExpanded;
+    if (isLandscapeMode) return styles.descriptionWrapperLandscape;
+    if (isDescriptionExpanded) return styles.descriptionWrapperExpanded;
+    return styles.descriptionWrapper;
+  };
+
+  const getMorphingDescriptionClass = () => {
+    if (isLandscapeMode && isDescriptionExpanded) return styles.morphingDescriptionLandscapeExpanded;
+    if (isLandscapeMode) return styles.morphingDescriptionLandscape;
+    if (isDescriptionExpanded) return styles.morphingDescriptionExpanded;
+    return styles.morphingDescription;
+  };
+
+  const getDescriptionTextClass = () => {
+    const baseClass = styles.descriptionTextBase;
+    const specificClass = isLandscapeMode ? styles.descriptionTextLandscape : styles.descriptionText;
+    return `${baseClass} ${specificClass}`;
+  };
+
+  const getButtonTextClass = () => {
+    return isLandscapeMode ? styles.buttonTextLandscape : styles.buttonText;
+  };
+
   // Auto-collapse description when track changes
   useEffect(() => {
     if (previousTrackRef.current && currentTrack && previousTrackRef.current.title !== currentTrack.title) {
@@ -58,22 +120,20 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
   };
 
   return (
-    <div className={styles.audioPlayer} data-landscape={isLandscapeMode}>
+    <div className={getAudioPlayerClass()}>
       {/* Simple HTML5 audio element - V7 pattern */}
       <audio ref={audioRef} preload="metadata" />
       {/* V7 Cover wrapper - Clean audio player without visual effects coupling */}
-      <div className={styles.coverWrapper} data-landscape={isLandscapeMode} data-expanded={isDescriptionExpanded}>
+      <div className={getCoverWrapperClass()}>
         <img 
           src={currentTrack?.art || "https://static.wixstatic.com/media/ec6721_6320ff4ac93c4fa8b900854d633e6a3b~mv2.png"}
           alt={currentTrack ? `${currentTrack.title} cover art` : "Album art - Select a track below"}
-          className={styles.coverArt}
-          data-landscape={isLandscapeMode}
-          data-has-track={hasTrackBeenSelected}
+          className={getCoverArtClass()}
         />
         
         {/* V7 Play button overlaid on center of cover art */}
         {hasTrackBeenSelected && (
-          <div className={styles.buttonContainer} data-landscape={isLandscapeMode}>
+          <div className={getButtonContainerClass()}>
             <PlayButton togglePlayPause={togglePlayPause} isPlaying={isPlaying} isLoading={isLoading} />
           </div>
         )}
@@ -86,14 +146,14 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
         )}
       </div>
       
-      <div className={styles.trackInfo} data-landscape={isLandscapeMode}>
+      <div className={getTrackInfoClass()}>
         {!isLandscapeMode && (
           <>
-            <h1 className={styles.trackTitle} data-landscape={isLandscapeMode}>
+            <h1 className={getTrackTitleClass()}>
               {currentTrack ? currentTrack.title : 'Demo Tracks'}
             </h1>
             
-            <div className={styles.statusText} data-landscape={isLandscapeMode}>
+            <div className={getStatusTextClass()}>
               {hasTrackBeenSelected 
                 ? (isLoading ? 'Loading...' : isPlaying ? 'Playing' : 'Paused')
                 : 'Tap a track to play'
@@ -104,11 +164,10 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
         
         {/* Morphing Description Component */}
         {hasTrackBeenSelected && currentTrack && (
-          <div className={styles.descriptionWrapper} data-landscape={isLandscapeMode} data-expanded={isDescriptionExpanded}>
+          <div className={getDescriptionWrapperClass()}>
             <div 
-              className={styles.morphingDescription} 
-              data-expanded={isDescriptionExpanded}
-              data-landscape={isLandscapeMode}
+              key={currentTrack.title}
+              className={getMorphingDescriptionClass()}
               onClick={toggleDescription}
               role="button"
               tabIndex={0}
@@ -121,11 +180,11 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
               aria-label={isDescriptionExpanded ? 'Collapse description' : 'Expand description'}
             >
               {isDescriptionExpanded ? (
-                <p className={styles.descriptionText} data-landscape={isLandscapeMode}>
+                <p className={getDescriptionTextClass()}>
                   {currentTrack.description || 'No description available for this track.'}
                 </p>
               ) : (
-                <span className={styles.buttonText} data-landscape={isLandscapeMode}>
+                <span className={getButtonTextClass()}>
                   Description
                 </span>
               )}
