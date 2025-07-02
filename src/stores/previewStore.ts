@@ -54,12 +54,6 @@ export const usePreviewStore = create<PreviewStore>((set, get) => ({
     
     // Set up event listeners
     audio.addEventListener('loadedmetadata', () => {
-      // Debug: Log actual preview duration vs expected
-      const isNoReturn = audio.src.includes('32edc29a0b5f42d4a6b3f5cefabea1c7');
-      if (isNoReturn) {
-        console.log('🐛 NO RETURN preview duration:', audio.duration, 'seconds');
-        console.log('🐛 Expected: ~15 seconds, Actual:', audio.duration);
-      }
       set({ previewDuration: audio.duration });
     });
     
@@ -73,11 +67,6 @@ export const usePreviewStore = create<PreviewStore>((set, get) => ({
     });
     
     audio.addEventListener('ended', () => {
-      // Debug: Log when preview ends vs duration
-      const isNoReturn = audio.src.includes('32edc29a0b5f42d4a6b3f5cefabea1c7');
-      if (isNoReturn) {
-        console.log('🐛 NO RETURN preview ended at:', audio.currentTime, 'of', audio.duration);
-      }
       get().stopPreview();
     });
     
