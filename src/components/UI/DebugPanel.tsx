@@ -38,7 +38,7 @@ export const DebugPanel = () => {
         <p><strong>Phase:</strong> Portrait Layout Implementation - ALBUM INFO REPOSITIONING</p>
         <p><strong>Features:</strong> Auto-advance + Portrait spacing + Album info above track list consistently</p>
         <p><strong>Git Branch:</strong> sandbox</p>
-        <p><strong>Last Commit:</strong> 5314718</p>
+        <p><strong>Last Commit:</strong> 9fbdadb</p>
         <p><strong>Build Time:</strong> {new Date().toLocaleTimeString()}</p>
       </div>
     </div>

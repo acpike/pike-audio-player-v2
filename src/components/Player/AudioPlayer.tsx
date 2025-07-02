@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { PlayButton } from './PlayButton';
 import { ProgressBar } from './ProgressBar';
+import { TagsToggle } from '../UI/TagsToggle';
 import { useUIStore } from '../../stores/uiStore';
 import { usePreviewStore } from '../../stores/previewStore';
 import { Track, trackData } from '../../types/tracks';
@@ -322,6 +323,19 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
         <div className={styles.initialAlbumInfo}>
           <div className={styles.initialAlbumName}>
             {trackData[0]?.album || UI_STRINGS.UNKNOWN_ALBUM}
+          </div>
+          <div className={styles.initialTrackCount}>
+            {UI_STRINGS.TRACKS_COUNT(trackData.length)}
+          </div>
+        </div>
+      )}
+
+      {/* Tags toggle in portrait mode - keep in same position as before */}
+      {!hasTrackBeenSelected && isPortraitMode && (
+        <div className={styles.initialAlbumInfo}>
+          <div className={styles.albumNameWithTags}>
+            <span>{trackData[0]?.album || UI_STRINGS.UNKNOWN_ALBUM}</span>
+            <TagsToggle />
           </div>
           <div className={styles.initialTrackCount}>
             {UI_STRINGS.TRACKS_COUNT(trackData.length)}
