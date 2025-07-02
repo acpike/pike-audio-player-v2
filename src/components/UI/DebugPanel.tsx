@@ -34,11 +34,11 @@ export const DebugPanel = () => {
         </button>
       </div>
       <div className={styles.content}>
-        <p><strong>Version:</strong> V11_PORTRAIT_MODE_DEVELOPMENT</p>
-        <p><strong>Phase:</strong> Portrait Scrolling - COMPLETE ✅</p>
-        <p><strong>Features:</strong> Auto-advance + Portrait scroll + Album info + Tags toggle + Divider</p>
+        <p><strong>Version:</strong> V12_PORTRAIT_TRACK_SELECTION_REBUILD</p>
+        <p><strong>Phase:</strong> Loading Page RESTORED ✅ → Track Selection REBUILD 🔄</p>
+        <p><strong>Features:</strong> Portrait loading page + Album alignment + Tags sizing + Emergency reset</p>
         <p><strong>Git Branch:</strong> sandbox</p>
-        <p><strong>Last Commit:</strong> 819f9e7</p>
+        <p><strong>Last Commit:</strong> be23b22</p>
         <p><strong>Build Time:</strong> {new Date().toLocaleTimeString()}</p>
       </div>
     </div>
