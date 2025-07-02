@@ -10,7 +10,7 @@ export const TagsToggle: React.FC = () => {
   };
 
   return (
-    <div className={styles.tagsToggleContainer}>
+    <div className={`${styles.tagsToggleContainer} tagsToggle`}>
       <label className={styles.tagsToggleLabel}>
         <input 
           type="checkbox" 

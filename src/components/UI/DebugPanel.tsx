@@ -38,7 +38,7 @@ export const DebugPanel = () => {
         <p><strong>Phase:</strong> Portrait Layout Implementation - TAGS TOGGLE RELOCATION</p>
         <p><strong>Features:</strong> Auto-advance + Portrait spacing + Tags toggle on album name line</p>
         <p><strong>Git Branch:</strong> sandbox</p>
-        <p><strong>Last Commit:</strong> 952021b</p>
+        <p><strong>Last Commit:</strong> cc68d59</p>
         <p><strong>Build Time:</strong> {new Date().toLocaleTimeString()}</p>
       </div>
     </div>

@@ -298,6 +298,8 @@
 .initialAlbumInfo {
   text-align: center;
   margin-top: var(--spacing-lg);
+  position: relative;
+  width: 100%;
 }
 
 .initialAlbumName {
@@ -310,9 +312,7 @@
 }
 
 .albumNameWithTags {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  position: relative;
   width: 100%;
   font-family: var(--font-family-primary, "Inter", -apple-system, BlinkMacSystemFont, sans-serif);
   font-size: var(--font-size-3xl);
@@ -320,6 +320,19 @@
   color: rgba(255, 255, 255, 0.9);
   letter-spacing: -0.02em;
   margin-bottom: var(--spacing-xs);
+  text-align: center;
+}
+
+.albumNameWithTags > span {
+  display: block;
+  text-align: center;
+}
+
+.albumNameWithTags > :global(.tagsToggle) {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .initialTrackCount {

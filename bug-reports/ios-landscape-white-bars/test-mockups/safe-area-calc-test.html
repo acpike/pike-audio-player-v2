@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover">
+    <title>Safe Area Calc Solution</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        /* Foundation - Full viewport coverage */
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            min-width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(15, 15, 15, 0.8) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(25, 25, 25, 0.6) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(20, 20, 20, 0.7) 0%, transparent 50%),
+                linear-gradient(135deg, 
+                    #000000 0%,
+                    #0a0a0a 25%,
+                    #141414 50%,
+                    #0a0a0a 75%,
+                    #000000 100%
+                );
+            overflow-x: hidden;
+            box-sizing: border-box;
+        }
+        
+        /* Handle safe area insets on html */
+        html {
+            padding-left: env(safe-area-inset-left);
+            padding-right: env(safe-area-inset-right);
+        }
+        
+        /* Handle safe area insets on body */
+        body {
+            padding-left: env(safe-area-inset-left);
+            padding-right: env(safe-area-inset-right);
+        }
+        
+        /* CRITICAL: Extend background to cover safe area insets */
+        html::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: calc(-1 * env(safe-area-inset-left));
+            right: calc(-1 * env(safe-area-inset-right));
+            width: calc(100vw + env(safe-area-inset-left) + env(safe-area-inset-right));
+            height: 100vh;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(15, 15, 15, 0.8) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(25, 25, 25, 0.6) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(20, 20, 20, 0.7) 0%, transparent 50%),
+                linear-gradient(135deg, 
+                    #000000 0%,
+                    #0a0a0a 25%,
+                    #141414 50%,
+                    #0a0a0a 75%,
+                    #000000 100%
+                );
+            z-index: -1;
+        }
+        
+        /* Full-width background layers with viewport units */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(15, 15, 15, 0.8) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(25, 25, 25, 0.6) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(20, 20, 20, 0.7) 0%, transparent 50%),
+                linear-gradient(135deg, 
+                    #000000 0%,
+                    #0a0a0a 25%,
+                    #141414 50%,
+                    #0a0a0a 75%,
+                    #000000 100%
+                );
+            z-index: -1;
+        }
+        
+        /* Symmetrical overshoot approach */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: -20px; /* Overshoot left */
+            right: -20px; /* Overshoot right */
+            width: calc(100% + 40px); /* Compensate for both sides */
+            height: 100vh;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(15, 15, 15, 0.8) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(25, 25, 25, 0.6) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(20, 20, 20, 0.7) 0%, transparent 50%),
+                linear-gradient(135deg, 
+                    #000000 0%,
+                    #0a0a0a 25%,
+                    #141414 50%,
+                    #0a0a0a 75%,
+                    #000000 100%
+                );
+            z-index: -2;
+        }
+        
+        /* Content container - constrained width with safe area padding */
+        .content {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-left: env(safe-area-inset-left);
+            padding-right: env(safe-area-inset-right);
+            box-sizing: border-box;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 24px;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            display: flex;
+            height: 100vh;
+            box-shadow: 
+                0 25px 80px rgba(0, 0, 0, 0.4),
+                0 15px 30px rgba(0, 0, 0, 0.3),
+                inset 0 1px rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Remove content constraints */
+        main, .content {
+            width: 100%;
+            max-width: none;
+            margin: 0;
+            padding-left: env(safe-area-inset-left);
+            padding-right: env(safe-area-inset-right);
+            box-sizing: border-box;
+        }
+        
+        .left {
+            width: 40%;
+            padding: 35px;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-family: -apple-system, sans-serif;
+            text-align: center;
+        }
+        
+        .right {
+            width: 60%;
+            padding: 35px;
+            display: flex;
+            flex-direction: column;
+            color: white;
+            font-family: -apple-system, sans-serif;
+            overflow-y: auto;
+        }
+        
+        .cover-art {
+            width: 280px;
+            height: 180px;
+            background: linear-gradient(135deg, #60a5fa, #3b82f6);
+            border-radius: 16px;
+            margin-bottom: 20px;
+            position: relative;
+            box-shadow: 
+                0 12px 30px rgba(0, 0, 0, 0.4),
+                0 0 20px rgba(96, 165, 250, 0.22),
+                0 0 40px rgba(96, 165, 250, 0.14);
+        }
+        
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .play-icon {
+            width: 0;
+            height: 0;
+            border-left: 15px solid white;
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            margin-left: 3px;
+        }
+        
+        /* Edge indicators */
+        .edge-top, .edge-bottom {
+            position: fixed;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: lime;
+            z-index: 1000;
+        }
+        
+        .edge-top { top: 0; }
+        .edge-bottom { bottom: 0; }
+        
+        .edge-left, .edge-right {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: lime;
+            z-index: 1000;
+        }
+        
+        .edge-left { left: 0; }
+        .edge-right { right: 0; }
+        
+        .info {
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 12px;
+            z-index: 1001;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            max-width: 90%;
+        }
+        
+        .success-msg {
+            color: #00ff88;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .technique {
+            color: #60a5fa;
+            font-size: 11px;
+        }
+        
+        /* Landscape mode optimizations */
+        @media (orientation: landscape) {
+            html, body {
+                width: 100%;
+                min-width: 100%;
+                background: 
+                    radial-gradient(circle at 20% 80%, rgba(15, 15, 15, 0.8) 0%, transparent 50%),
+                    radial-gradient(circle at 80% 20%, rgba(25, 25, 25, 0.6) 0%, transparent 50%),
+                    radial-gradient(circle at 40% 40%, rgba(20, 20, 20, 0.7) 0%, transparent 50%),
+                    linear-gradient(135deg, 
+                        #000000 0%,
+                        #0a0a0a 25%,
+                        #141414 50%,
+                        #0a0a0a 75%,
+                        #000000 100%
+                    );
+            }
+            
+            html::before {
+                left: calc(-1 * env(safe-area-inset-left));
+                width: calc(100vw + env(safe-area-inset-left) + env(safe-area-inset-right));
+            }
+            
+            .container {
+                height: 100dvh;
+            }
+        }
+        
+        /* Mobile landscape adjustments */
+        @media (max-width: 950px) and (orientation: landscape) {
+            .container {
+                border-radius: 16px;
+            }
+            
+            .left, .right {
+                padding: 20px;
+            }
+            
+            .cover-art {
+                width: 200px;
+                height: 130px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Edge indicators -->
+    <div class="edge-top"></div>
+    <div class="edge-bottom"></div>
+    <div class="edge-left"></div>
+    <div class="edge-right"></div>
+    
+    <!-- Info display -->
+    <div class="info">
+        <div class="success-msg">SAFE AREA CALC SOLUTION</div>
+        <div class="technique">Uses calc() with safe-area-inset-left/right</div>
+        <div class="technique">html::before extends beyond safe areas</div>
+        <div>Browser: <span id="browser">Loading...</span></div>
+        <div style="margin-top: 5px; font-size: 10px;">
+            Viewport meta includes viewport-fit=cover
+        </div>
+    </div>
+    
+    <!-- Content wrapper -->
+    <main class="content">
+        <div class="container">
+            <!-- Audio player section (left) -->
+            <div class="left">
+                <div class="cover-art">
+                    <div class="play-button">
+                        <div class="play-icon"></div>
+                    </div>
+                </div>
+                <div style="font-size: 24px; font-weight: 700; margin-bottom: 8px;">Ocean Drive</div>
+                <div style="font-size: 14px; color: rgba(255, 255, 255, 0.6);">Safe Area Fix</div>
+            </div>
+
+            <!-- Track list section (right) -->
+            <div class="right">
+                <h2 style="font-size: 28px; font-weight: 700; margin-bottom: 25px; color: rgba(255, 255, 255, 0.9);">Now Playing</h2>
+                
+                <div style="display: flex; align-items: center; gap: 15px; padding: 12px; border-radius: 12px; margin-bottom: 8px; background: rgba(255, 255, 255, 0.02);">
+                    <div style="width: 50px; height: 50px; border-radius: 8px; background: linear-gradient(135deg, #3b82f6, #60a5fa); flex-shrink: 0;"></div>
+                    <div>
+                        <div style="font-size: 15px; font-weight: 600; margin-bottom: 4px; color: white;">Ocean Drive</div>
+                        <div style="font-size: 13px; color: rgba(255, 255, 255, 0.5);">4:32</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <script>
+        // Force redraw on orientation change
+        window.addEventListener('orientationchange', () => {
+            document.documentElement.style.width = '100%';
+            document.body.style.width = '100%';
+            window.scrollTo(0, 0);
+        });
+        
+        function detectBrowser() {
+            const ua = navigator.userAgent;
+            const isIOS = /iPad|iPhone|iPod/.test(ua);
+            const isChrome = /CriOS/.test(ua) || /Chrome/.test(ua);
+            const isSafari = /Safari/.test(ua) && !/Chrome/.test(ua);
+            
+            let browserName = 'Unknown';
+            if (isIOS && isChrome) {
+                browserName = 'Chrome iOS';
+            } else if (isIOS && isSafari) {
+                browserName = 'Safari iOS';
+            } else {
+                browserName = 'Other';
+            }
+            
+            document.getElementById('browser').textContent = browserName;
+            
+            console.log('=== SAFE AREA CALC SOLUTION ===');
+            console.log('Browser:', browserName);
+            console.log('Strategy: calc() with env(safe-area-inset-*)');
+            console.log('Techniques applied:');
+            console.log('1. viewport-fit=cover in meta tag');
+            console.log('2. html::before extends beyond safe areas');
+            console.log('3. Symmetrical overshoot with body::after');
+            console.log('4. Forced redraw on orientation change');
+        }
+        
+        window.addEventListener('load', detectBrowser);
+    </script>
+</body>
+</html>
