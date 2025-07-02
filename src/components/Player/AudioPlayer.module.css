@@ -4,7 +4,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0;
+  gap: var(--audio-player-gap);
   width: 100%;
   overflow: visible;
 }
@@ -29,7 +29,7 @@
   height: var(--cover-size-portrait);
   max-width: var(--cover-max-size);
   max-height: var(--cover-max-size);
-  margin: 0 auto 0 auto;
+  margin: 0 auto var(--cover-margin-bottom) auto;
   cursor: pointer;
   display: flex;
   justify-content: center;
@@ -297,7 +297,7 @@
 
 .initialAlbumInfo {
   text-align: center;
-  margin-top: var(--spacing-md);
+  margin-top: var(--spacing-lg);
 }
 
 .initialAlbumName {
@@ -316,26 +316,15 @@
   color: rgba(255, 255, 255, 0.6);
 }
 
-/* Landscape-specific album info - preserves original spacing */
-.initialAlbumInfoLandscape {
-  text-align: center;
-  margin-top: var(--spacing-lg);
-}
-
-.initialAlbumNameLandscape {
-  font-family: var(--font-family-primary, "Inter", -apple-system, BlinkMacSystemFont, sans-serif);
-  font-size: var(--font-size-3xl);
-  font-weight: 800;
-  color: rgba(255, 255, 255, 0.9);
-  letter-spacing: -0.02em;
-  margin-bottom: var(--spacing-xs);
-}
-
-.initialTrackCountLandscape {
-  font-family: var(--font-family-primary, "Inter", -apple-system, BlinkMacSystemFont, sans-serif);
-  font-size: var(--font-size-md);
-  font-weight: 400;
-  color: rgba(255, 255, 255, 0.6);
+/* Portrait-specific overrides for optimized spacing */
+@media (orientation: portrait) {
+  .audioPlayer {
+    gap: 0;
+  }
+  
+  .initialAlbumInfo {
+    margin-top: var(--spacing-md);
+  }
 }
 
 @keyframes textFadeIn {
