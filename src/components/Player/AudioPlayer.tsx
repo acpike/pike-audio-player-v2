@@ -317,8 +317,8 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
         )}
       </div>
       
-      {/* Album info below cover art - only shown on initial load in landscape */}
-      {isLandscapeMode && !hasTrackBeenSelected && (
+      {/* Album info below cover art - shown on initial load for both landscape and portrait */}
+      {!hasTrackBeenSelected && (
         <div className={styles.initialAlbumInfo}>
           <div className={styles.initialAlbumName}>
             {trackData[0]?.album || UI_STRINGS.UNKNOWN_ALBUM}
@@ -355,12 +355,11 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
               }
             </h1>
             
-            <div className={getStatusTextClass()}>
-              {hasTrackBeenSelected 
-                ? (isLoading ? UI_STRINGS.LOADING : isPlaying ? 'Playing' : 'Paused')
-                : 'Tap a track to play'
-              }
-            </div>
+            {hasTrackBeenSelected && (
+              <div className={getStatusTextClass()}>
+                {isLoading ? UI_STRINGS.LOADING : isPlaying ? 'Playing' : 'Paused'}
+              </div>
+            )}
           </>
         )}
         
