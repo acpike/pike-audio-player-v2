@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { PlayButton } from './PlayButton';
 import { ProgressBar } from './ProgressBar';
-import { TagsToggle } from '../UI/TagsToggle';
 import { useUIStore } from '../../stores/uiStore';
 import { usePreviewStore } from '../../stores/previewStore';
 import { Track, trackData } from '../../types/tracks';
@@ -318,12 +317,11 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
         )}
       </div>
       
-      {/* Album info below cover art - shown on initial load */}
-      {!hasTrackBeenSelected && (
+      {/* Album info below cover art - shown on initial load in landscape only */}
+      {!hasTrackBeenSelected && !isPortraitMode && (
         <div className={styles.initialAlbumInfo}>
-          <div className={isPortraitMode ? styles.albumNameWithTags : styles.initialAlbumName}>
-            <span>{trackData[0]?.album || UI_STRINGS.UNKNOWN_ALBUM}</span>
-            {isPortraitMode && <TagsToggle />}
+          <div className={styles.initialAlbumName}>
+            {trackData[0]?.album || UI_STRINGS.UNKNOWN_ALBUM}
           </div>
           <div className={styles.initialTrackCount}>
             {UI_STRINGS.TRACKS_COUNT(trackData.length)}

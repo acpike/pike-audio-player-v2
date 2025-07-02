@@ -173,6 +173,21 @@
   padding-right: var(--spacing-xs);
 }
 
+.portraitHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 var(--container-padding-lg);
+  margin-bottom: var(--spacing-md);
+}
+
+.portraitHeader .albumInfo {
+  position: static;
+  padding-right: 0;
+  text-align: left;
+}
+
 /* Mobile optimizations */
 @media (max-width: var(--mobile-max)) {
   .trackListTitle {
