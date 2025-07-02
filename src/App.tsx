@@ -50,8 +50,8 @@ function App() {
                 color: 'rgba(255, 255, 255, 0.7)',
                 textAlign: 'right',
                 paddingRight: '24px',
-                marginBottom: '16px',
-                border: '1px solid red' // Debug border to see if element appears
+                marginBottom: '4px',
+                marginTop: '0px'
               }}>
                 {UI_STRINGS.ALBUM_TRACK_INFO(trackData[0]?.album || UI_STRINGS.UNKNOWN_ALBUM, trackData.length)}
               </div>
