@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Reddit-Style Background Layer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        /* Reddit-style approach: Fixed background layer */
+        .background-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(15, 15, 15, 0.8) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(25, 25, 25, 0.6) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(20, 20, 20, 0.7) 0%, transparent 50%),
+                linear-gradient(135deg, 
+                    #000000 0%,
+                    #0a0a0a 25%,
+                    #141414 50%,
+                    #0a0a0a 75%,
+                    #000000 100%
+                );
+            z-index: -1;
+        }
+        
+        /* Try the exact technique from background-bleed-test that worked */
+        html {
+            background: linear-gradient(135deg, #000, #333);
+            background-size: 200vw 200vh;
+            background-position: -50vw -50vh;
+            background-attachment: fixed;
+            min-height: 100vh;
+            min-width: 100vw;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #000, #333);
+            background-size: 200vw 200vh;
+            background-position: -50vw -50vh;
+            background-attachment: fixed;
+            width: 100vw;
+            height: 100dvh;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        /* Exact copy of working background-bleed-test layers */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -100px;
+            left: -100px;
+            right: -100px;
+            bottom: -100px;
+            background: linear-gradient(135deg, #000, #333);
+            z-index: -2;
+        }
+        
+        body::after {
+            content: '';
+            position: absolute;
+            top: -50px;
+            left: -50px;
+            right: -50px;
+            bottom: -50px;
+            background: linear-gradient(135deg, #000, #333);
+            z-index: -1;
+        }
+        
+        /* Content constrained like Reddit */
+        .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-left: env(safe-area-inset-left);
+            padding-right: env(safe-area-inset-right);
+            position: relative;
+            z-index: 1;
+            height: 100vh;
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 24px;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            display: flex;
+            height: 100%;
+            box-shadow: 
+                0 25px 80px rgba(0, 0, 0, 0.4),
+                0 15px 30px rgba(0, 0, 0, 0.3),
+                inset 0 1px rgba(255, 255, 255, 0.1);
+        }
+        
+        .left {
+            width: 40%;
+            padding: 35px;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-family: -apple-system, sans-serif;
+            text-align: center;
+        }
+        
+        .right {
+            width: 60%;
+            padding: 35px;
+            color: white;
+            font-family: -apple-system, sans-serif;
+        }
+        
+        .cover-art {
+            width: 280px;
+            height: 180px;
+            background: linear-gradient(135deg, #60a5fa, #3b82f6);
+            border-radius: 16px;
+            margin-bottom: 20px;
+            position: relative;
+            box-shadow: 
+                0 12px 30px rgba(0, 0, 0, 0.4),
+                0 0 20px rgba(96, 165, 250, 0.22),
+                0 0 40px rgba(96, 165, 250, 0.14);
+        }
+        
+        /* Edge indicators */
+        .edge-top, .edge-bottom {
+            position: fixed;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: lime;
+            z-index: 1000;
+        }
+        
+        .edge-top { top: 0; }
+        .edge-bottom { bottom: 0; }
+        
+        .edge-left, .edge-right {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: lime;
+            z-index: 1000;
+        }
+        
+        .edge-left { left: 0; }
+        .edge-right { right: 0; }
+        
+        .info {
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 12px;
+            z-index: 1001;
+            text-align: center;
+            max-width: 90%;
+        }
+        
+        .technique {
+            color: #60a5fa;
+            font-size: 11px;
+            margin: 2px 0;
+        }
+        
+        /* Test different gradients */
+        .test-mode-2 .background-layer,
+        .test-mode-2 body::before,
+        .test-mode-2 body::after {
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(15, 15, 15, 0.8) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(25, 25, 25, 0.6) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(20, 20, 20, 0.7) 0%, transparent 50%),
+                linear-gradient(135deg, 
+                    #000000 0%,
+                    #0a0a0a 25%,
+                    #141414 50%,
+                    #0a0a0a 75%,
+                    #000000 100%
+                );
+        }
+        
+        /* Mobile landscape optimizations */
+        @media (max-width: 950px) and (orientation: landscape) {
+            .content {
+                max-width: 100%;
+            }
+            
+            .container {
+                border-radius: 16px;
+            }
+            
+            .left, .right {
+                padding: 20px;
+            }
+            
+            .cover-art {
+                width: 200px;
+                height: 130px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Reddit-style background layer -->
+    <div class="background-layer"></div>
+    
+    <!-- Edge indicators -->
+    <div class="edge-top"></div>
+    <div class="edge-bottom"></div>
+    <div class="edge-left"></div>
+    <div class="edge-right"></div>
+    
+    <!-- Info display -->
+    <div class="info">
+        <div style="color: #00ff88; font-weight: bold; margin-bottom: 5px;">REDDIT-STYLE + WORKING TECHNIQUE</div>
+        <div class="technique">1. Fixed background layer (Reddit approach)</div>
+        <div class="technique">2. 200vw background-size (proven to work on right)</div>
+        <div class="technique">3. Multiple pseudo-element layers</div>
+        <div>Browser: <span id="browser">Loading...</span></div>
+        <button onclick="toggleGradient()" style="margin-top: 5px; padding: 4px 8px; font-size: 10px;">Toggle Gradient</button>
+    </div>
+    
+    <!-- Content wrapper like Reddit -->
+    <main class="content">
+        <div class="container">
+            <!-- Audio player section (left) -->
+            <div class="left">
+                <div class="cover-art"></div>
+                <div style="font-size: 24px; font-weight: 700; margin-bottom: 8px;">Ocean Drive</div>
+                <div style="font-size: 14px; color: rgba(255, 255, 255, 0.6);">Reddit-Style Fix</div>
+            </div>
+
+            <!-- Track list section (right) -->
+            <div class="right">
+                <h2 style="font-size: 28px; font-weight: 700; margin-bottom: 25px; color: rgba(255, 255, 255, 0.9);">Now Playing</h2>
+                <p style="color: rgba(255, 255, 255, 0.7); line-height: 1.6;">
+                    This test combines:<br>
+                    - Reddit's fixed background layer approach<br>
+                    - The exact technique that worked on the right side<br>
+                    - Constrained content with max-width like Reddit<br>
+                    - Multiple background layers for coverage
+                </p>
+            </div>
+        </div>
+    </main>
+    
+    <script>
+        let isSpaceGradient = false;
+        
+        function toggleGradient() {
+            isSpaceGradient = !isSpaceGradient;
+            document.body.classList.toggle('test-mode-2', isSpaceGradient);
+            console.log('Gradient mode:', isSpaceGradient ? 'Space' : 'Simple');
+        }
+        
+        function detectBrowser() {
+            const ua = navigator.userAgent;
+            const isIOS = /iPad|iPhone|iPod/.test(ua);
+            const isChrome = /CriOS/.test(ua) || /Chrome/.test(ua);
+            const isSafari = /Safari/.test(ua) && !/Chrome/.test(ua);
+            
+            let browserName = 'Unknown';
+            if (isIOS && isChrome) {
+                browserName = 'Chrome iOS';
+            } else if (isIOS && isSafari) {
+                browserName = 'Safari iOS';
+            } else {
+                browserName = 'Other';
+            }
+            
+            document.getElementById('browser').textContent = browserName;
+            
+            console.log('=== REDDIT-STYLE + WORKING TECHNIQUE ===');
+            console.log('Browser:', browserName);
+            console.log('Combining proven techniques:');
+            console.log('1. Fixed background div (Reddit-style)');
+            console.log('2. 200vw oversized backgrounds');
+            console.log('3. Multiple pseudo-element layers');
+            console.log('4. Constrained content container');
+        }
+        
+        window.addEventListener('load', detectBrowser);
+    </script>
+</body>
+</html>

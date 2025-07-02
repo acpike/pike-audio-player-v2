@@ -140,6 +140,7 @@
     inset 0 1px rgba(255, 255, 255, 0.1);
   gap: var(--spacing-md);
   overflow: visible;
+  border: 8px solid cyan !important; /* DEBUG: Show main portrait container */
 }
 
 /* Portrait Layout: AudioPlayer takes top 40% height */
@@ -149,12 +150,14 @@
   max-width: 100%;
 }
 
-/* Portrait Layout: TrackList takes remaining 60% height */
-.playerPortrait > :nth-child(2) {
+/* Portrait Layout: TrackList takes remaining 60% height - now 3rd child because of album info */
+.playerPortrait > :nth-child(3) {
   flex: 1;
   width: 100%;
   max-width: 100%;
-  overflow-y: auto;
+  overflow: hidden; /* Prevent the TrackList component itself from overflowing */
+  min-height: 0; /* Allow flexbox to shrink properly */
+  border: 5px solid magenta !important; /* DEBUG: Show ResponsiveLayout TrackList area */
 }
 
 /* DebugPanel remains unaffected by height constraints */
