@@ -335,6 +335,20 @@
   transform: translateY(-50%);
 }
 
+.portraitTagsOnly {
+  position: relative;
+  width: 100%;
+  text-align: center;
+  margin-top: var(--spacing-lg);
+}
+
+.portraitTagsOnly > :global(.tagsToggle) {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
 .initialTrackCount {
   font-family: var(--font-family-primary, "Inter", -apple-system, BlinkMacSystemFont, sans-serif);
   font-size: var(--font-size-md);

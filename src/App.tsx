@@ -44,13 +44,14 @@ function App() {
             {/* Portrait mode album info - positioned between AudioPlayer and TrackList */}
             {isPortraitMode && (
               <div style={{
-                fontFamily: 'var(--font-family-primary, "Inter", -apple-system, BlinkMacSystemFont, sans-serif)',
-                fontSize: 'var(--font-size-md)',
+                fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif',
+                fontSize: '16px',
                 fontWeight: 400,
                 color: 'rgba(255, 255, 255, 0.7)',
                 textAlign: 'right',
-                paddingRight: 'var(--container-padding-lg)',
-                marginBottom: 'var(--spacing-md)'
+                paddingRight: '24px',
+                marginBottom: '16px',
+                border: '1px solid red' // Debug border to see if element appears
               }}>
                 {UI_STRINGS.ALBUM_TRACK_INFO(trackData[0]?.album || UI_STRINGS.UNKNOWN_ALBUM, trackData.length)}
               </div>
