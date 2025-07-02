@@ -154,13 +154,6 @@ export const TrackList: React.FC<TrackListProps> = ({ playTrack, togglePlayPause
         )}
         {!isPortraitMode && <TagsToggle />}
       </div>
-      
-      {/* Portrait mode album info - positioned below tags toggle, above track list */}
-      {isPortraitMode && (
-        <div className={styles.portraitAlbumInfo}>
-          {UI_STRINGS.ALBUM_TRACK_INFO(trackData[0]?.album || UI_STRINGS.UNKNOWN_ALBUM, trackData.length)}
-        </div>
-      )}
       <div className={styles.trackListWrapper}>
         <div className={getTrackListContainerClass()} ref={containerRef}>
           {trackData.map((track, index) => (
