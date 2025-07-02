@@ -376,6 +376,12 @@
   }
 }
 
+/* Portrait mode with track selected - component-level enhancements only */
+.audioPlayerPortraitWithTrack {
+  /* Component-specific enhancements for track-selected state */
+  /* Will be populated in Phase 3 - for now just the class exists */
+}
+
 @keyframes textFadeIn {
   from {
     opacity: 0;

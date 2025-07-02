@@ -137,9 +137,14 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
     touchStartRef.current = null;
   };
 
-  // CSS Modules class helpers - QA Compliant
+  // CSS Modules class helpers - QA Compliant with state detection
   const getAudioPlayerClass = () => {
-    return isLandscapeMode ? styles.audioPlayerLandscape : styles.audioPlayer;
+    const baseClass = isLandscapeMode ? styles.audioPlayerLandscape : styles.audioPlayer;
+    // Add track-selected modifier only in portrait mode
+    if (isPortraitMode && hasTrackBeenSelected) {
+      return `${baseClass} ${styles.audioPlayerPortraitWithTrack}`;
+    }
+    return baseClass;
   };
 
   const getCoverWrapperClass = () => {
