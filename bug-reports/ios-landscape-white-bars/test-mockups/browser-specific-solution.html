@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Browser-Specific Solution</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html, body {
+            width: 100vw;
+            height: 100dvh;
+            overflow: hidden;
+        }
+        
+        /* Chrome iOS background bleed technique */
+        html {
+            background: linear-gradient(135deg, #000, #333);
+            background-size: 200vw 200vh;
+            background-position: -50vw -50vh;
+            background-attachment: fixed;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #000, #333);
+            background-size: 200vw 200vh;
+            background-position: -50vw -50vh;
+            background-attachment: fixed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Default: Full width for Chrome iOS */
+        .container {
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 24px;
+            display: flex;
+            box-shadow: 
+                0 25px 80px rgba(0, 0, 0, 0.4),
+                0 15px 30px rgba(0, 0, 0, 0.3),
+                inset 0 1px rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Safari-specific: Use max-width constraint */
+        .safari .container {
+            max-width: 1200px;
+        }
+        
+        .left {
+            width: 40%;
+            padding: 35px;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-family: -apple-system, sans-serif;
+            text-align: center;
+        }
+        
+        .right {
+            width: 60%;
+            padding: 35px;
+            color: white;
+            font-family: -apple-system, sans-serif;
+        }
+        
+        .cover-art {
+            width: 280px;
+            height: 180px;
+            background: linear-gradient(135deg, #60a5fa, #3b82f6);
+            border-radius: 16px;
+            margin-bottom: 20px;
+            box-shadow: 
+                0 12px 30px rgba(0, 0, 0, 0.4),
+                0 0 20px rgba(96, 165, 250, 0.22),
+                0 0 40px rgba(96, 165, 250, 0.14);
+        }
+        
+        /* Edge indicators */
+        .edge-top, .edge-bottom {
+            position: fixed;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: lime;
+            z-index: 1000;
+        }
+        
+        .edge-top { top: 0; }
+        .edge-bottom { bottom: 0; }
+        
+        .edge-left, .edge-right {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: lime;
+            z-index: 1000;
+        }
+        
+        .edge-left { left: 0; }
+        .edge-right { right: 0; }
+        
+        .info {
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 12px;
+            z-index: 1001;
+            text-align: center;
+            max-width: 90%;
+        }
+        
+        .browser-tag {
+            color: #60a5fa;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .technique {
+            color: #00ff88;
+            font-size: 11px;
+            margin: 2px 0;
+        }
+        
+        /* Mobile landscape optimizations */
+        @media (max-width: 950px) and (orientation: landscape) {
+            .container {
+                border-radius: 16px;
+            }
+            
+            .left, .right {
+                padding: 20px;
+            }
+            
+            .cover-art {
+                width: 200px;
+                height: 130px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Edge indicators -->
+    <div class="edge-top"></div>
+    <div class="edge-bottom"></div>
+    <div class="edge-left"></div>
+    <div class="edge-right"></div>
+    
+    <!-- Info display -->
+    <div class="info">
+        <div class="browser-tag" id="browser-display">Detecting browser...</div>
+        <div class="technique" id="technique-display">Loading technique...</div>
+        <div>Container: <span id="container-width">Loading...</span></div>
+        <div>Window: <span id="window-size">Loading...</span></div>
+    </div>
+    
+    <!-- Main container -->
+    <div class="container">
+        <!-- Audio player section (left) -->
+        <div class="left">
+            <div class="cover-art"></div>
+            <div style="font-size: 24px; font-weight: 700; margin-bottom: 8px;">Ocean Drive</div>
+            <div style="font-size: 14px; color: rgba(255, 255, 255, 0.6);" id="strategy-text">Browser-Specific Solution</div>
+        </div>
+
+        <!-- Track list section (right) -->
+        <div class="right">
+            <h2 style="font-size: 28px; font-weight: 700; margin-bottom: 25px; color: rgba(255, 255, 255, 0.9);">Browser-Specific Fix</h2>
+            <div id="explanation">
+                <p style="color: rgba(255, 255, 255, 0.7); line-height: 1.6; margin-bottom: 15px;">
+                    This test automatically detects the browser and applies the optimal solution:
+                </p>
+                <ul style="color: rgba(255, 255, 255, 0.7); line-height: 1.6; padding-left: 20px;">
+                    <li><strong>Safari iOS:</strong> Uses max-width: 1200px constraint (proven to work)</li>
+                    <li><strong>Chrome iOS:</strong> Uses full-width with background bleed technique</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function detectBrowserAndApplyFix() {
+            const ua = navigator.userAgent;
+            const isIOS = /iPad|iPhone|iPod/.test(ua);
+            const isChrome = /CriOS/.test(ua);
+            const isSafari = /Safari/.test(ua) && !/Chrome/.test(ua) && !/CriOS/.test(ua);
+            
+            let browserName = 'Unknown';
+            let technique = 'Default';
+            let strategyText = 'Browser-Specific Solution';
+            
+            if (isIOS && isChrome) {
+                browserName = 'Chrome iOS';
+                technique = 'Full-width + Background bleed';
+                strategyText = 'Chrome iOS: Full Width';
+                // Chrome iOS uses default styles (no max-width)
+            } else if (isIOS && isSafari) {
+                browserName = 'Safari iOS';
+                technique = 'Max-width: 1200px constraint';
+                strategyText = 'Safari iOS: Max-Width';
+                // Apply Safari-specific class
+                document.body.classList.add('safari');
+            } else if (isIOS) {
+                browserName = 'iOS (Other)';
+                technique = 'Safari fallback (max-width)';
+                strategyText = 'iOS Other: Max-Width';
+                document.body.classList.add('safari');
+            } else {
+                browserName = 'Non-iOS';
+                technique = 'Desktop/Android (max-width)';
+                strategyText = 'Non-iOS: Max-Width';
+                document.body.classList.add('safari');
+            }
+            
+            // Update display
+            document.getElementById('browser-display').textContent = browserName;
+            document.getElementById('technique-display').textContent = technique;
+            document.getElementById('strategy-text').textContent = strategyText;
+            
+            // Update measurements
+            updateMeasurements();
+            
+            console.log('=== BROWSER-SPECIFIC SOLUTION ===');
+            console.log('Detected:', browserName);
+            console.log('Applied technique:', technique);
+            console.log('User Agent:', ua);
+            console.log('Has safari class:', document.body.classList.contains('safari'));
+        }
+        
+        function updateMeasurements() {
+            const container = document.querySelector('.container');
+            const containerWidth = container.offsetWidth;
+            const windowSize = `${window.innerWidth}x${window.innerHeight}`;
+            
+            document.getElementById('container-width').textContent = `${containerWidth}px`;
+            document.getElementById('window-size').textContent = windowSize;
+            
+            console.log('Container width:', containerWidth);
+            console.log('Window size:', windowSize);
+            console.log('Max-width applied:', getComputedStyle(container).maxWidth);
+        }
+        
+        window.addEventListener('load', detectBrowserAndApplyFix);
+        window.addEventListener('resize', updateMeasurements);
+        window.addEventListener('orientationchange', () => {
+            setTimeout(detectBrowserAndApplyFix, 100);
+        });
+    </script>
+</body>
+</html>

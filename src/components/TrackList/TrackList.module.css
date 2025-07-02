@@ -32,53 +32,61 @@
   -ms-overflow-style: none;
 }
 
-/* Portrait mode: Container should fill available height from flexbox parent */
+/* Portrait mode: Pure flexbox sizing without competing height systems */
 @media (orientation: portrait) {
   .trackList {
-    height: 100%;
     display: flex;
     flex-direction: column;
     min-height: 0;
-    border: 3px solid orange; /* DEBUG: Show trackList bounds */
-    margin: 0; /* Remove any margins */
-    padding: 0; /* Remove any padding */
+    height: 100%;
   }
   
   .trackListHeader {
-    display: none; /* DEBUG: Temporarily hide header completely */
+    flex-shrink: 0;
+    margin-bottom: var(--spacing-sm);
   }
   
   .trackListWrapper {
     flex: 1;
-    overflow: hidden;
-    border: 2px solid lime; /* DEBUG: Show wrapper bounds */
     min-height: 0;
-    margin: 0; /* Remove wrapper margins */
-    padding: 0; /* Remove wrapper padding */
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid rgba(255, 255, 255, 0.2); /* Divider line like landscape mode */
   }
   
   .trackListContainer {
+    /* Remove all competing height constraints */
     max-height: none;
-    height: 100%;
+    height: auto;
     flex: 1;
-    overflow-y: scroll;
+    min-height: 0;
+    overflow-y: auto;
     -webkit-overflow-scrolling: touch;
-    border: 2px solid red; /* DEBUG: Show container bounds */
-    background: rgba(0, 0, 255, 0.1); /* DEBUG: Show container area */
+    
+    /* Portrait-specific mask effect - start fade lower to avoid album info */
+    mask: linear-gradient(to bottom, 
+      black 0px,
+      black 20px,
+      black calc(100% - var(--mask-solid-distance)),
+      rgba(0, 0, 0, 0.3) calc(100% - var(--mask-fade-distance)),
+      transparent 100%
+    );
+    -webkit-mask: linear-gradient(to bottom, 
+      black 0px,
+      black 20px,
+      black calc(100% - var(--mask-solid-distance)),
+      rgba(0, 0, 0, 0.3) calc(100% - var(--mask-fade-distance)),
+      transparent 100%
+    );
+    
+    /* Minimal padding that works within height constraint */
+    padding: var(--spacing-sm) 0;
+    margin: 0;
   }
   
-  /* DEBUG: Temporarily show scrollbar */
+  /* Hide scrollbars in portrait mode */
   .trackListContainer::-webkit-scrollbar {
-    display: block !important;
-    width: 8px;
-  }
-  
-  .trackListContainer::-webkit-scrollbar-track {
-    background: #f1f1f1;
-  }
-  
-  .trackListContainer::-webkit-scrollbar-thumb {
-    background: #888;
+    display: none;
   }
 }
 

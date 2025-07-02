@@ -287,7 +287,7 @@ body {
   opacity: 1 !important;
   z-index: 99999 !important;
   position: absolute !important;
-  top: calc(40% + 55px) !important;
+  top: calc(40% + 70px) !important;
   right: 0 !important;
   left: 0 !important;
   pointer-events: none !important;
