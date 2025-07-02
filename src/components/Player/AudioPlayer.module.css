@@ -193,7 +193,7 @@
   border-radius: var(--radius-lg);
   text-align: center;
   background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: var(--border-width-sm) solid rgba(255, 255, 255, 0.3);
   padding: 8px 16px;
   display: inline-block;
   min-height: auto;
@@ -215,7 +215,7 @@
   transition: all 0.3s ease;
   border-radius: var(--radius-lg);
   background: rgba(255, 255, 255, 0.01);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: var(--border-width-sm) solid rgba(255, 255, 255, 0.05);
   padding: 12px;
   display: block;
   width: 100%;
@@ -228,7 +228,7 @@
   border-radius: var(--radius-lg);
   text-align: center;
   background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: var(--border-width-sm) solid rgba(255, 255, 255, 0.3);
   padding: 8px 16px;
   display: inline-block;
   min-height: auto;
@@ -243,7 +243,7 @@
   background: rgba(0, 0, 0, 0.85);
   border-radius: var(--radius-lg);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(96, 165, 250, 0.5);
+  border: var(--border-width-sm) solid rgba(96, 165, 250, 0.5);
   z-index: 20;
   padding: 10px;
   margin-top: -8px;
@@ -293,6 +293,27 @@
   font-size: var(--font-size-landscape);
   color: rgba(255, 255, 255, 0.7);
   line-height: 1.3;
+}
+
+.initialAlbumInfo {
+  text-align: center;
+  margin-top: var(--spacing-lg);
+}
+
+.initialAlbumName {
+  font-family: var(--font-family-primary, "Inter", -apple-system, BlinkMacSystemFont, sans-serif);
+  font-size: var(--font-size-3xl);
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.9);
+  letter-spacing: -0.02em;
+  margin-bottom: var(--spacing-xs);
+}
+
+.initialTrackCount {
+  font-family: var(--font-family-primary, "Inter", -apple-system, BlinkMacSystemFont, sans-serif);
+  font-size: var(--font-size-md);
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.6);
 }
 
 @keyframes textFadeIn {

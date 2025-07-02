@@ -12,6 +12,7 @@ export interface AudioState {
   maxRetries: number;
   abortController: AbortController | null;
   loadingPromise: Promise<void> | null;
+  error: string | null;
 }
 
 export interface AudioActions {

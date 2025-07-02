@@ -11,12 +11,12 @@
 .trackItem {
   display: flex;
   align-items: center;
-  gap: 15px;
-  padding: 15px;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md);
   border-radius: var(--radius-lg);
-  scroll-snap-align: start;
+  scroll-snap-align: center;
   background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: var(--border-width-sm) solid rgba(255, 255, 255, 0.15);
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   
@@ -86,19 +86,20 @@
   border-radius: var(--radius-md);
   object-fit: cover;
   flex-shrink: 0;
-  transition: box-shadow 0.3s ease;
+  transition: box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1), transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   
   /* GPU acceleration */
-  will-change: transform;
+  will-change: transform, box-shadow;
   -webkit-transform: translateZ(0);
   transform: translateZ(0);
 }
 
-.trackItem.active .trackThumbnail {
+.thumbnailGlow {
   transform: scale(var(--track-thumbnail-scale-active));
   box-shadow: 
-    0 0 6px rgba(var(--glow-r, 96), var(--glow-g, 165), var(--glow-b, 250), 0.4), /* Very tight thumbnail glow */
-    0 0 12px rgba(var(--glow-r, 96), var(--glow-g, 165), var(--glow-b, 250), 0.2); /* Subtle outer */
+    0 0 8px rgba(var(--glow-r, 96), var(--glow-g, 165), var(--glow-b, 250), 0.4),
+    0 0 16px rgba(var(--glow-r, 96), var(--glow-g, 165), var(--glow-b, 250), 0.25),
+    0 0 24px rgba(var(--glow-r, 96), var(--glow-g, 165), var(--glow-b, 250), 0.15);
 }
 
 .trackInfo {
@@ -132,7 +133,7 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 10px;
+  gap: var(--spacing-sm);
   margin: 0;
   padding: 0;
 }
@@ -147,19 +148,23 @@
 
 .trackTags {
   display: flex;
-  gap: 6px;
+  gap: var(--spacing-xs);
   flex-wrap: wrap;
   margin-top: 8px; /* Space from duration when tags are present */
 }
 
 .trackTag {
   font-size: var(--font-size-md);
-  padding: 3px 9px;
-  border-radius: var(--radius-lg);
-  background: rgba(96, 165, 250, 0.2);
-  border: 1px solid rgba(96, 165, 250, 0.4);
-  color: #93c5fd;
-  font-weight: 500;
+  padding: 2px 6px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 400;
+}
+
+.tagSeparator {
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 400;
 }
 
 .previewButtons {
@@ -170,7 +175,7 @@
 
 .previewButton {
   padding: 6px 12px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: var(--border-width-sm) solid rgba(255, 255, 255, 0.2);
   border-radius: var(--radius-xl);
   background: rgba(255, 255, 255, 0.05);
   color: rgba(255, 255, 255, 0.8);
@@ -188,8 +193,8 @@
 
 .trackItemLandscape {
   width: 100%; /* Full width utilization */
-  padding: 12px 16px; /* Slightly wider horizontal padding */
-  gap: 16px; /* Optimized spacing for landscape */
+  padding: var(--spacing-sm) var(--spacing-md); /* Slightly wider horizontal padding */
+  gap: var(--spacing-md); /* Optimized spacing for landscape */
 }
 .trackThumbnailLandscape {
   width: 55px; /* Slightly larger for better visual balance */
@@ -197,8 +202,8 @@
   border-radius: var(--radius-md);
   object-fit: cover;
   flex-shrink: 0;
-  transition: box-shadow 0.3s ease;
-  will-change: transform;
+  transition: box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1), transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform, box-shadow;
   -webkit-transform: translateZ(0);
   transform: translateZ(0);
 }
@@ -245,7 +250,7 @@
 
 .previewButtonLandscape {
   padding: 6px 14px; /* Better proportions for single button */
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: var(--border-width-sm) solid rgba(255, 255, 255, 0.2);
   border-radius: var(--radius-xl);
   background: rgba(255, 255, 255, 0.05);
   color: rgba(255, 255, 255, 0.8);
@@ -260,11 +265,12 @@
   color: white;
 }
 
+
 /* Mobile optimizations */
-@media (max-width: 768px) {
+@media (max-width: var(--mobile-max)) {
   .trackItem {
-    padding: 12px;
-    gap: 12px;
+    padding: var(--spacing-sm);
+    gap: var(--spacing-sm);
   }
   
   .trackThumbnail {

@@ -1,5 +1,4 @@
 import React from 'react';
-import { useUIStore } from '../../stores/uiStore';
 import { UI_CONSTANTS, SVG_CONSTANTS } from '../../constants/audio';
 import styles from './PlayButton.module.css';
 
@@ -13,6 +12,8 @@ interface PlayButtonProps {
   isPlaying: boolean;
   /** Whether audio is currently loading/buffering */
   isLoading: boolean;
+  /** Whether the button should be visible (for auto-hide functionality) */
+  isVisible?: boolean;
 }
 
 /**
@@ -25,16 +26,16 @@ interface PlayButtonProps {
  * @param props - PlayButton component props
  * @returns React component for play/pause button
  */
-export const PlayButton: React.FC<PlayButtonProps> = ({ togglePlayPause, isPlaying, isLoading }) => {
-  const { isLandscapeMode } = useUIStore();
+export const PlayButton: React.FC<PlayButtonProps> = ({ togglePlayPause, isPlaying, isLoading, isVisible = true }) => {
 
   // QA Compliant CSS Modules class helpers
   const getPlayButtonClass = () => {
-    return isLandscapeMode ? styles.playButtonLandscape : styles.playButton;
+    const visibilityClass = isVisible ? '' : styles.hidden;
+    return `${styles.playButton} ${visibilityClass}`.trim();
   };
 
   const getPlayIconClass = () => {
-    return isLandscapeMode ? styles.playIconLandscape : styles.playIcon;
+    return styles.playIcon;
   };
 
   const handleClick = (e: React.MouseEvent) => {
