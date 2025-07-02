@@ -353,7 +353,7 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
                 </>
               ) : displayTrack 
                 ? displayTrack.title 
-                : UI_STRINGS.UNKNOWN_ALBUM
+                : UI_STRINGS.SELECT_TRACK_BELOW
               }
             </h1>
             
