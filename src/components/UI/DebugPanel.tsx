@@ -34,11 +34,11 @@ export const DebugPanel = () => {
         </button>
       </div>
       <div className={styles.content}>
-        <p><strong>Version:</strong> V10_AUTO_ADVANCE_DEVELOPMENT</p>
-        <p><strong>Phase:</strong> Auto-Advance Implementation - IN PROGRESS</p>
-        <p><strong>Features:</strong> Production baseline + Auto-advance for full tracks only</p>
+        <p><strong>Version:</strong> V11_PORTRAIT_MODE_DEVELOPMENT</p>
+        <p><strong>Phase:</strong> Portrait Layout Implementation - STARTING</p>
+        <p><strong>Features:</strong> Auto-advance complete + NO RETURN bug fixed + Portrait mode foundation</p>
         <p><strong>Git Branch:</strong> sandbox</p>
-        <p><strong>Last Commit:</strong> dee421e</p>
+        <p><strong>Last Commit:</strong> 0893f1d</p>
         <p><strong>Build Time:</strong> {new Date().toLocaleTimeString()}</p>
       </div>
     </div>
