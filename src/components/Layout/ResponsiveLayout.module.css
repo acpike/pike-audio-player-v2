@@ -157,7 +157,7 @@
   width: 100%;
   max-width: 100%;
   overflow: hidden;
-  margin-top: 35px; /* Push TrackList down to clear album info text */
+  margin-top: 75px; /* Push TrackList down to clear album info text and account for removed tags toggle */
 }
 
 /* DebugPanel remains unaffected by height constraints */

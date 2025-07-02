@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Edge Test</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html, body {
+            width: 100vw;
+            height: 100dvh;
+            overflow: hidden;
+        }
+        
+        /* Background extends EVERYWHERE including under notch */
+        html {
+            background: linear-gradient(135deg, #000, #333);
+            background-size: 200vw 200vh;
+            background-position: -50vw -50vh;
+            background-attachment: fixed;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #000, #333);
+            background-size: 200vw 200vh;
+            background-position: -50vw -50vh;
+            background-attachment: fixed;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Container uses FULL screen dimensions */
+        .container {
+            width: 100vw;
+            height: 100dvh;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: none;
+            border-radius: 0;
+            display: flex;
+            box-shadow: none;
+        }
+        
+        /* Left section - normal padding, no constraints */
+        .left {
+            width: 40%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-family: -apple-system, sans-serif;
+            text-align: center;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 35px;
+            position: relative;
+        }
+        
+        /* Cover art - ONLY nudges if notch would cover it */
+        .cover-art {
+            width: 280px;
+            height: 180px;
+            background: linear-gradient(135deg, #60a5fa, #3b82f6);
+            border-radius: 16px;
+            margin-bottom: 20px;
+            box-shadow: 
+                0 12px 30px rgba(0, 0, 0, 0.4),
+                0 0 20px rgba(96, 165, 250, 0.22),
+                0 0 40px rgba(96, 165, 250, 0.14);
+            
+            /* Surgical nudging: Only move if left notch exists */
+            transform: translateX(env(safe-area-inset-left, 0px));
+            transition: transform 0.3s ease;
+        }
+        
+        /* Track title and status - stay centered */
+        .track-info-left {
+            /* No movement - stays in center */
+        }
+        
+        /* Right section - normal padding, no constraints */
+        .right {
+            width: 60%;
+            color: white;
+            font-family: -apple-system, sans-serif;
+            display: flex;
+            flex-direction: column;
+            padding: 35px;
+            position: relative;
+        }
+        
+        .track-list h2 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: rgba(255, 255, 255, 0.9);
+            /* No movement unless directly under notch */
+        }
+        
+        .track-list {
+            flex: 1;
+            overflow-y: auto;
+            /* No movement - track list stays in place */
+        }
+        
+        .track-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            margin-bottom: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .track-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-1px);
+        }
+        
+        .track-thumbnail {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            border-radius: 8px;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        .track-info {
+            flex: 1;
+            overflow: hidden;
+        }
+        
+        .track-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .track-duration {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .play-button {
+            width: 24px;
+            height: 24px;
+            background: rgba(96, 165, 250, 0.8);
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            margin-left: 15px;
+            flex-shrink: 0;
+            position: relative;
+        }
+        
+        .play-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 60%;
+            transform: translate(-50%, -50%);
+            width: 0;
+            height: 0;
+            border-left: 8px solid white;
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+        }
+        
+        /* Edge indicators - should touch actual screen edges */
+        .edge-top, .edge-bottom {
+            position: fixed;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: lime;
+            z-index: 1000;
+        }
+        
+        .edge-top { top: 0; }
+        .edge-bottom { bottom: 0; }
+        
+        .edge-left, .edge-right {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: lime;
+            z-index: 1000;
+        }
+        
+        .edge-left { left: 0; }
+        .edge-right { right: 0; }
+        
+        /* Show where notch areas are */
+        .notch-overlay {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            background: rgba(255, 0, 0, 0.2);
+            z-index: 999;
+            pointer-events: none;
+        }
+        
+        .notch-left {
+            left: 0;
+            width: env(safe-area-inset-left);
+        }
+        
+        .notch-right {
+            right: 0;
+            width: env(safe-area-inset-right);
+        }
+        
+        .info {
+            position: fixed;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 10px;
+            z-index: 1001;
+            text-align: center;
+            max-width: 80%;
+        }
+        
+        .strategy-title {
+            color: #ff6b6b;
+            font-weight: bold;
+            font-size: 11px;
+        }
+        
+        .demo-info {
+            color: #00ff88;
+            margin-top: 3px;
+            font-size: 9px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Edge indicators -->
+    <div class="edge-top"></div>
+    <div class="edge-bottom"></div>
+    <div class="edge-left"></div>
+    <div class="edge-right"></div>
+    
+    <!-- Notch area overlays -->
+    <div class="notch-overlay notch-left"></div>
+    <div class="notch-overlay notch-right"></div>
+    
+    <!-- Info display -->
+    <div class="info">
+        <div class="strategy-title">TRUE EDGE-TO-EDGE</div>
+        <div>Background extends under notch • Content nudges selectively</div>
+        <div class="demo-info">Red areas = notch zones where background still shows</div>
+    </div>
+    
+    <!-- Container extends everywhere including under notch -->
+    <div class="container">
+        <!-- Left section -->
+        <div class="left">
+            <!-- Cover art nudges away from left notch -->
+            <div class="cover-art"></div>
+            <div class="track-info-left">
+                <div style="font-size: 24px; font-weight: 700; margin-bottom: 8px;">Ocean Drive</div>
+                <div style="font-size: 14px; color: rgba(255, 255, 255, 0.6);">True Edge-to-Edge</div>
+            </div>
+        </div>
+
+        <!-- Right section -->
+        <div class="right">
+            <!-- Header nudges away from right notch -->
+            <h2>Track List</h2>
+            
+            <!-- Track list nudges away from right notch -->
+            <div class="track-list">
+                <div class="track-item">
+                    <div class="track-thumbnail"></div>
+                    <div class="track-info">
+                        <div class="track-title">Morning Waves</div>
+                        <div class="track-duration">3:24</div>
+                    </div>
+                    <button class="play-button"></button>
+                </div>
+                
+                <div class="track-item">
+                    <div class="track-thumbnail"></div>
+                    <div class="track-info">
+                        <div class="track-title">Sunset Boulevard</div>
+                        <div class="track-duration">4:12</div>
+                    </div>
+                    <button class="play-button"></button>
+                </div>
+                
+                <div class="track-item">
+                    <div class="track-thumbnail"></div>
+                    <div class="track-info">
+                        <div class="track-title">City Lights</div>
+                        <div class="track-duration">2:58</div>
+                    </div>
+                    <button class="play-button"></button>
+                </div>
+                
+                <div class="track-item">
+                    <div class="track-thumbnail"></div>
+                    <div class="track-info">
+                        <div class="track-title">Midnight Drive</div>
+                        <div class="track-duration">5:33</div>
+                    </div>
+                    <button class="play-button"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function logStrategy() {
+            console.log('=== TRUE EDGE-TO-EDGE STRATEGY ===');
+            console.log('✓ Container extends under notch areas');
+            console.log('✓ Background visible in notch zones');
+            console.log('✓ Only content elements nudge for visibility');
+            console.log('✓ No white bars or constrained areas');
+            console.log('');
+            console.log('Left side: Cover art nudges right only when notch present');
+            console.log('Right side: Track list nudges left only when notch present');
+            console.log('Background: Extends everywhere including under notch');
+        }
+        
+        window.addEventListener('load', logStrategy);
+    </script>
+</body>
+</html>

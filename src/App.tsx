@@ -3,6 +3,7 @@ import { ResponsiveLayout } from './components/Layout/ResponsiveLayout';
 import { SpaceBackground } from './components/Layout/SpaceBackground';
 import { AudioPlayer } from './components/Player/AudioPlayer';
 import { TrackList } from './components/TrackList/TrackList';
+import { TagsToggle } from './components/UI/TagsToggle';
 import { DebugPanel } from './components/UI/DebugPanel';
 import { ErrorBoundary } from './components/UI/ErrorBoundary';
 import { ColorExtractionProvider } from './components/Effects/ColorExtractionProvider';
@@ -41,10 +42,15 @@ function App() {
               togglePlayPause={togglePlayPause}
               playTrack={playTrack}
             />
-            {/* Portrait mode album info - positioned between AudioPlayer and TrackList */}
+            {/* Portrait mode album info line - left: album info, right: tags toggle */}
             {isPortraitMode && (
-              <div className="portrait-album-info">
-                Demo Tracks | 5 tracks
+              <div className="portrait-album-line">
+                <div className="portrait-album-info-left">
+                  Demo Tracks | 5 tracks
+                </div>
+                <div className="portrait-tags-right">
+                  <TagsToggle />
+                </div>
               </div>
             )}
             <TrackList playTrack={playTrack} togglePlayPause={togglePlayPause} />

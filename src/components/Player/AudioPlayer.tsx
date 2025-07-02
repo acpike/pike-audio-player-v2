@@ -330,12 +330,6 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
         </div>
       )}
 
-      {/* Tags toggle in portrait mode - keep in same position as before, no duplicate text */}
-      {!hasTrackBeenSelected && isPortraitMode && (
-        <div className={styles.portraitTagsOnly}>
-          <TagsToggle />
-        </div>
-      )}
       
       <div className={getTrackInfoClass()}>
         {!isLandscapeMode && (
