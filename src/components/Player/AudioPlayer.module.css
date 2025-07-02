@@ -322,8 +322,12 @@
     gap: 0;
   }
   
+  .coverWrapper {
+    margin-bottom: 0;
+  }
+  
   .initialAlbumInfo {
-    margin-top: var(--spacing-md);
+    margin-top: var(--spacing-lg);
   }
 }
 
