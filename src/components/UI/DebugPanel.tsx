@@ -35,8 +35,8 @@ export const DebugPanel = () => {
       </div>
       <div className={styles.content}>
         <p><strong>Version:</strong> V11_PORTRAIT_MODE_DEVELOPMENT</p>
-        <p><strong>Phase:</strong> Portrait Layout Implementation - OPTIMAL SPACING</p>
-        <p><strong>Features:</strong> Auto-advance + Portrait spacing: cover 0px + text 16px margin</p>
+        <p><strong>Phase:</strong> Portrait Layout Implementation - TAGS TOGGLE RELOCATION</p>
+        <p><strong>Features:</strong> Auto-advance + Portrait spacing + Tags toggle on album name line</p>
         <p><strong>Git Branch:</strong> sandbox</p>
         <p><strong>Last Commit:</strong> 952021b</p>
         <p><strong>Build Time:</strong> {new Date().toLocaleTimeString()}</p>

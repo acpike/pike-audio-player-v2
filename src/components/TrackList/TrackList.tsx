@@ -30,7 +30,7 @@ interface TrackListProps {
  */
 export const TrackList: React.FC<TrackListProps> = ({ playTrack, togglePlayPause }) => {
   const { currentTrackIndex } = useAudioStore();
-  const { isLandscapeMode } = useUIStore();
+  const { isLandscapeMode, isPortraitMode } = useUIStore();
   const { previewTrackIndex } = usePreviewStore();
   const containerRef = useRef<HTMLDivElement>(null);
   const lastSnappedIndexRef = useRef<number>(-1);
@@ -152,7 +152,7 @@ export const TrackList: React.FC<TrackListProps> = ({ playTrack, togglePlayPause
             )}
           </div>
         )}
-        <TagsToggle />
+        {!isPortraitMode && <TagsToggle />}
       </div>
       <div className={styles.trackListWrapper}>
         <div className={getTrackListContainerClass()} ref={containerRef}>

@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { PlayButton } from './PlayButton';
 import { ProgressBar } from './ProgressBar';
+import { TagsToggle } from '../UI/TagsToggle';
 import { useUIStore } from '../../stores/uiStore';
 import { usePreviewStore } from '../../stores/previewStore';
 import { Track, trackData } from '../../types/tracks';
@@ -49,7 +50,7 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
   togglePlayPause,
   playTrack
 }) => {
-  const { isLandscapeMode } = useUIStore();
+  const { isLandscapeMode, isPortraitMode } = useUIStore();
   const { previewTrackIndex } = usePreviewStore();
   
   // Determine which track to display (preview selected or current)
@@ -320,8 +321,9 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
       {/* Album info below cover art - shown on initial load */}
       {!hasTrackBeenSelected && (
         <div className={styles.initialAlbumInfo}>
-          <div className={styles.initialAlbumName}>
-            {trackData[0]?.album || UI_STRINGS.UNKNOWN_ALBUM}
+          <div className={isPortraitMode ? styles.albumNameWithTags : styles.initialAlbumName}>
+            <span>{trackData[0]?.album || UI_STRINGS.UNKNOWN_ALBUM}</span>
+            {isPortraitMode && <TagsToggle />}
           </div>
           <div className={styles.initialTrackCount}>
             {UI_STRINGS.TRACKS_COUNT(trackData.length)}
