@@ -319,11 +319,11 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
       
       {/* Album info below cover art - shown on initial load for both landscape and portrait */}
       {!hasTrackBeenSelected && (
-        <div className={styles.initialAlbumInfo}>
-          <div className={styles.initialAlbumName}>
+        <div className={isLandscapeMode ? styles.initialAlbumInfoLandscape : styles.initialAlbumInfo}>
+          <div className={isLandscapeMode ? styles.initialAlbumNameLandscape : styles.initialAlbumName}>
             {trackData[0]?.album || UI_STRINGS.UNKNOWN_ALBUM}
           </div>
-          <div className={styles.initialTrackCount}>
+          <div className={isLandscapeMode ? styles.initialTrackCountLandscape : styles.initialTrackCount}>
             {UI_STRINGS.TRACKS_COUNT(trackData.length)}
           </div>
         </div>

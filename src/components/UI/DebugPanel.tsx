@@ -35,10 +35,10 @@ export const DebugPanel = () => {
       </div>
       <div className={styles.content}>
         <p><strong>Version:</strong> V11_PORTRAIT_MODE_DEVELOPMENT</p>
-        <p><strong>Phase:</strong> Portrait Layout Implementation - SPACING OPTIMIZED</p>
-        <p><strong>Features:</strong> Auto-advance + Album info + Minimized spacing for max track list space</p>
+        <p><strong>Phase:</strong> Portrait Layout Implementation - BACKUP POINT</p>
+        <p><strong>Features:</strong> Auto-advance + Album info + Portrait spacing working correctly</p>
         <p><strong>Git Branch:</strong> sandbox</p>
-        <p><strong>Last Commit:</strong> ad2cdf5</p>
+        <p><strong>Last Commit:</strong> 40636de</p>
         <p><strong>Build Time:</strong> {new Date().toLocaleTimeString()}</p>
       </div>
     </div>
