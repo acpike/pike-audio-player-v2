@@ -4,7 +4,7 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: var(--spacing-lg);
 }
 
 .trackListTitle {
@@ -17,10 +17,10 @@
 .trackListContainer {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  max-height: 480px;
+  gap: var(--spacing-sm);
+  max-height: var(--track-list-max-height);
   overflow-y: auto;
-  overflow-x: hidden;
+  overflow-x: visible;
   position: relative;
   scroll-snap-type: y mandatory;
   padding: var(--container-padding-sm) 0 var(--spacing-lg) 0;
@@ -40,75 +40,148 @@
   width: 100%;
 }
 
-/* Modern Landscape mode adjustments */
-@media (orientation: landscape) {
-  .trackList[data-landscape="true"] {
-    flex: 1;
-    min-width: 300px;
-    width: 100%; /* Ensure full width utilization */
-  }
+.trackListWrapper {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.trackListContainer {
+  mask: linear-gradient(to bottom, 
+    transparent 0px,
+    rgba(0, 0, 0, 0.3) var(--mask-fade-distance),
+    black var(--mask-solid-distance),
+    black calc(100% - var(--mask-solid-distance)),
+    rgba(0, 0, 0, 0.3) calc(100% - var(--mask-fade-distance)),
+    transparent 100%
+  );
+  -webkit-mask: linear-gradient(to bottom, 
+    transparent 0px,
+    rgba(0, 0, 0, 0.3) var(--mask-fade-distance),
+    black var(--mask-solid-distance),
+    black calc(100% - var(--mask-solid-distance)),
+    rgba(0, 0, 0, 0.3) calc(100% - var(--mask-fade-distance)),
+    transparent 100%
+  );
+  padding-top: var(--spacing-lg);
+}
+
+/* QA Compliant CSS Modules - Landscape Classes */
+
+.trackListLandscape {
+  flex: 1;
+  min-width: var(--track-list-min-width);
+  width: 100%;
+}
   
-  .trackListContainer[data-landscape="true"] {
-    max-height: var(--track-list-max-height);
-    width: calc(100% + 8px);
-    padding-left: var(--container-padding-lg);
-    padding-right: var(--spacing-md);
-  }
-  
-  .trackListHeader[data-landscape="true"] {
-    width: 100%;
-    margin-bottom: var(--track-list-header-spacing);
-    padding-left: var(--container-padding-lg);
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    position: relative;
-  }
+.trackListContainerLandscape {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  max-height: var(--track-list-max-height);
+  overflow-y: auto;
+  overflow-x: visible;
+  position: relative;
+  scroll-snap-type: y mandatory;
+  padding: var(--container-padding-sm) 0 var(--spacing-lg) 0;
+  margin-top: calc(-1 * var(--spacing-xs));
+  overflow-x: visible;
+  width: calc(100% + 8px);
+  padding-left: var(--container-padding-lg);
+  padding-right: var(--spacing-xl);
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  mask: linear-gradient(to bottom, 
+    transparent 0px,
+    rgba(0, 0, 0, 0.3) var(--mask-fade-distance),
+    black var(--mask-solid-distance),
+    black calc(100% - var(--mask-solid-distance)),
+    rgba(0, 0, 0, 0.3) calc(100% - var(--mask-fade-distance)),
+    transparent 100%
+  );
+  -webkit-mask: linear-gradient(to bottom, 
+    transparent 0px,
+    rgba(0, 0, 0, 0.3) var(--mask-fade-distance),
+    black var(--mask-solid-distance),
+    black calc(100% - var(--mask-solid-distance)),
+    rgba(0, 0, 0, 0.3) calc(100% - var(--mask-fade-distance)),
+    transparent 100%
+  );
+  padding-top: var(--spacing-lg);
+}
 
-  .nowPlayingHeader {
-    margin-bottom: 0;
-    margin-top: var(--spacing-xs);
-    width: 100%;
-    padding-bottom: 12px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-  }
+.trackListContainerLandscape::-webkit-scrollbar {
+  display: none;
+}
 
-  .nowPlayingLabel {
-    font-family: var(--font-family-primary, "Inter", -apple-system, BlinkMacSystemFont, sans-serif);
-    font-size: var(--font-size-sm);
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    color: rgba(255, 255, 255, 0.6);
-    text-transform: uppercase;
-    margin-bottom: 5px;
-  }
+.trackListHeaderLandscape {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: var(--track-list-header-spacing);
+  width: 100%;
+  padding-left: var(--container-padding-lg);
+  flex-direction: column;
+  align-items: flex-start;
+  position: relative;
+}
 
-  .nowPlayingTitle {
-    font-family: var(--font-family-primary, "Inter", -apple-system, BlinkMacSystemFont, sans-serif);
-    font-size: var(--font-size-6xl);
-    font-weight: 800;
-    letter-spacing: 0.01em;
-    color: white;
-    margin: 0 0 5px 0;
-    line-height: 1.1;
-  }
+.trackListHeaderLandscape > :last-child {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
 
-  .trackListHeader[data-landscape="true"] > :last-child {
-    position: absolute;
-    top: 0;
-    right: 0;
-  }
+.nowPlayingHeader {
+  margin-bottom: 0;
+  margin-top: var(--spacing-xs);
+  width: 100%;
+  padding-bottom: var(--spacing-sm);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  position: relative;
+}
+
+.nowPlayingLabel {
+  font-family: var(--font-family-primary, "Inter", -apple-system, BlinkMacSystemFont, sans-serif);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.6);
+  text-transform: uppercase;
+  margin-bottom: var(--spacing-xs);
+}
+
+.nowPlayingTitle {
+  font-family: var(--font-family-primary, "Inter", -apple-system, BlinkMacSystemFont, sans-serif);
+  font-size: var(--font-size-6xl);
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  color: white;
+  margin: 0 0 var(--spacing-xs) 0;
+  line-height: 1.1;
+}
+
+.albumInfo {
+  font-family: var(--font-family-primary, "Inter", -apple-system, BlinkMacSystemFont, sans-serif);
+  font-size: var(--font-size-md);
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.7);
+  position: absolute;
+  top: calc(var(--spacing-xl) * 2 + 2px);
+  right: 0;
+  text-align: right;
+  padding-right: var(--spacing-xs);
 }
 
 /* Mobile optimizations */
-@media (max-width: 768px) {
+@media (max-width: var(--mobile-max)) {
   .trackListTitle {
     font-size: var(--font-size-xl);
-    margin-bottom: 15px;
+    margin-bottom: var(--spacing-md);
   }
   
   .trackListContainer {
-    gap: 10px;
+    gap: var(--spacing-sm);
     max-height: 350px;
   }
 }

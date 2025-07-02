@@ -1,0 +1,83 @@
+/* Preview Button - Standards Compliant Version */
+.previewButton {
+  position: relative;
+  background: rgba(255, 255, 255, 0.05);
+  border: var(--border-width-sm) solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-xl);
+  color: rgba(255, 255, 255, 0.8);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-smooth);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  backdrop-filter: var(--backdrop-blur);
+}
+
+.previewButton:hover:not(.playing) {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.previewButton.playing {
+  background: linear-gradient(90deg,
+    var(--primary-blue-alpha) var(--progress, 0%),
+    var(--primary-blue-15) var(--progress, 0%));
+  border-color: var(--primary-blue-alpha);
+  color: white;
+  box-shadow:
+    0 6px 24px var(--primary-blue-40),
+    inset 0 1px 0 var(--glass-white-mid);
+}
+
+.sizeMini {
+  padding: var(--preview-button-padding-mini);
+  height: var(--preview-button-height-mini);
+  min-width: var(--preview-button-min-width-mini);
+  font-size: var(--font-size-xxs);
+}
+
+.pauseIcon {
+  width: 12px;
+  height: 12px;
+  display: flex;
+  flex-direction: row;
+  gap: 2px;
+  align-items: center;
+  justify-content: center;
+}
+
+.playIcon {
+  width: 12px;
+  height: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8px;
+  color: currentColor;
+}
+
+.pauseIcon::before,
+.pauseIcon::after {
+  content: '';
+  width: 3px;
+  height: 12px;
+  background: currentColor;
+  border-radius: 1px;
+}
+
+.playing .buttonText { 
+  display: none; 
+}
+
+.playing .pauseIcon { 
+  display: flex; 
+}
+
+.previewButton:not(.playing) .pauseIcon {
+  display: none;
+}

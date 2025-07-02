@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Minimal Working Test</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html, body {
+            width: 100vw;
+            height: 100dvh;
+            overflow: hidden;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #000, #333);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+        }
+        
+        .left {
+            width: 40%;
+            background: rgba(255, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            font-family: -apple-system, sans-serif;
+        }
+        
+        .right {
+            width: 60%;
+            background: rgba(0, 255, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            font-family: -apple-system, sans-serif;
+        }
+        
+        /* Edge indicators */
+        .edge-top, .edge-bottom {
+            position: fixed;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: lime;
+            z-index: 1000;
+        }
+        
+        .edge-top { top: 0; }
+        .edge-bottom { bottom: 0; }
+        
+        .edge-left, .edge-right {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: lime;
+            z-index: 1000;
+        }
+        
+        .edge-left { left: 0; }
+        .edge-right { right: 0; }
+        
+        .info {
+            position: fixed;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            z-index: 1001;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Edge indicators -->
+    <div class="edge-top"></div>
+    <div class="edge-bottom"></div>
+    <div class="edge-left"></div>
+    <div class="edge-right"></div>
+    
+    <!-- Info display -->
+    <div class="info">
+        MINIMAL TEST: 100dvh + max-width: 1200px<br>
+        Lime edges should reach screen boundaries<br>
+        Size: <span id="size">Loading...</span>
+    </div>
+    
+    <!-- Main container -->
+    <div class="container">
+        <div class="left">AUDIO<br>40%</div>
+        <div class="right">TRACKS<br>60%</div>
+    </div>
+    
+    <script>
+        function updateInfo() {
+            const container = document.querySelector('.container');
+            const info = `${window.innerWidth}x${window.innerHeight} | Container: ${container.offsetWidth}px`;
+            document.getElementById('size').textContent = info;
+            console.log('Window:', window.innerWidth, 'x', window.innerHeight);
+            console.log('Container:', container.offsetWidth, 'x', container.offsetHeight);
+            console.log('Body:', document.body.offsetWidth, 'x', document.body.offsetHeight);
+        }
+        
+        window.addEventListener('load', updateInfo);
+        window.addEventListener('resize', updateInfo);
+        window.addEventListener('orientationchange', () => {
+            setTimeout(updateInfo, 100);
+        });
+    </script>
+</body>
+</html>

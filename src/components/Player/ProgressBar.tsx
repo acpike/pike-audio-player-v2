@@ -10,6 +10,7 @@ interface ProgressBarProps {
 export const ProgressBar: React.FC<ProgressBarProps> = ({ audioRef }) => {
   const { currentTime, duration, isLoading } = useAudioStore();
   const progressRef = useRef<HTMLDivElement>(null);
+  const tooltipRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [dragTime, setDragTime] = useState(0);
 
@@ -24,6 +25,23 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({ audioRef }) => {
   // V7 Progress calculation
   const progress = duration > 0 ? (isDragging ? dragTime : currentTime) / duration : 0;
   const progressPercent = Math.min(Math.max(progress * UI_CONSTANTS.PERCENTAGE_MULTIPLIER, UI_CONSTANTS.PROGRESS_MIN_PERCENT), UI_CONSTANTS.PROGRESS_MAX_PERCENT);
+  
+  // Update tooltip position with requestAnimationFrame for maximum smoothness
+  const updateTooltipPosition = useCallback((clientX: number) => {
+    if (!progressRef.current || !tooltipRef.current) return;
+    
+    requestAnimationFrame(() => {
+      if (!progressRef.current || !tooltipRef.current) return;
+      
+      const rect = progressRef.current.getBoundingClientRect();
+      const relativeX = Math.max(0, Math.min(rect.width, clientX - rect.left));
+      const percentage = (relativeX / rect.width) * 100;
+      
+      // Use percentage positioning like CSS for consistency
+      tooltipRef.current.style.left = `${percentage}%`;
+      tooltipRef.current.style.transform = `translateX(-50%)`;
+    });
+  }, []);
 
   // V7 Scrubbing logic - From V7 progress bar touch events
   const handleProgressClick = useCallback((e: React.MouseEvent | React.TouchEvent) => {
@@ -40,8 +58,9 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({ audioRef }) => {
 
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
     setIsDragging(true);
+    updateTooltipPosition(e.clientX);
     handleProgressClick(e);
-  }, [handleProgressClick]);
+  }, [handleProgressClick, updateTooltipPosition]);
 
   const handleMouseMove = useCallback((e: MouseEvent) => {
     if (!isDragging || !progressRef.current || !duration) return;
@@ -50,7 +69,8 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({ audioRef }) => {
     const movePercent = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
     const newTime = movePercent * duration;
     setDragTime(newTime);
-  }, [isDragging, duration]);
+    updateTooltipPosition(e.clientX);
+  }, [isDragging, duration, updateTooltipPosition]);
 
   const handleMouseUp = useCallback(() => {
     if (!isDragging || !audioRef?.current) return;
@@ -63,8 +83,9 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({ audioRef }) => {
   // V7 Touch events for mobile scrubbing
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
     setIsDragging(true);
+    updateTooltipPosition(e.touches[0].clientX);
     handleProgressClick(e);
-  }, [handleProgressClick]);
+  }, [handleProgressClick, updateTooltipPosition]);
 
   const handleTouchMove = useCallback((e: TouchEvent) => {
     if (!isDragging || !progressRef.current || !duration) return;
@@ -75,7 +96,8 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({ audioRef }) => {
     const movePercent = Math.max(0, Math.min(1, (touch.clientX - rect.left) / rect.width));
     const newTime = movePercent * duration;
     setDragTime(newTime);
-  }, [isDragging, duration]);
+    updateTooltipPosition(touch.clientX);
+  }, [isDragging, duration, updateTooltipPosition]);
 
   const handleTouchEnd = useCallback(() => {
     if (!isDragging || !audioRef?.current) return;
@@ -129,7 +151,7 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({ audioRef }) => {
       
       <div 
         ref={progressRef}
-        className={styles.progressBar}
+        className={`${styles.progressBar} ${isDragging ? styles.progressBarDragging : ''}`}
         onMouseDown={handleMouseDown}
         onTouchStart={handleTouchStart}
       >
@@ -139,9 +161,19 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({ audioRef }) => {
         >
           <div 
             className={styles.progressThumb}
-            style={{ display: progressPercent > UI_CONSTANTS.PROGRESS_MIN_PERCENT ? 'block' : 'none' }}
+            style={{ display: isDragging ? 'block' : 'none' }}
           />
         </div>
+        
+        {/* Scrub Tooltip - Only visible when dragging */}
+        {isDragging && (
+          <div 
+            ref={tooltipRef}
+            className={styles.scrubTooltip}
+          >
+            {formatTime(dragTime)}
+          </div>
+        )}
       </div>
     </div>
   );

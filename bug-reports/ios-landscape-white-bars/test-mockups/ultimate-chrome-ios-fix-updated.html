@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- CRITICAL: Must be first meta tag -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+    
+    <meta charset="UTF-8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>Ultimate Chrome iOS Fix - Updated</title>
+    <style>
+        /* COMPLETE RESET */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* CRITICAL: webkit-fill-available + overflow fixes */
+        html {
+            margin: 0 !important;
+            padding: 0 !important;
+            width: 100% !important;
+            min-width: 100vw !important;
+            height: 100vh !important;
+            overflow-anchor: none !important;
+            overscroll-behavior: none !important;
+            scrollbar-width: none !important;
+            -ms-overflow-style: none !important;
+        }
+
+        @supports(height: -webkit-fill-available) {
+            html {
+                height: -webkit-fill-available !important;
+                min-height: 100vh !important;
+            }
+        }
+
+        body {
+            margin: 0 !important;
+            padding: 0 !important;
+            width: 100% !important;
+            min-width: 100vw !important;
+            max-width: 100% !important;
+            height: 100vh !important;
+            overflow-x: hidden !important;
+            overflow-y: hidden !important;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(15, 15, 15, 0.8) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(25, 25, 25, 0.6) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(20, 20, 20, 0.7) 0%, transparent 50%),
+                linear-gradient(135deg, 
+                    #000000 0%,
+                    #0a0a0a 25%,
+                    #141414 50%,
+                    #0a0a0a 75%,
+                    #000000 100%
+                );
+            
+            /* GPU Compositing */
+            transform: translateZ(0);
+            will-change: transform;
+            backface-visibility: hidden;
+            -webkit-overflow-scrolling: touch;
+            -webkit-transform: translateZ(0);
+        }
+
+        @supports(height: -webkit-fill-available) {
+            body {
+                height: -webkit-fill-available !important;
+                min-height: 100vh !important;
+            }
+        }
+
+        /* CRITICAL: Remove scrollbars completely */
+        body::-webkit-scrollbar {
+            display: none !important;
+        }
+
+        /* CRITICAL: Safety bleed for edge gaps */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: -25px;
+            right: -25px;
+            background: inherit;
+            z-index: -1;
+        }
+
+        /* FULLSCREEN WRAPPER - Fixed positioning */
+        .fullscreen-wrapper {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            width: 100% !important;
+            min-width: 100vw !important;
+            max-width: 100% !important;
+            height: 100vh !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            box-sizing: border-box !important;
+            background: transparent;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        @supports(height: -webkit-fill-available) {
+            .fullscreen-wrapper {
+                height: -webkit-fill-available !important;
+            }
+        }
+
+        /* Mode Controls */
+        .mode-controls {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .mode-button {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 6px;
+            padding: 6px 12px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+            color: white;
+            min-width: 120px;
+            text-align: center;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        .mode-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-1px);
+        }
+
+        .mode-button.active {
+            background: rgba(96, 165, 250, 0.3);
+            border-color: rgba(96, 165, 250, 0.5);
+        }
+
+        /* Edge indicators - Use OUTLINE instead of border */
+        .edge-indicators {
+            position: fixed;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        .edge-top, .edge-bottom {
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: lime;
+        }
+
+        .edge-top { top: 0; }
+        .edge-bottom { bottom: 0; }
+
+        .edge-left, .edge-right {
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: lime;
+        }
+
+        .edge-left { left: 0; }
+        .edge-right { right: 0; }
+
+        /* CRITICAL: Landscape container - NO MAX-WIDTH on mobile */
+        .landscape-container {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            gap: 0.5%;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 24px;
+        }
+
+        /* DEFAULT MODE: Has max-width constraint */
+        .ultimate-mode .landscape-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* REFINED MODE: Remove all width constraints */
+        .refined-mode .landscape-container {
+            max-width: none !important;
+            width: 100% !important;
+            margin: 0 !important;
+        }
+
+        /* ZOOM MODE: For JavaScript zoom workaround */
+        .zoom-mode {
+            overflow: visible !important;
+        }
+
+        .zoom-mode .fullscreen-wrapper {
+            transform-origin: 0 0;
+            transition: transform 0.3s ease;
+        }
+
+        /* Audio player section (left 40%) */
+        .audio-player-section {
+            width: 40%;
+            min-width: 300px;
+            max-width: 400px;
+            padding: 35px;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        /* Cover wrapper */
+        .cover-wrapper {
+            position: relative;
+            width: 90%;
+            height: 65%;
+            max-width: 380px;
+            max-height: 260px;
+            margin-top: 60px;
+            border-radius: 16px;
+            overflow: hidden;
+            background: linear-gradient(135deg, #60a5fa, #3b82f6);
+            box-shadow: 
+                0 12px 30px rgba(0, 0, 0, 0.4),
+                0 0 20px rgba(96, 165, 250, 0.22),
+                0 0 40px rgba(96, 165, 250, 0.14);
+        }
+
+        /* Play button overlay */
+        .play-button {
+            position: absolute;
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 70px;
+            height: 70px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .play-icon {
+            width: 0;
+            height: 0;
+            border-left: 18px solid white;
+            border-top: 12px solid transparent;
+            border-bottom: 12px solid transparent;
+            margin-left: 4px;
+        }
+
+        /* Track info */
+        .track-info {
+            text-align: center;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .track-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: white;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        .track-status {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.6);
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        /* Track list section (right 58%) */
+        .track-list-section {
+            width: 58%;
+            min-width: 300px;
+            padding: 35px 25px 35px 35px;
+            overflow-y: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .track-list-section::-webkit-scrollbar {
+            display: none;
+        }
+
+        .section-title {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: rgba(255, 255, 255, 0.9);
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        /* Track items */
+        .track-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-bottom: 8px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid transparent;
+        }
+
+        .track-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .track-thumbnail {
+            width: 55px;
+            height: 55px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #3b82f6, #60a5fa);
+            flex-shrink: 0;
+        }
+
+        .track-details {
+            flex: 1;
+        }
+
+        .track-name {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: white;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        .track-duration {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.5);
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        /* Info display */
+        .info-display {
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 12px;
+            text-align: center;
+            z-index: 1000;
+            max-width: 90%;
+            color: white;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        .mode-info {
+            font-weight: 600;
+            color: #60a5fa;
+        }
+
+        /* Mobile landscape adjustments */
+        @media (max-width: 950px) and (orientation: landscape) {
+            .landscape-container {
+                gap: 8px;
+            }
+
+            .audio-player-section,
+            .track-list-section {
+                padding: 8px 12px;
+            }
+
+            .cover-wrapper {
+                margin-top: 20px;
+            }
+
+            .track-title {
+                font-size: 20px;
+            }
+
+            .section-title {
+                font-size: 24px;
+            }
+
+            .mode-controls {
+                top: 5px;
+                right: 5px;
+            }
+
+            .mode-button {
+                padding: 4px 8px;
+                font-size: 10px;
+                min-width: 100px;
+            }
+        }
+    </style>
+</head>
+<body class="ultimate-mode">
+    <!-- Fullscreen Wrapper -->
+    <div class="fullscreen-wrapper">
+        <!-- Mode controls -->
+        <div class="mode-controls">
+            <button class="mode-button active" onclick="setMode('ultimate')">ULTIMATE FIX</button>
+            <button class="mode-button" onclick="setMode('refined')">REFINED FIX</button>
+            <button class="mode-button" onclick="setMode('zoom')">ZOOM HACK</button>
+            <button class="mode-button" onclick="toggleDebug()">Debug Info</button>
+            <button class="mode-button" onclick="logViewport()">Log Viewport</button>
+        </div>
+
+        <!-- Edge indicators -->
+        <div class="edge-indicators">
+            <div class="edge-top"></div>
+            <div class="edge-bottom"></div>
+            <div class="edge-left"></div>
+            <div class="edge-right"></div>
+        </div>
+
+        <!-- Landscape container -->
+        <div class="landscape-container">
+            <!-- Audio player section (left) -->
+            <div class="audio-player-section">
+                <div class="cover-wrapper">
+                    <div class="play-button">
+                        <div class="play-icon"></div>
+                    </div>
+                </div>
+                <div class="track-info">
+                    <div class="track-title">Ocean Drive</div>
+                    <div class="track-status">Updated Chrome iOS Fix</div>
+                </div>
+            </div>
+
+            <!-- Track list section (right) -->
+            <div class="track-list-section">
+                <h2 class="section-title">Now Playing</h2>
+                
+                <div class="track-item">
+                    <div class="track-thumbnail"></div>
+                    <div class="track-details">
+                        <div class="track-name">Ocean Drive</div>
+                        <div class="track-duration">4:32</div>
+                    </div>
+                </div>
+
+                <div class="track-item">
+                    <div class="track-thumbnail"></div>
+                    <div class="track-details">
+                        <div class="track-name">Midnight Echoes</div>
+                        <div class="track-duration">3:45</div>
+                    </div>
+                </div>
+
+                <div class="track-item">
+                    <div class="track-thumbnail"></div>
+                    <div class="track-details">
+                        <div class="track-name">Crystal Shores</div>
+                        <div class="track-duration">5:12</div>
+                    </div>
+                </div>
+
+                <div class="track-item">
+                    <div class="track-thumbnail"></div>
+                    <div class="track-details">
+                        <div class="track-name">Aurora Dreams</div>
+                        <div class="track-duration">4:08</div>
+                    </div>
+                </div>
+
+                <div class="track-item">
+                    <div class="track-thumbnail"></div>
+                    <div class="track-details">
+                        <div class="track-name">Stellar Journey</div>
+                        <div class="track-duration">6:24</div>
+                    </div>
+                </div>
+
+                <div class="track-item">
+                    <div class="track-thumbnail"></div>
+                    <div class="track-details">
+                        <div class="track-name">Neon Nights</div>
+                        <div class="track-duration">3:57</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Info display -->
+        <div class="info-display">
+            <div class="mode-info">UPDATED CHROME iOS FIX</div>
+            <div>Lime edges should reach screen boundaries</div>
+            <div>Viewport: <span id="viewport-info">Loading...</span></div>
+            <div>Container: <span id="container-info">Loading...</span></div>
+            <div>Safe Areas: <span id="safe-area-info">Loading...</span></div>
+        </div>
+    </div>
+
+    <script>
+        let currentMode = 'ultimate';
+        let zoomFactor = 1.5;
+        let isZoomed = false;
+
+        function setMode(mode) {
+            const body = document.body;
+            const buttons = document.querySelectorAll('.mode-button');
+            const modeInfo = document.querySelector('.mode-info');
+            
+            // Remove all mode classes
+            body.classList.remove('ultimate-mode', 'refined-mode', 'zoom-mode');
+            
+            // Remove active class from all buttons
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            currentMode = mode;
+            
+            switch(mode) {
+                case 'ultimate':
+                    body.classList.add('ultimate-mode');
+                    modeInfo.textContent = 'ULTIMATE FIX (with max-width)';
+                    buttons[0].classList.add('active');
+                    if (isZoomed) resetZoom();
+                    break;
+                    
+                case 'refined':
+                    body.classList.add('refined-mode');
+                    modeInfo.textContent = 'REFINED FIX (no max-width)';
+                    buttons[1].classList.add('active');
+                    if (isZoomed) resetZoom();
+                    break;
+                    
+                case 'zoom':
+                    body.classList.add('zoom-mode');
+                    modeInfo.textContent = 'ZOOM HACK (JavaScript workaround)';
+                    buttons[2].classList.add('active');
+                    applyZoomHack();
+                    break;
+            }
+            
+            logViewport();
+        }
+
+        // ZOOM HACK IMPLEMENTATION (GitHub workaround technique)
+        function applyZoomHack() {
+            if (window.orientation !== undefined && Math.abs(window.orientation) === 90) {
+                // Landscape mode detected
+                const wrapper = document.querySelector('.fullscreen-wrapper');
+                const body = document.body;
+                
+                // Temporarily enable overflow
+                body.style.overflow = 'visible';
+                
+                // Apply zoom
+                wrapper.style.transform = `scale(${zoomFactor})`;
+                wrapper.style.transformOrigin = '0 0';
+                
+                // Calculate scroll position to center
+                const middleX = (window.innerWidth * (zoomFactor - 1)) / 2;
+                const middleY = (window.innerHeight * (zoomFactor - 1)) / 2;
+                
+                // Scroll to center
+                window.scrollTo(middleX, middleY);
+                
+                // Restore hidden overflow
+                setTimeout(() => {
+                    body.style.overflow = 'hidden';
+                }, 100);
+                
+                isZoomed = true;
+            }
+        }
+
+        function resetZoom() {
+            const wrapper = document.querySelector('.fullscreen-wrapper');
+            const body = document.body;
+            
+            wrapper.style.transform = 'scale(1)';
+            body.style.overflow = 'hidden';
+            window.scrollTo(0, 0);
+            
+            isZoomed = false;
+        }
+
+        // VIEWPORT DEBUGGING
+        function logViewport() {
+            const viewport = {
+                innerWidth: window.innerWidth,
+                innerHeight: window.innerHeight,
+                outerWidth: window.outerWidth,
+                outerHeight: window.outerHeight,
+                screenWidth: screen.width,
+                screenHeight: screen.height,
+                availWidth: screen.availWidth,
+                availHeight: screen.availHeight,
+                orientation: window.orientation || 'unknown'
+            };
+            
+            const container = document.querySelector('.fullscreen-wrapper');
+            const landscapeContainer = document.querySelector('.landscape-container');
+            const containerInfo = {
+                wrapperWidth: container.offsetWidth,
+                wrapperHeight: container.offsetHeight,
+                landscapeWidth: landscapeContainer.offsetWidth,
+                landscapeHeight: landscapeContainer.offsetHeight
+            };
+            
+            const safeAreas = {
+                top: getComputedStyle(document.documentElement).getPropertyValue('padding-top'),
+                bottom: getComputedStyle(document.documentElement).getPropertyValue('padding-bottom'),
+                left: getComputedStyle(document.documentElement).getPropertyValue('padding-left'),
+                right: getComputedStyle(document.documentElement).getPropertyValue('padding-right')
+            };
+            
+            console.log('=== VIEWPORT DEBUG ===');
+            console.log('Mode:', currentMode);
+            console.log('Viewport:', viewport);
+            console.log('Container:', containerInfo);
+            console.log('Safe Areas:', safeAreas);
+            console.log('User Agent:', navigator.userAgent);
+            console.log('Zoom Applied:', isZoomed);
+            
+            // Update UI
+            document.getElementById('viewport-info').textContent = `${viewport.innerWidth}x${viewport.innerHeight}`;
+            document.getElementById('container-info').textContent = `W:${containerInfo.wrapperWidth} L:${containerInfo.landscapeWidth}`;
+            document.getElementById('safe-area-info').textContent = `L:${safeAreas.left} R:${safeAreas.right}`;
+        }
+        
+        let debugMode = false;
+        function toggleDebug() {
+            debugMode = !debugMode;
+            const buttons = document.querySelectorAll('.mode-button');
+            
+            if (debugMode) {
+                buttons[3].classList.add('active');
+                // Add debug outlines
+                document.head.insertAdjacentHTML('beforeend', `
+                    <style id="debug-style">
+                        * { outline: 1px solid red !important; }
+                        html { background: blue !important; }
+                        body { background: green !important; }
+                        .fullscreen-wrapper { background: yellow !important; }
+                        .landscape-container { background: orange !important; }
+                    </style>
+                `);
+            } else {
+                buttons[3].classList.remove('active');
+                const debugStyle = document.getElementById('debug-style');
+                if (debugStyle) debugStyle.remove();
+            }
+        }
+        
+        // Visual Viewport API integration
+        if (window.visualViewport) {
+            const updateViewport = () => {
+                const wrapper = document.querySelector('.fullscreen-wrapper');
+                wrapper.style.setProperty('--actual-width', `${window.visualViewport.width}px`);
+                wrapper.style.setProperty('--actual-height', `${window.visualViewport.height}px`);
+                logViewport();
+            };
+            
+            window.visualViewport.addEventListener('resize', updateViewport);
+            window.visualViewport.addEventListener('scroll', updateViewport);
+        }
+        
+        // Initialize and handle orientation changes
+        window.addEventListener('load', logViewport);
+        window.addEventListener('orientationchange', () => {
+            setTimeout(() => {
+                if (currentMode === 'zoom') {
+                    resetZoom();
+                    setTimeout(applyZoomHack, 100);
+                }
+                logViewport();
+            }, 100);
+        });
+        window.addEventListener('resize', logViewport);
+        
+        // Initial load
+        logViewport();
+    </script>
+</body>
+</html>

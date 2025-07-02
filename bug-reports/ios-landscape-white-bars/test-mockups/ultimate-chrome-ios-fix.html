@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- CRITICAL: Must be first meta tag -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+    
+    <meta charset="UTF-8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>Ultimate Chrome iOS Fix</title>
+    <style>
+        /* EXPERT RECOMMENDATION: Complete Reset */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* EXPERT RECOMMENDATION: HTML + BODY Reset with GPU Compositing */
+        html, body {
+            margin: 0 !important;
+            padding: 0 !important;
+            width: 100vw !important;
+            min-width: 100vw !important;
+            max-width: 100vw !important;
+            height: 100dvh !important;
+            overflow-x: hidden !important;
+            overflow-y: hidden !important;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(15, 15, 15, 0.8) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(25, 25, 25, 0.6) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(20, 20, 20, 0.7) 0%, transparent 50%),
+                linear-gradient(135deg, 
+                    #000000 0%,
+                    #0a0a0a 25%,
+                    #141414 50%,
+                    #0a0a0a 75%,
+                    #000000 100%
+                );
+            
+            /* GPU Compositing for Chrome iOS */
+            transform: translateZ(0);
+            will-change: transform;
+            backface-visibility: hidden;
+            -webkit-overflow-scrolling: touch;
+            -webkit-transform: translateZ(0);
+            
+            /* Chrome iOS Scroll Anchoring */
+            overflow-anchor: none;
+        }
+
+        /* EXPERT RECOMMENDATION: Safety Bleed for Edge Gaps */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: -20px;
+            right: -20px;
+            background: inherit;
+            z-index: -1;
+        }
+
+        /* EXPERT RECOMMENDATION: Absolute Positioned Fullscreen Wrapper */
+        .fullscreen-wrapper {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            width: 100vw !important;
+            height: 100dvh !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            box-sizing: border-box !important;
+            background: inherit;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        /* EXPERT RECOMMENDATION: Chrome iOS Safe Area Override */
+        @supports (padding: env(safe-area-inset-left)) {
+            .fullscreen-wrapper {
+                padding-left: env(safe-area-inset-left, 0) !important;
+                padding-right: env(safe-area-inset-right, 0) !important;
+                width: calc(100vw + env(safe-area-inset-left, 0) + env(safe-area-inset-right, 0)) !important;
+            }
+        }
+
+        /* EXPERT RECOMMENDATION: Chrome iOS Specific Override */
+        @supports (-webkit-touch-callout: none) and (not (translate: none)) {
+            .fullscreen-wrapper {
+                width: 100vw !important;
+                margin-left: 0 !important;
+                padding-left: 0 !important;
+                padding-right: 0 !important;
+            }
+        }
+
+        /* Mode Controls */
+        .mode-controls {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .mode-button {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 6px;
+            padding: 6px 12px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+            color: white;
+            min-width: 120px;
+            text-align: center;
+        }
+
+        .mode-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-1px);
+        }
+
+        .mode-button.active {
+            background: rgba(96, 165, 250, 0.3);
+            border-color: rgba(96, 165, 250, 0.5);
+        }
+
+        /* Edge indicators */
+        .edge-indicators {
+            position: fixed;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        .edge-top, .edge-bottom {
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: lime;
+        }
+
+        .edge-top { top: 0; }
+        .edge-bottom { bottom: 0; }
+
+        .edge-left, .edge-right {
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: lime;
+        }
+
+        .edge-left { left: 0; }
+        .edge-right { right: 0; }
+
+        /* Landscape container - Flex Layout */
+        .landscape-container {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            gap: 0.5%;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 24px;
+        }
+
+        /* Audio player section (left 40%) */
+        .audio-player-section {
+            width: 40%;
+            min-width: 300px;
+            max-width: 400px;
+            padding: 35px;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        /* Cover wrapper */
+        .cover-wrapper {
+            position: relative;
+            width: 90%;
+            height: 65%;
+            max-width: 380px;
+            max-height: 260px;
+            margin-top: 60px;
+            border-radius: 16px;
+            overflow: hidden;
+            background: linear-gradient(135deg, #60a5fa, #3b82f6);
+            box-shadow: 
+                0 12px 30px rgba(0, 0, 0, 0.4),
+                0 0 20px rgba(96, 165, 250, 0.22),
+                0 0 40px rgba(96, 165, 250, 0.14);
+        }
+
+        /* Play button overlay */
+        .play-button {
+            position: absolute;
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 70px;
+            height: 70px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .play-icon {
+            width: 0;
+            height: 0;
+            border-left: 18px solid white;
+            border-top: 12px solid transparent;
+            border-bottom: 12px solid transparent;
+            margin-left: 4px;
+        }
+
+        /* Track info */
+        .track-info {
+            text-align: center;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .track-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: white;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        .track-status {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.6);
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        /* Track list section (right 58%) */
+        .track-list-section {
+            width: 58%;
+            min-width: 300px;
+            padding: 35px 25px 35px 35px;
+            overflow-y: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .track-list-section::-webkit-scrollbar {
+            display: none;
+        }
+
+        .section-title {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: rgba(255, 255, 255, 0.9);
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        /* Track items */
+        .track-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-bottom: 8px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid transparent;
+        }
+
+        .track-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .track-thumbnail {
+            width: 55px;
+            height: 55px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #3b82f6, #60a5fa);
+            flex-shrink: 0;
+        }
+
+        .track-details {
+            flex: 1;
+        }
+
+        .track-name {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: white;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        .track-duration {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.5);
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        /* Info display */
+        .info-display {
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 12px;
+            text-align: center;
+            z-index: 1000;
+            max-width: 90%;
+            color: white;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        .mode-info {
+            font-weight: 600;
+            color: #60a5fa;
+        }
+
+        /* Mobile landscape adjustments */
+        @media (max-width: 950px) and (orientation: landscape) {
+            .landscape-container {
+                gap: 8px;
+            }
+
+            .audio-player-section,
+            .track-list-section {
+                padding: 8px 12px;
+            }
+
+            .cover-wrapper {
+                margin-top: 20px;
+            }
+
+            .track-title {
+                font-size: 20px;
+            }
+
+            .section-title {
+                font-size: 24px;
+            }
+
+            .mode-controls {
+                top: 5px;
+                right: 5px;
+            }
+
+            .mode-button {
+                padding: 4px 8px;
+                font-size: 10px;
+                min-width: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- EXPERT RECOMMENDATION: Fullscreen Wrapper -->
+    <div class="fullscreen-wrapper">
+        <!-- Mode controls -->
+        <div class="mode-controls">
+            <button class="mode-button active" onclick="setMode('ultimate')">ULTIMATE FIX</button>
+            <button class="mode-button" onclick="toggleDebug()">Debug Info</button>
+            <button class="mode-button" onclick="logViewport()">Log Viewport</button>
+        </div>
+
+        <!-- Edge indicators -->
+        <div class="edge-indicators">
+            <div class="edge-top"></div>
+            <div class="edge-bottom"></div>
+            <div class="edge-left"></div>
+            <div class="edge-right"></div>
+        </div>
+
+        <!-- Landscape container -->
+        <div class="landscape-container">
+            <!-- Audio player section (left) -->
+            <div class="audio-player-section">
+                <div class="cover-wrapper">
+                    <div class="play-button">
+                        <div class="play-icon"></div>
+                    </div>
+                </div>
+                <div class="track-info">
+                    <div class="track-title">Ocean Drive</div>
+                    <div class="track-status">Ultimate Chrome iOS Fix</div>
+                </div>
+            </div>
+
+            <!-- Track list section (right) -->
+            <div class="track-list-section">
+                <h2 class="section-title">Now Playing</h2>
+                
+                <div class="track-item">
+                    <div class="track-thumbnail"></div>
+                    <div class="track-details">
+                        <div class="track-name">Ocean Drive</div>
+                        <div class="track-duration">4:32</div>
+                    </div>
+                </div>
+
+                <div class="track-item">
+                    <div class="track-thumbnail"></div>
+                    <div class="track-details">
+                        <div class="track-name">Midnight Echoes</div>
+                        <div class="track-duration">3:45</div>
+                    </div>
+                </div>
+
+                <div class="track-item">
+                    <div class="track-thumbnail"></div>
+                    <div class="track-details">
+                        <div class="track-name">Crystal Shores</div>
+                        <div class="track-duration">5:12</div>
+                    </div>
+                </div>
+
+                <div class="track-item">
+                    <div class="track-thumbnail"></div>
+                    <div class="track-details">
+                        <div class="track-name">Aurora Dreams</div>
+                        <div class="track-duration">4:08</div>
+                    </div>
+                </div>
+
+                <div class="track-item">
+                    <div class="track-thumbnail"></div>
+                    <div class="track-details">
+                        <div class="track-name">Stellar Journey</div>
+                        <div class="track-duration">6:24</div>
+                    </div>
+                </div>
+
+                <div class="track-item">
+                    <div class="track-thumbnail"></div>
+                    <div class="track-details">
+                        <div class="track-name">Neon Nights</div>
+                        <div class="track-duration">3:57</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Info display -->
+        <div class="info-display">
+            <div class="mode-info">ULTIMATE CHROME iOS FIX</div>
+            <div>Lime edges should reach screen boundaries</div>
+            <div>Viewport: <span id="viewport-info">Loading...</span></div>
+            <div>Container: <span id="container-info">Loading...</span></div>
+            <div>Safe Areas: <span id="safe-area-info">Loading...</span></div>
+        </div>
+    </div>
+
+    <script>
+        // EXPERT RECOMMENDATION: Viewport Debugging
+        function logViewport() {
+            const viewport = {
+                innerWidth: window.innerWidth,
+                innerHeight: window.innerHeight,
+                outerWidth: window.outerWidth,
+                outerHeight: window.outerHeight,
+                screenWidth: screen.width,
+                screenHeight: screen.height,
+                availWidth: screen.availWidth,
+                availHeight: screen.availHeight
+            };
+            
+            const container = document.querySelector('.fullscreen-wrapper');
+            const containerInfo = {
+                offsetWidth: container.offsetWidth,
+                offsetHeight: container.offsetHeight,
+                clientWidth: container.clientWidth,
+                clientHeight: container.clientHeight,
+                scrollWidth: container.scrollWidth,
+                scrollHeight: container.scrollHeight
+            };
+            
+            const safeAreas = {
+                top: getComputedStyle(document.documentElement).getPropertyValue('padding-top'),
+                bottom: getComputedStyle(document.documentElement).getPropertyValue('padding-bottom'),
+                left: getComputedStyle(document.documentElement).getPropertyValue('padding-left'),
+                right: getComputedStyle(document.documentElement).getPropertyValue('padding-right')
+            };
+            
+            console.log('=== VIEWPORT DEBUG ===');
+            console.log('Viewport:', viewport);
+            console.log('Container:', containerInfo);
+            console.log('Safe Areas:', safeAreas);
+            console.log('User Agent:', navigator.userAgent);
+            
+            // Update UI
+            document.getElementById('viewport-info').textContent = `${viewport.innerWidth}x${viewport.innerHeight}`;
+            document.getElementById('container-info').textContent = `${containerInfo.offsetWidth}x${containerInfo.offsetHeight}`;
+            document.getElementById('safe-area-info').textContent = `L:${safeAreas.left} R:${safeAreas.right}`;
+        }
+        
+        function setMode(mode) {
+            const buttons = document.querySelectorAll('.mode-button');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            buttons[0].classList.add('active');
+            
+            document.querySelector('.mode-info').textContent = 'ULTIMATE CHROME iOS FIX ACTIVE';
+        }
+        
+        let debugMode = false;
+        function toggleDebug() {
+            debugMode = !debugMode;
+            const edges = document.querySelector('.edge-indicators');
+            edges.style.display = debugMode ? 'block' : 'block'; // Always show for this test
+            
+            if (debugMode) {
+                // Add red outlines to everything
+                document.head.insertAdjacentHTML('beforeend', `
+                    <style id="debug-style">
+                        * { outline: 1px solid red !important; }
+                        html { background: blue !important; }
+                        body { background: green !important; }
+                        .fullscreen-wrapper { background: yellow !important; }
+                    </style>
+                `);
+            } else {
+                const debugStyle = document.getElementById('debug-style');
+                if (debugStyle) debugStyle.remove();
+            }
+        }
+        
+        // EXPERT RECOMMENDATION: Visual Viewport API
+        if (window.visualViewport) {
+            const updateViewport = () => {
+                const wrapper = document.querySelector('.fullscreen-wrapper');
+                wrapper.style.setProperty('--actual-width', `${window.visualViewport.width}px`);
+                wrapper.style.setProperty('--actual-height', `${window.visualViewport.height}px`);
+                logViewport();
+            };
+            
+            window.visualViewport.addEventListener('resize', updateViewport);
+            window.visualViewport.addEventListener('scroll', updateViewport);
+        }
+        
+        // Initialize
+        window.addEventListener('load', logViewport);
+        window.addEventListener('orientationchange', () => {
+            setTimeout(logViewport, 100);
+        });
+        window.addEventListener('resize', logViewport);
+        
+        // Initial load
+        logViewport();
+    </script>
+</body>
+</html>

@@ -4,6 +4,11 @@
   /* Primary Color Palette */
   --primary-blue: rgba(96, 165, 250, 1);
   --primary-blue-alpha: rgba(96, 165, 250, 0.8);
+  --primary-blue-10: rgba(96, 165, 250, 0.1);
+  --primary-blue-15: rgba(96, 165, 250, 0.15);
+  --primary-blue-20: rgba(96, 165, 250, 0.2);
+  --primary-blue-40: rgba(96, 165, 250, 0.4);
+  --primary-blue-90: rgba(96, 165, 250, 0.9);
   --glass-bg: rgba(255, 255, 255, 0.05);
   --glass-border: rgba(255, 255, 255, 0.5);
   --dark-overlay: rgba(0, 0, 0, 0.6);
@@ -29,22 +34,23 @@
   --current-glow-color: rgba(96, 165, 250, 0.4);
   
   /* Play Button System */
-  --play-button-size: 220px;
-  --play-icon-size: 110px;
+  --play-button-size: 180px;
+  --play-icon-size: 100px;
   --loading-spinner-size: 60px;
   --play-button-scale-hover: 1.05;
   --play-button-scale-active: 0.95;
   
   /* Audio Player System */
   --audio-player-gap: 25px;
-  --cover-size-portrait: 85vw;
-  --cover-max-size: 400px;
+  --cover-size-portrait: 90vw;
+  --cover-max-size: 350px;
   --cover-margin-bottom: 25px;
   
   /* Landscape Layout System - Final proportions from compiled version */
   --landscape-audio-width: 40%; /* Proper baseline proportion */
   --landscape-tracklist-width: 58%; /* Balanced track list width */
   --landscape-gap: 0.5%; /* Minimal gap maintained */
+  --cover-size-landscape: 280px;  /* Fixed landscape cover size */
   
   /* Progress Bar System */
   --progress-bottom: 8px;
@@ -68,6 +74,7 @@
   
   /* Typography Scale System */
   --font-size-2xs: 7px;   /* TagsToggle mobile text */
+  --font-size-xxs: 11px;  /* Preview button mini text */
   --font-size-xs: 8px;    /* TagsToggle small text */
   --font-size-sm: 11px;   /* Status text, time display */
   --font-size-base: 12px; /* Preview buttons, debug panel */
@@ -88,8 +95,8 @@
   --time-blur: 3px;
   
   /* V7 Play Button */
-  --play-button-size: 220px;
-  --play-button-scale-landscape: 0.58;
+  --play-button-size: 180px;
+  --play-button-scale-landscape: 0.45;
   --play-button-scale-mobile: 0.45;
   --play-button-scale-ipad: 0.71;
   
@@ -114,9 +121,52 @@
   --container-padding-sm: 15px;
   --container-padding-md: 20px;
   --container-padding-lg: 35px;
-  --track-list-max-height: 75vh;
+  --track-list-max-height: 76.5vh;
+  --track-list-min-width: 300px;
   --track-list-gap: 15px;
-  --track-list-header-spacing: 15px;
+  --track-list-header-spacing: 8px;
+  --track-item-thumbnail-size: 60px;
+  --track-item-thumbnail-size-landscape: 55px;
+  --track-item-thumbnail-size-mobile: 50px;
+  --mask-fade-distance: 8px;
+  --mask-solid-distance: 25px;
+  
+  /* Blur Effects */
+  --blur-heavy: blur(24px);
+  --blur-medium: blur(12px);
+  --blur-light: blur(8px);
+  --blur-minimal: blur(5px);
+  --blur-extra-light: blur(3px);
+  
+  /* Border Widths */
+  --border-width-sm: 1px;
+  --border-width-md: 2px;
+  --border-width-lg: 3px;
+  --border-width-fine: 1.5px;
+  
+  /* Shadow Distances */
+  --shadow-offset-sm: 2px;
+  --shadow-offset-md: 8px;
+  --shadow-offset-lg: 32px;
+  --shadow-offset-xs: 1px;
+  --shadow-offset-xl: 16px;
+  --shadow-offset-xxl: 25px;
+  
+  /* Position Offsets */
+  --offset-negative-xs: -1px;
+  --offset-negative-sm: -2px;
+  --offset-negative-md: -4px;
+  --offset-negative-lg: -8px;
+  
+  /* Transition Variants */
+  --transition-quick: 0.2s ease;
+  --transition-medium: 0.25s ease;
+  --transition-slow: 0.35s ease;
+  
+  /* Preview Button System */
+  --preview-button-height-mini: 28px;
+  --preview-button-min-width-mini: 45px;
+  --preview-button-padding-mini: var(--spacing-xs) var(--spacing-sm);
   
   /* V7 Glass Morphism */
   --backdrop-blur: blur(10px);

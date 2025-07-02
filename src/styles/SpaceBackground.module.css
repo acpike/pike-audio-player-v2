@@ -45,17 +45,17 @@
     var(--glass-space-base);
   
   /* Enhanced backdrop filter for space theme */
-  backdrop-filter: blur(24px) saturate(200%) brightness(1.1);
-  -webkit-backdrop-filter: blur(24px) saturate(200%) brightness(1.1);
+  backdrop-filter: var(--blur-heavy) saturate(200%) brightness(1.1);
+  -webkit-backdrop-filter: var(--blur-heavy) saturate(200%) brightness(1.1);
   
-  border: 1px solid var(--glass-border);
+  border: var(--border-width-sm) solid var(--glass-border);
   
   /* Enhanced shadow system for depth */
   box-shadow: 
-    0 8px 32px rgba(0, 0, 0, 0.6),
-    0 2px 8px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+    0 var(--shadow-offset-md) var(--shadow-offset-lg) rgba(0, 0, 0, 0.6),
+    0 var(--shadow-offset-sm) var(--shadow-offset-md) rgba(0, 0, 0, 0.4),
+    inset 0 var(--shadow-offset-xs) 0 rgba(255, 255, 255, 0.1),
+    inset 0 var(--offset-negative-xs) 0 rgba(0, 0, 0, 0.2);
 }
 
 /**
@@ -92,10 +92,10 @@
 .dynamicGlow::after {
   content: '';
   position: absolute;
-  top: -2px;
-  left: -2px;
-  right: -2px;
-  bottom: -2px;
+  top: var(--offset-negative-sm);
+  left: var(--offset-negative-sm);
+  right: var(--offset-negative-sm);
+  bottom: var(--offset-negative-sm);
   background: linear-gradient(45deg, 
     var(--current-glow-color, rgba(96, 165, 250, 0.4)),
     transparent 50%,

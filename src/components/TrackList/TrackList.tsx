@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { trackData } from '../../types/tracks';
 import { useAudioStore } from '../../stores/audioStore';
 import { useUIStore } from '../../stores/uiStore';
+import { usePreviewStore } from '../../stores/previewStore';
 import { TrackItem } from './TrackItem';
 import { TagsToggle } from '../UI/TagsToggle';
+import { UI_STRINGS } from '../../constants/strings';
 import styles from './TrackList.module.css';
 
 /**
@@ -12,6 +14,8 @@ import styles from './TrackList.module.css';
 interface TrackListProps {
   /** Function to play a specific track by index */
   playTrack: (index: number, source?: string, autoPlay?: boolean) => Promise<void>;
+  /** Function to toggle play/pause for current track */
+  togglePlayPause: () => Promise<void>;
 }
 
 /**
@@ -24,40 +28,145 @@ interface TrackListProps {
  * @param props - TrackList component props
  * @returns React component for track list interface
  */
-export const TrackList: React.FC<TrackListProps> = ({ playTrack }) => {
+export const TrackList: React.FC<TrackListProps> = ({ playTrack, togglePlayPause }) => {
   const { currentTrackIndex } = useAudioStore();
   const { isLandscapeMode } = useUIStore();
+  const { previewTrackIndex } = usePreviewStore();
+  const containerRef = useRef<HTMLDivElement>(null);
+  const lastSnappedIndexRef = useRef<number>(-1);
+  
+  // Debug logging
+  console.log('TrackList debug:', { currentTrackIndex, previewTrackIndex });
+
+  const toggleDebugPanel = () => {
+    window.dispatchEvent(new Event('toggleDebugPanel'));
+  };
+
+  // Haptic feedback when tracks snap into position
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    let scrollTimeout: NodeJS.Timeout;
+
+    const handleScroll = () => {
+      clearTimeout(scrollTimeout);
+      
+      scrollTimeout = setTimeout(() => {
+        // Calculate which track is currently centered/snapped
+        const trackElements = container.children;
+        
+        // Find the track that's most centered in the viewport
+        let closestIndex = 0;
+        let closestDistance = Infinity;
+        
+        Array.from(trackElements).forEach((element, index) => {
+          const rect = element.getBoundingClientRect();
+          const containerRect = container.getBoundingClientRect();
+          const trackCenter = rect.top + rect.height / 2;
+          const containerCenter = containerRect.top + containerRect.height / 2;
+          const distance = Math.abs(trackCenter - containerCenter);
+          
+          if (distance < closestDistance) {
+            closestDistance = distance;
+            closestIndex = index;
+          }
+        });
+        
+        // Trigger haptic feedback if we've snapped to a new track
+        if (closestIndex !== lastSnappedIndexRef.current) {
+          lastSnappedIndexRef.current = closestIndex;
+          
+          // Trigger haptic feedback
+          if ('vibrate' in navigator) {
+            navigator.vibrate(10); // 10ms haptic pulse
+          }
+        }
+      }, 50); // Wait 50ms after scroll stops to determine snap position
+    };
+
+    container.addEventListener('scroll', handleScroll, { passive: true });
+    
+    return () => {
+      container.removeEventListener('scroll', handleScroll);
+      clearTimeout(scrollTimeout);
+    };
+  }, []);
+
+  // QA Compliant CSS Modules class helpers
+  const getTrackListClass = () => {
+    return isLandscapeMode ? styles.trackListLandscape : styles.trackList;
+  };
+
+  const getTrackListHeaderClass = () => {
+    return isLandscapeMode ? styles.trackListHeaderLandscape : styles.trackListHeader;
+  };
+
+  const getTrackListContainerClass = () => {
+    return isLandscapeMode ? styles.trackListContainerLandscape : styles.trackListContainer;
+  };
 
   return (
-    <div className={styles.trackList} data-landscape={isLandscapeMode}>
-      <div className={styles.trackListHeader} data-landscape={isLandscapeMode}>
+    <div className={getTrackListClass()}>
+      <div className={getTrackListHeaderClass()}>
         {isLandscapeMode && (
           <div className={styles.nowPlayingHeader}>
-            {currentTrackIndex !== null ? (
+            {previewTrackIndex !== null ? (
               <>
-                <div className={styles.nowPlayingLabel}>NOW PLAYING</div>
-                <h2 className={styles.nowPlayingTitle}>{trackData[currentTrackIndex]?.title || 'Unknown Track'}</h2>
+                <div className={styles.nowPlayingLabel}>{UI_STRINGS.PREVIEWING}</div>
+                <h2 
+                  className={styles.nowPlayingTitle}
+                  onClick={toggleDebugPanel}
+                  style={{ cursor: 'pointer' }}
+                >
+                  {trackData[previewTrackIndex]?.title || UI_STRINGS.UNKNOWN_TRACK}
+                </h2>
+              </>
+            ) : currentTrackIndex !== null ? (
+              <>
+                <div className={styles.nowPlayingLabel}>{UI_STRINGS.NOW_PLAYING}</div>
+                <h2 
+                  className={styles.nowPlayingTitle}
+                  onClick={toggleDebugPanel}
+                  style={{ cursor: 'pointer' }}
+                >
+                  {trackData[currentTrackIndex]?.title || UI_STRINGS.UNKNOWN_TRACK}
+                </h2>
               </>
             ) : (
               <>
-                <div className={styles.nowPlayingLabel}>MUSIC PLAYER</div>
-                <h2 className={styles.nowPlayingTitle}>Select a track below</h2>
+                <div className={styles.nowPlayingLabel}>{UI_STRINGS.MUSIC_PLAYER}</div>
+                <h2 
+                  className={styles.nowPlayingTitle}
+                  onClick={toggleDebugPanel}
+                  style={{ cursor: 'pointer' }}
+                >
+                  {UI_STRINGS.SELECT_TRACK_BELOW}
+                </h2>
               </>
+            )}
+            {currentTrackIndex !== null && (
+              <div className={styles.albumInfo}>
+                {UI_STRINGS.ALBUM_TRACK_INFO(trackData[0]?.album || UI_STRINGS.UNKNOWN_ALBUM, trackData.length)}
+              </div>
             )}
           </div>
         )}
         <TagsToggle />
       </div>
-      <div className={styles.trackListContainer} data-landscape={isLandscapeMode}>
-        {trackData.map((track, index) => (
+      <div className={styles.trackListWrapper}>
+        <div className={getTrackListContainerClass()} ref={containerRef}>
+          {trackData.map((track, index) => (
           <TrackItem
             key={index}
             track={track}
             index={index}
             isActive={currentTrackIndex === index}
             playTrack={playTrack}
+            togglePlayPause={togglePlayPause}
           />
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );

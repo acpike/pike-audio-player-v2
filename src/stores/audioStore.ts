@@ -29,6 +29,7 @@ export const useAudioStore = create<AudioStore>((set) => ({
   maxRetries: 3,
   abortController: null,
   loadingPromise: null,
+  error: null,
 
   // Actions - Actual implementations provided by useAudioPlayer hook composition
 
