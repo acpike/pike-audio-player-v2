@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Background Bleed Test</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        /* EXTREME APPROACH: Bleed the background WAY beyond viewport */
+        html {
+            background: linear-gradient(135deg, #000, #333);
+            background-size: 200vw 200vh;
+            background-position: -50vw -50vh;
+            background-attachment: fixed;
+            min-height: 100vh;
+            min-width: 100vw;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #000, #333);
+            background-size: 200vw 200vh;
+            background-position: -50vw -50vh;
+            background-attachment: fixed;
+            width: 100vw;
+            height: 100dvh;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        /* Background safety layer - extends way beyond visible area */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -100px;
+            left: -100px;
+            right: -100px;
+            bottom: -100px;
+            background: linear-gradient(135deg, #000, #333);
+            z-index: -2;
+        }
+        
+        /* Another safety layer */
+        body::after {
+            content: '';
+            position: absolute;
+            top: -50px;
+            left: -50px;
+            right: -50px;
+            bottom: -50px;
+            background: linear-gradient(135deg, #000, #333);
+            z-index: -1;
+        }
+        
+        .container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .left {
+            width: 40%;
+            background: rgba(255, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            font-family: -apple-system, sans-serif;
+            text-align: center;
+            position: relative;
+        }
+        
+        .right {
+            width: 60%;
+            background: rgba(0, 255, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            font-family: -apple-system, sans-serif;
+            text-align: center;
+            position: relative;
+        }
+        
+        /* Edge indicators */
+        .edge-top, .edge-bottom {
+            position: fixed;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: lime;
+            z-index: 1000;
+        }
+        
+        .edge-top { top: 0; }
+        .edge-bottom { bottom: 0; }
+        
+        .edge-left, .edge-right {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: lime;
+            z-index: 1000;
+        }
+        
+        .edge-left { left: 0; }
+        .edge-right { right: 0; }
+        
+        .info {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            font-size: 14px;
+            z-index: 1001;
+            text-align: center;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .test-result {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        
+        .success {
+            background: rgba(0, 255, 0, 0.2);
+            color: #00ff00;
+        }
+        
+        .failure {
+            background: rgba(255, 0, 0, 0.2);
+            color: #ff0000;
+        }
+    </style>
+</head>
+<body>
+    <!-- Edge indicators -->
+    <div class="edge-top"></div>
+    <div class="edge-bottom"></div>
+    <div class="edge-left"></div>
+    <div class="edge-right"></div>
+    
+    <!-- Info display -->
+    <div class="info">
+        <div><strong>BACKGROUND BLEED TEST</strong></div>
+        <div>Multiple background layers extending beyond viewport</div>
+        <div>If you see white bars, Chrome iOS has a fundamental limitation</div>
+        <div class="test-result" id="test-result">
+            Testing...
+        </div>
+        <div style="margin-top: 10px; font-size: 12px;">
+            Browser: <span id="browser"></span><br>
+            Size: <span id="size">Loading...</span>
+        </div>
+    </div>
+    
+    <!-- Main container -->
+    <div class="container">
+        <div class="left">
+            AUDIO<br>
+            40%<br>
+            <small>Red background</small>
+        </div>
+        <div class="right">
+            TRACKS<br>
+            60%<br>
+            <small>Green background</small>
+        </div>
+    </div>
+    
+    <script>
+        function detectBrowser() {
+            const ua = navigator.userAgent;
+            const isIOS = /iPad|iPhone|iPod/.test(ua);
+            const isChrome = /CriOS/.test(ua) || /Chrome/.test(ua);
+            const isSafari = /Safari/.test(ua) && !/Chrome/.test(ua);
+            
+            let browserName = 'Unknown';
+            if (isIOS && isChrome) {
+                browserName = 'Chrome iOS';
+            } else if (isIOS && isSafari) {
+                browserName = 'Safari iOS';
+            } else if (isChrome) {
+                browserName = 'Chrome Desktop';
+            } else {
+                browserName = 'Other';
+            }
+            
+            document.getElementById('browser').textContent = browserName;
+            
+            // Set test result expectations
+            const resultEl = document.getElementById('test-result');
+            if (isIOS && isChrome) {
+                resultEl.innerHTML = 'Chrome iOS: If white bars still exist,<br>this confirms Chrome has unfixable viewport limitations';
+                resultEl.className = 'test-result failure';
+            } else if (isIOS && isSafari) {
+                resultEl.innerHTML = 'Safari iOS: Should work perfectly<br>(lime edges reach screen boundaries)';
+                resultEl.className = 'test-result success';
+            } else {
+                resultEl.innerHTML = 'Desktop browser: Should work fine';
+                resultEl.className = 'test-result success';
+            }
+        }
+        
+        function updateInfo() {
+            const info = `${window.innerWidth}x${window.innerHeight}`;
+            document.getElementById('size').textContent = info;
+            
+            console.log('=== BACKGROUND BLEED TEST ===');
+            console.log('Browser:', document.getElementById('browser').textContent);
+            console.log('Window:', window.innerWidth, 'x', window.innerHeight);
+            console.log('Body:', document.body.offsetWidth, 'x', document.body.offsetHeight);
+            console.log('User Agent:', navigator.userAgent);
+        }
+        
+        window.addEventListener('load', () => {
+            detectBrowser();
+            updateInfo();
+        });
+        
+        window.addEventListener('resize', updateInfo);
+        window.addEventListener('orientationchange', () => {
+            setTimeout(() => {
+                detectBrowser();
+                updateInfo();
+            }, 100);
+        });
+    </script>
+</body>
+</html>

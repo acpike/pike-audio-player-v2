@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Force Background Test</title>
+    <style>
+        * {
+            margin: 0 !important;
+            padding: 0 !important;
+            box-sizing: border-box !important;
+        }
+        
+        /* NUCLEAR OPTION: Force background everywhere with !important */
+        html {
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(15, 15, 15, 0.8) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(25, 25, 25, 0.6) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(20, 20, 20, 0.7) 0%, transparent 50%),
+                linear-gradient(135deg, 
+                    #000000 0%,
+                    #0a0a0a 25%,
+                    #141414 50%,
+                    #0a0a0a 75%,
+                    #000000 100%
+                ) !important;
+            min-height: 100vh !important;
+            min-width: 100vw !important;
+            width: 100% !important;
+            height: 100% !important;
+        }
+        
+        /* Force background on body too */
+        body {
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(15, 15, 15, 0.8) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(25, 25, 25, 0.6) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(20, 20, 20, 0.7) 0%, transparent 50%),
+                linear-gradient(135deg, 
+                    #000000 0%,
+                    #0a0a0a 25%,
+                    #141414 50%,
+                    #0a0a0a 75%,
+                    #000000 100%
+                ) !important;
+            width: 100vw !important;
+            height: 100dvh !important;
+            overflow: hidden !important;
+        }
+        
+        /* MULTIPLE pseudo-elements to force background everywhere */
+        html::before {
+            content: '' !important;
+            position: fixed !important;
+            top: -200px !important;
+            left: -200px !important;
+            right: -200px !important;
+            bottom: -200px !important;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(15, 15, 15, 0.8) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(25, 25, 25, 0.6) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(20, 20, 20, 0.7) 0%, transparent 50%),
+                linear-gradient(135deg, 
+                    #000000 0%,
+                    #0a0a0a 25%,
+                    #141414 50%,
+                    #0a0a0a 75%,
+                    #000000 100%
+                ) !important;
+            z-index: -999 !important;
+        }
+        
+        body::before {
+            content: '' !important;
+            position: fixed !important;
+            top: -100px !important;
+            left: -100px !important;
+            right: -100px !important;
+            bottom: -100px !important;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(15, 15, 15, 0.8) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(25, 25, 25, 0.6) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(20, 20, 20, 0.7) 0%, transparent 50%),
+                linear-gradient(135deg, 
+                    #000000 0%,
+                    #0a0a0a 25%,
+                    #141414 50%,
+                    #0a0a0a 75%,
+                    #000000 100%
+                ) !important;
+            z-index: -998 !important;
+        }
+        
+        body::after {
+            content: '' !important;
+            position: absolute !important;
+            top: -50px !important;
+            left: -50px !important;
+            right: -50px !important;
+            bottom: -50px !important;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(15, 15, 15, 0.8) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(25, 25, 25, 0.6) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(20, 20, 20, 0.7) 0%, transparent 50%),
+                linear-gradient(135deg, 
+                    #000000 0%,
+                    #0a0a0a 25%,
+                    #141414 50%,
+                    #0a0a0a 75%,
+                    #000000 100%
+                ) !important;
+            z-index: -997 !important;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            height: 100%;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 24px;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            display: flex;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .left {
+            width: 40%;
+            background: rgba(255, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            font-family: -apple-system, sans-serif;
+            text-align: center;
+        }
+        
+        .right {
+            width: 60%;
+            background: rgba(0, 255, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            font-family: -apple-system, sans-serif;
+            text-align: center;
+        }
+        
+        .info {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            font-size: 14px;
+            z-index: 1001;
+            text-align: center;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .result {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        
+        .success {
+            background: rgba(0, 255, 0, 0.2);
+            color: #00ff00;
+        }
+        
+        .failure {
+            background: rgba(255, 0, 0, 0.2);
+            color: #ff0000;
+        }
+    </style>
+</head>
+<body>
+    <div class="info">
+        <div><strong>FORCE BACKGROUND TEST</strong></div>
+        <div>Multiple background layers with !important</div>
+        <div>If white bars persist, Chrome iOS blocks ALL background attempts</div>
+        
+        <div class="result failure">
+            <strong>CONCLUSION:</strong><br>
+            If you still see white bars, then Chrome iOS<br>
+            fundamentally prevents background styling<br>
+            in those areas. This is a browser limitation,<br>
+            not a CSS problem.
+        </div>
+        
+        <div style="margin-top: 15px; font-size: 12px;">
+            Browser: <span id="browser"></span>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="left">
+            RED SECTION<br>
+            40%
+        </div>
+        <div class="right">
+            GREEN SECTION<br>
+            60%
+        </div>
+    </div>
+    
+    <script>
+        function detectBrowser() {
+            const ua = navigator.userAgent;
+            const isIOS = /iPad|iPhone|iPod/.test(ua);
+            const isChrome = /CriOS/.test(ua) || /Chrome/.test(ua);
+            
+            let browserName = 'Unknown';
+            if (isIOS && isChrome) {
+                browserName = 'Chrome iOS';
+            } else if (isIOS) {
+                browserName = 'Safari iOS';
+            } else {
+                browserName = 'Other';
+            }
+            
+            document.getElementById('browser').textContent = browserName;
+            
+            console.log('=== FORCE BACKGROUND TEST ===');
+            console.log('Browser:', browserName);
+            console.log('Strategy: Multiple background layers with !important');
+            console.log('If white bars persist, Chrome iOS has unfixable limitations');
+        }
+        
+        window.addEventListener('load', detectBrowser);
+    </script>
+</body>
+</html>

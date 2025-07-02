@@ -6,6 +6,7 @@ export interface UIState {
   deviceType: DeviceType;
   orientation: Orientation;
   isLandscapeMode: boolean;
+  isPortraitMode: boolean;
   isInIframe: boolean;
   isDescriptionExpanded: boolean;
   isSwipeExpanded: boolean;
@@ -20,6 +21,7 @@ export interface UIActions {
   setDeviceType: (type: DeviceType) => void;
   setOrientation: (orientation: Orientation) => void;
   setLandscapeMode: (isLandscape: boolean) => void;
+  setPortraitMode: (isPortrait: boolean) => void;
   setDescriptionExpanded: (expanded: boolean) => void;
   setSwipeExpanded: (expanded: boolean) => void;
   setSwipeActive: (active: boolean) => void;

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Chrome Detection Test</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html, body {
+            width: 100vw;
+            height: 100dvh;
+            overflow: hidden;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #000, #333);
+        }
+        
+        .container {
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+        }
+        
+        /* SAFARI: Works fine, no changes needed */
+        .safari .container {
+            /* Keep default behavior */
+        }
+        
+        /* CHROME iOS: Apply aggressive fixes */
+        .chrome-ios .container {
+            /* Try negative margins to counteract Chrome's white space */
+            margin-left: -20px;
+            margin-right: -20px;
+            width: calc(100% + 40px);
+        }
+        
+        /* CHROME iOS: Alternative - zoom approach */
+        .chrome-ios.zoom-mode {
+            transform: scale(1.1);
+            transform-origin: center center;
+        }
+        
+        /* CHROME iOS: Alternative - viewport units override */
+        .chrome-ios.viewport-mode .container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100vw;
+            height: 100vh;
+        }
+        
+        .left {
+            width: 40%;
+            background: rgba(255, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            font-family: -apple-system, sans-serif;
+            text-align: center;
+        }
+        
+        .right {
+            width: 60%;
+            background: rgba(0, 255, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            font-family: -apple-system, sans-serif;
+            text-align: center;
+        }
+        
+        /* Edge indicators */
+        .edge-top, .edge-bottom {
+            position: fixed;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: lime;
+            z-index: 1000;
+        }
+        
+        .edge-top { top: 0; }
+        .edge-bottom { bottom: 0; }
+        
+        .edge-left, .edge-right {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: lime;
+            z-index: 1000;
+        }
+        
+        .edge-left { left: 0; }
+        .edge-right { right: 0; }
+        
+        .controls {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 1001;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        
+        .btn {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 11px;
+            text-align: center;
+        }
+        
+        .btn.active {
+            background: rgba(96, 165, 250, 0.8);
+        }
+        
+        .info {
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            z-index: 1001;
+            text-align: center;
+            max-width: 90%;
+        }
+        
+        .browser-info {
+            color: #60a5fa;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <!-- Edge indicators -->
+    <div class="edge-top"></div>
+    <div class="edge-bottom"></div>
+    <div class="edge-left"></div>
+    <div class="edge-right"></div>
+    
+    <!-- Controls (only show for Chrome) -->
+    <div class="controls" id="controls" style="display: none;">
+        <div class="btn active" onclick="setMode('default')">Default</div>
+        <div class="btn" onclick="setMode('negative-margin')">Negative Margin</div>
+        <div class="btn" onclick="setMode('zoom')">Zoom 1.1x</div>
+        <div class="btn" onclick="setMode('viewport')">Fixed Viewport</div>
+    </div>
+    
+    <!-- Info display -->
+    <div class="info">
+        <div class="browser-info" id="browser-info">Detecting browser...</div>
+        <div>Mode: <span id="mode-info">Default</span></div>
+        <div>Size: <span id="size-info">Loading...</span></div>
+        <div>White bars in Chrome? Lime should reach edges!</div>
+    </div>
+    
+    <!-- Main container -->
+    <div class="container">
+        <div class="left">AUDIO<br>40%<br><span id="left-info"></span></div>
+        <div class="right">TRACKS<br>60%<br><span id="right-info"></span></div>
+    </div>
+    
+    <script>
+        let currentMode = 'default';
+        let browserType = 'unknown';
+        
+        function detectBrowser() {
+            const ua = navigator.userAgent;
+            const isIOS = /iPad|iPhone|iPod/.test(ua);
+            const isChrome = /CriOS/.test(ua) || /Chrome/.test(ua);
+            const isSafari = /Safari/.test(ua) && !/Chrome/.test(ua);
+            
+            if (isIOS && isChrome) {
+                browserType = 'chrome-ios';
+                document.body.classList.add('chrome-ios');
+                document.getElementById('controls').style.display = 'flex';
+                document.getElementById('browser-info').textContent = 'Chrome iOS (needs fixes)';
+            } else if (isIOS && isSafari) {
+                browserType = 'safari';
+                document.body.classList.add('safari');
+                document.getElementById('browser-info').textContent = 'Safari iOS (should work fine)';
+            } else {
+                browserType = 'other';
+                document.getElementById('browser-info').textContent = 'Other browser';
+            }
+            
+            console.log('Detected browser:', browserType);
+            console.log('User Agent:', ua);
+        }
+        
+        function setMode(mode) {
+            const body = document.body;
+            const buttons = document.querySelectorAll('.btn');
+            
+            // Remove all mode classes
+            body.classList.remove('zoom-mode', 'viewport-mode');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            currentMode = mode;
+            
+            // Remove any inline styles from previous modes
+            const container = document.querySelector('.container');
+            container.style.marginLeft = '';
+            container.style.marginRight = '';
+            container.style.width = '';
+            container.style.position = '';
+            container.style.top = '';
+            container.style.left = '';
+            container.style.right = '';
+            container.style.bottom = '';
+            body.style.transform = '';
+            
+            switch(mode) {
+                case 'default':
+                    buttons[0].classList.add('active');
+                    break;
+                    
+                case 'negative-margin':
+                    // Try to counteract Chrome's margins
+                    container.style.marginLeft = '-20px';
+                    container.style.marginRight = '-20px';
+                    container.style.width = 'calc(100% + 40px)';
+                    buttons[1].classList.add('active');
+                    break;
+                    
+                case 'zoom':
+                    body.classList.add('zoom-mode');
+                    body.style.transform = 'scale(1.1)';
+                    body.style.transformOrigin = 'center center';
+                    buttons[2].classList.add('active');
+                    break;
+                    
+                case 'viewport':
+                    body.classList.add('viewport-mode');
+                    container.style.position = 'fixed';
+                    container.style.top = '0';
+                    container.style.left = '0';
+                    container.style.right = '0';
+                    container.style.bottom = '0';
+                    container.style.width = '100vw';
+                    container.style.height = '100vh';
+                    buttons[3].classList.add('active');
+                    break;
+            }
+            
+            document.getElementById('mode-info').textContent = mode;
+            setTimeout(updateInfo, 100);
+        }
+        
+        function updateInfo() {
+            const container = document.querySelector('.container');
+            const sizeInfo = `${window.innerWidth}x${window.innerHeight} | Container: ${container.offsetWidth}px`;
+            document.getElementById('size-info').textContent = sizeInfo;
+            
+            // Show container dimensions in the sections
+            document.getElementById('left-info').textContent = `${Math.round(container.offsetWidth * 0.4)}px`;
+            document.getElementById('right-info').textContent = `${Math.round(container.offsetWidth * 0.6)}px`;
+            
+            console.log('=== UPDATE INFO ===');
+            console.log('Browser:', browserType);
+            console.log('Mode:', currentMode);
+            console.log('Window:', window.innerWidth, 'x', window.innerHeight);
+            console.log('Container:', container.offsetWidth, 'x', container.offsetHeight);
+            console.log('Body:', document.body.offsetWidth, 'x', document.body.offsetHeight);
+        }
+        
+        // Initialize
+        window.addEventListener('load', () => {
+            detectBrowser();
+            updateInfo();
+        });
+        
+        window.addEventListener('resize', updateInfo);
+        window.addEventListener('orientationchange', () => {
+            setTimeout(updateInfo, 100);
+        });
+    </script>
+</body>
+</html>

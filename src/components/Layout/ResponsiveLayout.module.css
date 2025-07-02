@@ -119,6 +119,72 @@
     }
   }
 
+/* Portrait Mode Layout - Optimized stacking for portrait orientation */
+.playerPortrait {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 500px;
+  width: 100%;
+  height: 100vh;
+  max-height: 100vh;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: var(--radius-3xl);
+  padding: var(--spacing-lg);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  border: var(--border-width-sm) solid rgba(255, 255, 255, 0.15);
+  box-shadow: 
+    0 25px 80px rgba(0, 0, 0, 0.4),
+    0 15px 30px rgba(0, 0, 0, 0.3),
+    inset 0 1px rgba(255, 255, 255, 0.1);
+  gap: var(--spacing-md);
+  overflow: visible;
+}
+
+/* Portrait Layout: AudioPlayer takes top 40% height */
+.playerPortrait > :first-child {
+  flex: 0 0 40%;
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Portrait Layout: TrackList takes remaining 60% height */
+.playerPortrait > :nth-child(2) {
+  flex: 1;
+  width: 100%;
+  max-width: 100%;
+  overflow-y: auto;
+}
+
+/* DebugPanel remains unaffected by height constraints */
+.playerPortrait > :last-child {
+  flex: none;
+}
+
+/* Portrait optimizations for different screen sizes */
+@media (orientation: portrait) and (max-width: 480px) {
+  .playerPortrait {
+    padding: var(--spacing-sm);
+    max-width: 100%;
+    border-radius: var(--radius-lg);
+  }
+}
+
+@media (orientation: portrait) and (min-width: 481px) and (max-width: 768px) {
+  .playerPortrait {
+    padding: var(--spacing-md);
+    max-width: 450px;
+  }
+}
+
+@media (orientation: portrait) and (min-width: 769px) {
+  .playerPortrait {
+    padding: var(--spacing-xl);
+    max-width: 500px;
+  }
+}
+
 /* iPhone SE specific optimizations */
 @media (max-width: 568px) and (max-height: 320px) {
   .player {

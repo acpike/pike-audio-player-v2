@@ -9,6 +9,7 @@ export const useUIStore = create<UIStore>((set) => ({
   deviceType: 'desktop',
   orientation: 'portrait',
   isLandscapeMode: false,
+  isPortraitMode: true,
   isInIframe: false,
   isDescriptionExpanded: false,
   isSwipeExpanded: false,
@@ -28,8 +29,12 @@ export const useUIStore = create<UIStore>((set) => ({
   },
 
   setLandscapeMode: (isLandscape) => {
-    set({ isLandscapeMode: isLandscape });
+    set({ isLandscapeMode: isLandscape, isPortraitMode: !isLandscape });
     // Modern CSS Module approach: no DOM manipulation, use data attributes
+  },
+
+  setPortraitMode: (isPortrait) => {
+    set({ isPortraitMode: isPortrait, isLandscapeMode: !isPortrait });
   },
 
   setDescriptionExpanded: (expanded) => {

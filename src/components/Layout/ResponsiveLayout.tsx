@@ -14,7 +14,7 @@ export const ResponsiveLayout: React.FC<ResponsiveLayoutProps> = ({ children }) 
   // CRITICAL: Do NOT remove isLandscapeMode - it initializes the landscape detection system
   // Even though not used directly here, the hook call triggers orientation listeners
   const { deviceType, isLandscapeMode } = useDeviceDetection(); // Initialize device detection
-  const { setTagsToggle } = useUIStore();
+  const { setTagsToggle, isPortraitMode } = useUIStore();
   
   // Satisfy TypeScript - isLandscapeMode initializes detection system (NEVER remove)
   void isLandscapeMode;
@@ -39,7 +39,8 @@ export const ResponsiveLayout: React.FC<ResponsiveLayoutProps> = ({ children }) 
   // QA Compliant CSS Modules class selector
   const getPlayerClass = () => {
     if (isLandscapeMode) return styles.playerLandscape;
-    return styles.player;
+    if (isPortraitMode) return styles.playerPortrait;
+    return styles.player; // Default fallback
   };
 
 
