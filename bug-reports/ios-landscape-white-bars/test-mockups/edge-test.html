@@ -32,13 +32,13 @@
             background-attachment: fixed;
             padding: 0;
             margin: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
         
         /* Container uses FULL screen dimensions */
         .container {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100vw;
             height: 100dvh;
             background: rgba(255, 255, 255, 0.03);
@@ -65,7 +65,7 @@
             position: relative;
         }
         
-        /* Cover art - ONLY nudges if notch would cover it */
+        /* Cover art - stays in normal position */
         .cover-art {
             width: 280px;
             height: 180px;
@@ -77,9 +77,7 @@
                 0 0 20px rgba(96, 165, 250, 0.22),
                 0 0 40px rgba(96, 165, 250, 0.14);
             
-            /* Surgical nudging: Only move if left notch exists */
-            transform: translateX(env(safe-area-inset-left, 0px));
-            transition: transform 0.3s ease;
+            /* No nudging - let it be slightly covered if needed */
         }
         
         /* Track title and status - stay centered */
@@ -261,9 +259,9 @@
     <div class="edge-left"></div>
     <div class="edge-right"></div>
     
-    <!-- Notch area overlays -->
-    <div class="notch-overlay notch-left"></div>
-    <div class="notch-overlay notch-right"></div>
+    <!-- Notch area overlays - REMOVED to eliminate red areas -->
+    <!-- <div class="notch-overlay notch-left"></div>
+    <div class="notch-overlay notch-right"></div> -->
     
     <!-- Info display -->
     <div class="info">
@@ -279,7 +277,7 @@
             <!-- Cover art nudges away from left notch -->
             <div class="cover-art"></div>
             <div class="track-info-left">
-                <div style="font-size: 24px; font-weight: 700; margin-bottom: 8px;">Ocean Drive</div>
+                <div style="font-size: 24px; font-weight: 700; margin-bottom: 8px;">Ocean Scene</div>
                 <div style="font-size: 14px; color: rgba(255, 255, 255, 0.6);">True Edge-to-Edge</div>
             </div>
         </div>

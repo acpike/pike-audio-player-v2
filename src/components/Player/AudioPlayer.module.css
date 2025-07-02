@@ -134,7 +134,7 @@
 }
 
 .trackTitle {
-  font-size: var(--track-title-size);
+  font-size: var(--font-size-5xl); /* Use same size as landscape for consistency */
 }
 
 .trackTitleLandscape {
@@ -368,6 +368,11 @@
   
   .initialAlbumInfo {
     margin-top: var(--spacing-lg);
+  }
+  
+  /* Add proper spacing for "Select a track below" text in portrait - only when no track selected */
+  .trackTitleBase {
+    margin-top: var(--spacing-lg); /* Add spacing below cover art */
   }
 }
 
