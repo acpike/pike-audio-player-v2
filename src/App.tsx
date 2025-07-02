@@ -43,17 +43,8 @@ function App() {
             />
             {/* Portrait mode album info - positioned between AudioPlayer and TrackList */}
             {isPortraitMode && (
-              <div style={{
-                fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif',
-                fontSize: '16px',
-                fontWeight: 400,
-                color: 'rgba(255, 255, 255, 0.7)',
-                textAlign: 'right',
-                paddingRight: '24px',
-                marginBottom: '4px',
-                marginTop: '0px'
-              }}>
-                {UI_STRINGS.ALBUM_TRACK_INFO(trackData[0]?.album || UI_STRINGS.UNKNOWN_ALBUM, trackData.length)}
+              <div className="portrait-album-info">
+                Demo Tracks | 5 tracks
               </div>
             )}
             <TrackList playTrack={playTrack} togglePlayPause={togglePlayPause} />
