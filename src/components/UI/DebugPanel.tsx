@@ -34,11 +34,11 @@ export const DebugPanel = () => {
         </button>
       </div>
       <div className={styles.content}>
-        <p><strong>Version:</strong> V9_QA_COMPLETE</p>
-        <p><strong>Phase:</strong> QA Enhancement - FULLY IMPLEMENTED</p>
-        <p><strong>Features:</strong> Audio error handling, string constants IMPLEMENTED, enhanced ErrorBoundary, magic numbers eliminated</p>
-        <p><strong>Git Branch:</strong> feature/qa-compliance-data-attributes-to-css-modules</p>
-        <p><strong>Last Commit:</strong> 4308ef6</p>
+        <p><strong>Version:</strong> V10_AUTO_ADVANCE_DEVELOPMENT</p>
+        <p><strong>Phase:</strong> Auto-Advance Implementation - IN PROGRESS</p>
+        <p><strong>Features:</strong> Production baseline + Auto-advance for full tracks only</p>
+        <p><strong>Git Branch:</strong> sandbox</p>
+        <p><strong>Last Commit:</strong> dee421e</p>
         <p><strong>Build Time:</strong> {new Date().toLocaleTimeString()}</p>
       </div>
     </div>
