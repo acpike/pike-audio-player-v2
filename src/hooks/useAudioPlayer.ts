@@ -15,6 +15,10 @@ export const useAudioPlayer = () => {
   } = useAudioStore();
 
   const audioRef = useRef<HTMLAudioElement>(null);
+  
+  // Forward declaration of playTrack for use in ended handler
+  const playTrackRef = useRef<((index: number, source?: string, autoPlay?: boolean) => Promise<void>) | null>(null);
+
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
@@ -26,7 +30,20 @@ export const useAudioPlayer = () => {
       canplay: () => store({ isLoading: false }),
       play: () => store({ isPlaying: true }),
       pause: () => store({ isPlaying: false }),
-      ended: () => store({ isPlaying: false, currentTime: 0 }),
+      ended: () => {
+        // Auto-advance to next track for full tracks only (not previews)
+        const state = useAudioStore.getState();
+        if (!state.isPreview && state.currentTrackIndex !== null && state.currentTrackIndex < trackData.length - 1) {
+          // Auto-advance to next track
+          const nextIndex = state.currentTrackIndex + 1;
+          if (playTrackRef.current) {
+            playTrackRef.current(nextIndex);
+          }
+        } else {
+          // No auto-advance: just stop playback
+          store({ isPlaying: false, currentTime: 0 });
+        }
+      },
       error: () => store({ isPlaying: false, isLoading: false })
     };
     Object.entries(listeners).forEach(([e, h]) => audio.addEventListener(e, h));
@@ -56,6 +73,11 @@ export const useAudioPlayer = () => {
       }
     }
   }, []);
+
+  // Update the ref whenever playTrack changes
+  useEffect(() => {
+    playTrackRef.current = playTrack;
+  }, [playTrack]);
 
   const togglePlayPause = useCallback(async (): Promise<void> => {
     const audio = audioRef.current;
