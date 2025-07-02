@@ -29,7 +29,7 @@
   height: var(--cover-size-portrait);
   max-width: var(--cover-max-size);
   max-height: var(--cover-max-size);
-  margin: 0 auto var(--cover-margin-bottom) auto;
+  margin: 0 auto var(--spacing-xs) auto;
   cursor: pointer;
   display: flex;
   justify-content: center;
@@ -297,7 +297,7 @@
 
 .initialAlbumInfo {
   text-align: center;
-  margin-top: var(--spacing-lg);
+  margin-top: var(--spacing-xs);
 }
 
 .initialAlbumName {
