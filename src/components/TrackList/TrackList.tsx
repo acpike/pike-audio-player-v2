@@ -152,6 +152,14 @@ export const TrackList: React.FC<TrackListProps> = ({ playTrack, togglePlayPause
             )}
           </div>
         )}
+        {isPortraitMode && (
+          <div className={styles.portraitHeader}>
+            <div className={styles.portraitAlbumInfo}>
+              Demo Tracks | 5 tracks
+            </div>
+            <TagsToggle />
+          </div>
+        )}
         {!isPortraitMode && <TagsToggle />}
       </div>
       <div className={styles.trackListWrapper}>
