@@ -25,11 +25,29 @@
   scroll-snap-type: y mandatory;
   padding: var(--container-padding-sm) 0 var(--spacing-lg) 0;
   margin-top: calc(-1 * var(--spacing-xs));
-  overflow-x: visible;
   
   /* Hidden scrollbars */
   scrollbar-width: none;
   -ms-overflow-style: none;
+  
+  /* Mask effects */
+  mask: linear-gradient(to bottom, 
+    transparent 0px,
+    rgba(0, 0, 0, 0.3) var(--mask-fade-distance),
+    black var(--mask-solid-distance),
+    black calc(100% - var(--mask-solid-distance)),
+    rgba(0, 0, 0, 0.3) calc(100% - var(--mask-fade-distance)),
+    transparent 100%
+  );
+  -webkit-mask: linear-gradient(to bottom, 
+    transparent 0px,
+    rgba(0, 0, 0, 0.3) var(--mask-fade-distance),
+    black var(--mask-solid-distance),
+    black calc(100% - var(--mask-solid-distance)),
+    rgba(0, 0, 0, 0.3) calc(100% - var(--mask-fade-distance)),
+    transparent 100%
+  );
+  padding-top: var(--spacing-lg);
 }
 
 /* Portrait mode: Pure flexbox sizing without competing height systems */
@@ -105,25 +123,6 @@
   width: 100%;
 }
 
-.trackListContainer {
-  mask: linear-gradient(to bottom, 
-    transparent 0px,
-    rgba(0, 0, 0, 0.3) var(--mask-fade-distance),
-    black var(--mask-solid-distance),
-    black calc(100% - var(--mask-solid-distance)),
-    rgba(0, 0, 0, 0.3) calc(100% - var(--mask-fade-distance)),
-    transparent 100%
-  );
-  -webkit-mask: linear-gradient(to bottom, 
-    transparent 0px,
-    rgba(0, 0, 0, 0.3) var(--mask-fade-distance),
-    black var(--mask-solid-distance),
-    black calc(100% - var(--mask-solid-distance)),
-    rgba(0, 0, 0, 0.3) calc(100% - var(--mask-fade-distance)),
-    transparent 100%
-  );
-  padding-top: var(--spacing-lg);
-}
 
 /* QA Compliant CSS Modules - Landscape Classes */
 
