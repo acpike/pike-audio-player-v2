@@ -38,7 +38,7 @@ export const DebugPanel = () => {
         <p><strong>Phase:</strong> Portrait Album Info Header Implementation ✅</p>
         <p><strong>Features:</strong> Album info moved to TrackList header, clean CSS architecture</p>
         <p><strong>Git Branch:</strong> feature/portrait-layout-fixes</p>
-        <p><strong>Last Commit:</strong> Option 1 implementation complete</p>
+        <p><strong>Last Commit:</strong> 8aec2cb - Option 1 implementation complete</p>
         <p><strong>Build Time:</strong> {new Date().toLocaleTimeString()}</p>
       </div>
     </div>
