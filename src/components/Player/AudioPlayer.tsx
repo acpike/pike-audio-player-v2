@@ -67,6 +67,10 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
   const [isPlayButtonVisible, setIsPlayButtonVisible] = useState(true);
   const hideTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
+  // Dynamic title sizing state
+  const [titleSizeClass, setTitleSizeClass] = useState<string>('');
+  const titleRef = useRef<HTMLHeadingElement>(null);
+
   // Swipe gesture state - Conservative implementation (unused in this version)
   // const [isSwipeInProgress, setIsSwipeInProgress] = useState(false);
 
@@ -174,7 +178,8 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
   const getTrackTitleClass = () => {
     const baseClass = styles.trackTitleBase;
     const specificClass = isLandscapeMode ? styles.trackTitleLandscape : styles.trackTitle;
-    return `${baseClass} ${specificClass}`;
+    const sizeClass = titleSizeClass ? styles[titleSizeClass] : '';
+    return `${baseClass} ${specificClass} ${sizeClass}`.trim();
   };
 
   const getStatusTextClass = () => {
@@ -244,6 +249,46 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
     }
     previousTrackRef.current = currentTrack;
   }, [currentTrack]);
+
+  // Dynamic title sizing - measures actual text width vs container width
+  useEffect(() => {
+    const measureTitleSize = () => {
+      if (!titleRef.current || !hasTrackBeenSelected || !displayTrack) {
+        setTitleSizeClass('');
+        return;
+      }
+
+      const titleElement = titleRef.current;
+      const containerWidth = titleElement.offsetWidth;
+      
+      // Temporarily remove size class to measure natural width
+      titleElement.style.fontSize = '32px'; // Base size
+      titleElement.style.letterSpacing = '0.03em';
+      titleElement.style.whiteSpace = 'nowrap';
+      
+      const textWidth = titleElement.scrollWidth;
+      const ratio = textWidth / containerWidth;
+      
+      // Determine appropriate size class based on overflow ratio
+      if (ratio > 1.4) {
+        setTitleSizeClass('titleVeryLong');
+      } else if (ratio > 1.1) {
+        setTitleSizeClass('titleLong');
+      } else {
+        setTitleSizeClass('');
+      }
+    };
+
+    // Measure on title change, orientation change, or initial load
+    measureTitleSize();
+    
+    // Re-measure on window resize (orientation changes, etc.)
+    window.addEventListener('resize', measureTitleSize);
+    
+    return () => {
+      window.removeEventListener('resize', measureTitleSize);
+    };
+  }, [displayTrack?.title, hasTrackBeenSelected, isLandscapeMode, isPortraitMode]);
   
   // Auto-expand description during preview (playing or paused), collapse when preview ends
   useEffect(() => {
@@ -340,6 +385,7 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
         {!isLandscapeMode && (
           <>
             <h1 
+              ref={titleRef}
               className={getTrackTitleClass()}
               onClick={toggleDebugPanel}
               style={{ cursor: 'pointer' }}

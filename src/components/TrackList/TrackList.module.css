@@ -41,18 +41,6 @@
     height: 100%;
   }
   
-  /* Debug borders only when track is selected */
-  [data-has-track="true"] .trackList {
-    border: 2px solid red;
-  }
-  
-  [data-has-track="true"] .trackListWrapper {
-    border: 2px solid yellow;
-  }
-  
-  [data-has-track="true"] .trackListContainer {
-    border: 2px solid cyan;
-  }
   
   .trackListHeader {
     flex-shrink: 0;
