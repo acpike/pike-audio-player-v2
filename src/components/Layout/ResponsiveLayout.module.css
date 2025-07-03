@@ -133,14 +133,14 @@
   padding: var(--spacing-lg);
   -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
-  border: 5px solid purple !important; /* DEBUG - was var(--border-width-sm) solid rgba(255, 255, 255, 0.15) */
+  border: var(--border-width-sm) solid rgba(255, 255, 255, 0.15);
   box-shadow: 
     0 25px 80px rgba(0, 0, 0, 0.4),
     0 15px 30px rgba(0, 0, 0, 0.3),
     inset 0 1px rgba(255, 255, 255, 0.1);
   gap: var(--spacing-md);
-  overflow: hidden; /* DEBUG - changed from visible to hidden to contain children */
-  box-sizing: border-box; /* DEBUG - ensure padding is included in height */
+  overflow: visible;
+  box-sizing: border-box;
 }
 
 
@@ -150,12 +150,12 @@
   max-height: 50%; /* Safety limit to prevent AudioPlayer from taking too much space */
 }
 
-[data-has-track="true"].playerPortrait > :nth-child(3) {
-  flex: 1 1 auto; /* TrackList takes remaining space */
-  min-height: 0; /* Allow flexbox to shrink */
-  height: auto; /* Remove fixed height calculation */
-  margin-top: var(--spacing-lg); /* Consistent spacing */
-  border: 4px solid cyan !important; /* DEBUG - was overflow: hidden */
+[data-has-track="true"].playerPortrait > :nth-child(2) {
+  height: calc(60vh - 2 * var(--spacing-lg) - var(--spacing-md) - 48px - var(--portrait-header-height));
+  flex: none;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
 }
 
 /* Portrait Layout: AudioPlayer takes top 40% height */
@@ -165,14 +165,13 @@
   max-width: 100%;
 }
 
-/* Portrait Layout: TrackList takes remaining height - now 3rd child because of album info */
-.playerPortrait > :nth-child(3) {
-  /* Use flexbox instead of rigid height calculation */
-  flex: 1;
-  min-height: 0;
+/* Portrait Layout: TrackList takes remaining height - 2nd child (AudioPlayer, TrackList, DebugPanel) */
+.playerPortrait > :nth-child(2) {
+  height: calc(60vh - 2 * var(--spacing-lg) - var(--spacing-md) - 48px - var(--portrait-header-height));
+  flex: none;
   width: 100%;
   max-width: 100%;
-  /* Removed margin-top: 45px to fix conflict with data-has-track rule (20px) */
+  overflow: hidden;
 }
 
 /* DebugPanel remains unaffected by height constraints */

@@ -43,14 +43,12 @@
     flex-direction: column;
     min-height: 0;
     height: 100%;
-    border: 3px solid red !important; /* DEBUG */
   }
   
   
   .trackListHeader {
     flex-shrink: 0;
     margin-bottom: var(--spacing-sm);
-    border: 2px solid yellow !important; /* DEBUG */
   }
   
   .trackListWrapper {
@@ -59,18 +57,16 @@
     display: flex;
     flex-direction: column;
     background: var(--glass-white-mid);
-    border: 3px solid blue !important; /* DEBUG - was 1px */
+    border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: var(--radius-lg);
     backdrop-filter: var(--backdrop-blur-light);
   }
   
   .trackListContainer {
-    /* Proper flex scrolling container */
     flex: 1;
     min-height: 0;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
-    border: 2px solid green !important; /* DEBUG */
     
     /* Portrait-specific mask effect - start fade lower to avoid album info */
     mask: var(--mask-gradient-portrait);
@@ -196,8 +192,8 @@
   justify-content: space-between;
   align-items: center;
   padding: var(--spacing-xs) var(--spacing-md);
-  border: 2px solid orange !important; /* DEBUG - was border-bottom only */
-  background: rgba(255, 255, 255, 0.02);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.06);
   border-top-left-radius: var(--radius-lg);
   border-top-right-radius: var(--radius-lg);
   flex-shrink: 0; /* Prevent header from shrinking */
