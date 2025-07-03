@@ -25,16 +25,18 @@
 
 .coverWrapper {
   position: relative;
-  width: var(--cover-size-portrait);
-  height: var(--cover-size-portrait);
-  max-width: var(--cover-max-size);
+  width: 90vw;
+  height: 70vw;
+  max-width: 450px;
   max-height: var(--cover-max-size);
-  margin: 0 auto var(--cover-margin-bottom) auto;
+  margin: 15px auto 0;
+  border-radius: var(--radius-xl);
+  overflow: visible;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: visible;
 }
 
 .coverWrapperLandscape {
@@ -382,10 +384,10 @@
 }
 
 .audioPlayerPortraitWithTrack .coverArtWithTrack {
-  border: 2px solid rgba(255, 255, 255, 0.3);
+  border: 2px solid var(--current-glow-color);
   box-shadow: 
-    0 0 8px var(--current-glow-color),
-    0 0 16px var(--current-glow-color),
+    0 0 12px var(--current-glow-color),
+    0 0 24px var(--current-glow-color),
     0 4px 20px rgba(0, 0, 0, 0.3);
   transition: all var(--transition-smooth);
 }
