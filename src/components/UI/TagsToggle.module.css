@@ -75,6 +75,10 @@
 
 /* Portrait mode - use full desktop size for better touch targets */
 @media (orientation: portrait) {
+  .tagsToggleContainer {
+    padding: 0; /* Remove bottom padding to allow proper centering */
+  }
+  
   .tagsToggleSlider {
     width: 72px;
     height: 32px;
