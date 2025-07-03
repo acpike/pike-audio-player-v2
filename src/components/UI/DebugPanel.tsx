@@ -34,11 +34,11 @@ export const DebugPanel = () => {
         </button>
       </div>
       <div className={styles.content}>
-        <p><strong>Version:</strong> V17_TOGGLE_CENTERING_FIX</p>
-        <p><strong>Phase:</strong> Portrait Toggle Centering and Padding Adjustment ✅</p>
-        <p><strong>Features:</strong> Fixed toggle centering with flexbox, increased header padding to 5px</p>
+        <p><strong>Version:</strong> V24_SMART_SCROLL_PADDING_FADE</p>
+        <p><strong>Phase:</strong> TrackList Fade Effects with Smart Scroll Padding ✅</p>
+        <p><strong>Features:</strong> Production-ready fade effects, minimal smart scroll padding (18px/25px), unified TrackList positioning</p>
         <p><strong>Git Branch:</strong> feature/portrait-layout-fixes</p>
-        <p><strong>Last Commit:</strong> [PENDING] - Toggle centering and padding fixes</p>
+        <p><strong>Last Commit:</strong> [PENDING] - Add smart scroll padding and fade effects</p>
         <p><strong>Build Time:</strong> {new Date().toLocaleTimeString()}</p>
       </div>
     </div>

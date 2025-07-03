@@ -150,17 +150,7 @@
   max-height: 50%; /* Safety limit to prevent AudioPlayer from taking too much space */
 }
 
-/* DIAGNOSTIC: Same bottom anchoring for track-selected state */
-[data-has-track="true"].playerPortrait > :nth-child(2) {
-  position: absolute;
-  bottom: 0; /* No extra bottom spacing */
-  left: 50%;
-  transform: translateX(-50%);
-  width: calc(100% - 2 * var(--spacing-sm)); /* Use new side padding */
-  max-width: calc(500px - 2 * var(--spacing-sm)); /* Respect container width */
-  height: 50vh; /* Test height to see 50% usage */
-  border: 3px solid lime !important; /* Different color for track-selected */
-}
+/* Portrait Layout: Removed duplicate rule - using unified rule below */
 
 /* Portrait Layout: AudioPlayer takes top 40% height */
 .playerPortrait > :first-child {
@@ -169,16 +159,16 @@
   max-width: 100%;
 }
 
-/* DIAGNOSTIC: Anchor TrackList to bottom to measure actual space usage */
+/* Portrait Layout: TrackList anchored to bottom for fade effect */
 .playerPortrait > :nth-child(2) {
   position: absolute;
-  bottom: 0; /* No extra bottom spacing */
+  bottom: 0; /* No bottom padding - fade effect handles visual separation */
   left: 50%;
   transform: translateX(-50%);
-  width: calc(100% - 2 * var(--spacing-sm)); /* Use new side padding */
-  max-width: calc(500px - 2 * var(--spacing-sm)); /* Respect container width */
-  height: 50vh; /* Test height to see 50% usage */
-  border: 3px solid cyan !important; /* Visibility border */
+  width: calc(100% - 2 * var(--spacing-xs));
+  max-width: calc(500px - 2 * var(--spacing-xs)); /* Respect container width */
+  height: 50vh;
+  overflow: hidden;
 }
 
 /* DebugPanel remains unaffected by height constraints */

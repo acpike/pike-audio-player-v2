@@ -68,13 +68,23 @@
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     
-    /* Portrait-specific mask effect - start fade lower to avoid album info */
-    mask: var(--mask-gradient-portrait);
-    -webkit-mask: var(--mask-gradient-portrait);
-    
-    /* Minimal padding that works within height constraint */
-    padding: var(--spacing-sm) 0;
+    /* Smart scroll padding - minimal increase from original 12px */
+    padding: 18px 0 25px 0; /* top: 18px (+6px), bottom: 25px (+13px) - just enough to clear fade */
     margin: 0;
+    
+    /* Portrait fade effects */
+    mask: linear-gradient(to bottom,
+      transparent 0px,
+      black 30px,
+      black calc(100% - 40px),
+      transparent 100%
+    );
+    -webkit-mask: linear-gradient(to bottom,
+      transparent 0px,
+      black 30px,
+      black calc(100% - 40px),
+      transparent 100%
+    );
   }
 }
 
