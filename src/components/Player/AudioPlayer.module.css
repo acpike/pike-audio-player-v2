@@ -378,8 +378,42 @@
 
 /* Portrait mode with track selected - component-level enhancements only */
 .audioPlayerPortraitWithTrack {
-  /* Component-specific enhancements for track-selected state */
-  /* Will be populated in Phase 3 - for now just the class exists */
+  /* Enhanced cover art glow effects for track-selected state */
+}
+
+.audioPlayerPortraitWithTrack .coverArtWithTrack {
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 
+    0 0 8px var(--current-glow-color),
+    0 0 16px var(--current-glow-color),
+    0 4px 20px rgba(0, 0, 0, 0.3);
+  transition: all var(--transition-smooth);
+}
+
+.audioPlayerPortraitWithTrack .trackTitleBase {
+  /* Track title constraints for active tracks only */
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+
+.audioPlayerPortraitWithTrack .statusText {
+  /* Status text positioning for track-selected state */
+  font-size: var(--font-size-sm);
+  margin-top: var(--spacing-xs);
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.audioPlayerPortraitWithTrack .trackInfo {
+  /* Track info container constraints for active tracks */
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  text-align: center;
+  box-sizing: border-box;
+  padding: 0 var(--spacing-xs);
 }
 
 @keyframes textFadeIn {

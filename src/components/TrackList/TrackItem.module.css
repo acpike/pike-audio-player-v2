@@ -287,3 +287,32 @@
     font-size: var(--font-size-sm);
   }
 }
+
+/* Portrait mode track prominence - only when track is selected */
+@media (orientation: portrait) {
+  [data-has-track="true"] .trackItem {
+    transform: scale(0.98);
+    max-width: 100%;
+    overflow: visible;
+    box-sizing: border-box;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  [data-has-track="true"] .trackItem.active {
+    transform: scale(1.0) translateY(-4px);
+    transform-origin: center;
+    z-index: 20;
+  }
+  
+  [data-has-track="true"] .trackItem .trackInfo {
+    min-width: 0;
+    overflow: hidden;
+  }
+  
+  [data-has-track="true"] .trackItem .trackTitle {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
