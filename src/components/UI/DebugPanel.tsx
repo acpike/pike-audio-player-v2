@@ -34,11 +34,11 @@ export const DebugPanel = () => {
         </button>
       </div>
       <div className={styles.content}>
-        <p><strong>Version:</strong> V25_LAYOUT_REFINEMENTS</p>
-        <p><strong>Phase:</strong> Cover Art & Status Text Refinements ✅</p>
-        <p><strong>Features:</strong> Landscape-style status text, optimized cover dimensions (65vw), taller TrackList (55vh), improved spacing</p>
+        <p><strong>Version:</strong> V26_HEADER_CLEANUP</p>
+        <p><strong>Phase:</strong> Simple Header Design & Layout Stabilization ✅</p>
+        <p><strong>Features:</strong> Simplified track header (0.04 opacity), restored cover glow, 53vh TrackList, clean baseline</p>
         <p><strong>Git Branch:</strong> feature/portrait-layout-fixes</p>
-        <p><strong>Last Commit:</strong> [PENDING] - Polish layout with status text and dimensions</p>
+        <p><strong>Last Commit:</strong> [PENDING] - Revert to simple header design</p>
         <p><strong>Build Time:</strong> {new Date().toLocaleTimeString()}</p>
       </div>
     </div>
