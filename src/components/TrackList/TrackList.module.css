@@ -63,9 +63,7 @@
   }
   
   .trackListContainer {
-    /* Remove all competing height constraints */
-    max-height: none;
-    height: auto;
+    /* Proper flex scrolling container */
     flex: 1;
     min-height: 0;
     overflow-y: auto;
@@ -199,6 +197,7 @@
   background: rgba(255, 255, 255, 0.02);
   border-top-left-radius: var(--radius-lg);
   border-top-right-radius: var(--radius-lg);
+  flex-shrink: 0; /* Prevent header from shrinking */
 }
 
 .portraitAlbumInfo {

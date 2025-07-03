@@ -166,12 +166,11 @@
 
 /* Portrait Layout: TrackList takes remaining height - now 3rd child because of album info */
 .playerPortrait > :nth-child(3) {
-  /* Calculate available height: Account for AudioPlayer, padding, gaps, and album info space */
-  height: calc(60vh - 2 * var(--spacing-lg) - var(--spacing-md) - 48px);
-  flex: none;
+  /* Use flexbox instead of rigid height calculation */
+  flex: 1;
+  min-height: 0;
   width: 100%;
   max-width: 100%;
-  overflow: hidden;
   margin-top: 45px; /* Adjusted to 45px for optimal positioning */
 }
 
