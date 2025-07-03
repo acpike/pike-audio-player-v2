@@ -33,6 +33,16 @@
   /* Dynamic Glow System */
   --current-glow-color: rgba(96, 165, 250, 0.4);
   
+  /* Mask Effects */
+  --mask-gradient-standard: linear-gradient(to bottom,
+    transparent 0px,
+    rgba(0, 0, 0, 0.3) var(--mask-fade-distance),
+    black var(--mask-solid-distance),
+    black calc(100% - var(--mask-solid-distance)),
+    rgba(0, 0, 0, 0.3) calc(100% - var(--mask-fade-distance)),
+    transparent 100%
+  );
+  
   /* Play Button System */
   --play-button-size: 180px;
   --play-icon-size: 100px;

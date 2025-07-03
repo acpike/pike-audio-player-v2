@@ -31,22 +31,8 @@
   -ms-overflow-style: none;
   
   /* Mask effects */
-  mask: linear-gradient(to bottom, 
-    transparent 0px,
-    rgba(0, 0, 0, 0.3) var(--mask-fade-distance),
-    black var(--mask-solid-distance),
-    black calc(100% - var(--mask-solid-distance)),
-    rgba(0, 0, 0, 0.3) calc(100% - var(--mask-fade-distance)),
-    transparent 100%
-  );
-  -webkit-mask: linear-gradient(to bottom, 
-    transparent 0px,
-    rgba(0, 0, 0, 0.3) var(--mask-fade-distance),
-    black var(--mask-solid-distance),
-    black calc(100% - var(--mask-solid-distance)),
-    rgba(0, 0, 0, 0.3) calc(100% - var(--mask-fade-distance)),
-    transparent 100%
-  );
+  mask: var(--mask-gradient-standard);
+  -webkit-mask: var(--mask-gradient-standard);
   padding-top: var(--spacing-lg);
 }
 
@@ -143,22 +129,8 @@
   padding-right: var(--spacing-xl);
   scrollbar-width: none;
   -ms-overflow-style: none;
-  mask: linear-gradient(to bottom, 
-    transparent 0px,
-    rgba(0, 0, 0, 0.3) var(--mask-fade-distance),
-    black var(--mask-solid-distance),
-    black calc(100% - var(--mask-solid-distance)),
-    rgba(0, 0, 0, 0.3) calc(100% - var(--mask-fade-distance)),
-    transparent 100%
-  );
-  -webkit-mask: linear-gradient(to bottom, 
-    transparent 0px,
-    rgba(0, 0, 0, 0.3) var(--mask-fade-distance),
-    black var(--mask-solid-distance),
-    black calc(100% - var(--mask-solid-distance)),
-    rgba(0, 0, 0, 0.3) calc(100% - var(--mask-fade-distance)),
-    transparent 100%
-  );
+  mask: var(--mask-gradient-standard);
+  -webkit-mask: var(--mask-gradient-standard);
   padding-top: var(--spacing-lg);
 }
 
