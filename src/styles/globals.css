@@ -105,7 +105,6 @@
   --time-blur: 3px;
   
   /* V7 Play Button */
-  --play-button-size: 180px;
   --play-button-scale-landscape: 0.45;
   --play-button-scale-mobile: 0.45;
   --play-button-scale-ipad: 0.71;
@@ -169,7 +168,6 @@
   --offset-negative-lg: -8px;
   
   /* Transition Variants */
-  --transition-quick: 0.2s ease;
   --transition-medium: 0.25s ease;
   --transition-slow: 0.35s ease;
   
