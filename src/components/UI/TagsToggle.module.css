@@ -73,8 +73,35 @@
   }
 }
 
-/* Mobile responsive adjustments */
-@media (max-width: 768px) {
+/* Portrait mode - use full desktop size for better touch targets */
+@media (orientation: portrait) {
+  .tagsToggleSlider {
+    width: 72px;
+    height: 32px;
+    border-radius: var(--radius-5xl);
+  }
+  
+  .tagsToggleSlider:before {
+    width: 26px;
+    height: 26px;
+  }
+  
+  .tagsToggleInput:checked + .tagsToggleSlider:before {
+    transform: translateX(42px);
+  }
+  
+  .tagsToggleText {
+    font-size: var(--font-size-xs);
+    right: 8px;
+  }
+  
+  .tagsToggleInput:checked + .tagsToggleSlider .tagsToggleText {
+    right: 32px;
+  }
+}
+
+/* Mobile responsive adjustments - only for landscape mobile */
+@media (max-width: 768px) and (orientation: landscape) {
   .tagsToggleSlider {
     width: 68px;
     height: 30px;

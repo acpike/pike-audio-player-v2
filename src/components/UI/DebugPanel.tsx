@@ -34,11 +34,11 @@ export const DebugPanel = () => {
         </button>
       </div>
       <div className={styles.content}>
-        <p><strong>Version:</strong> V15_GLASS_CONTAINER_STYLING</p>
-        <p><strong>Phase:</strong> Portrait Header Glass Container Integration ✅</p>
-        <p><strong>Features:</strong> Portrait header moved inside glass container, unified card styling</p>
+        <p><strong>Version:</strong> V16_REFINED_SPACING_TOGGLE</p>
+        <p><strong>Phase:</strong> Portrait Header Spacing and Toggle Size Refinement ✅</p>
+        <p><strong>Features:</strong> Added --spacing-xxs (2px), minimal header padding, consistent toggle size</p>
         <p><strong>Git Branch:</strong> feature/portrait-layout-fixes</p>
-        <p><strong>Last Commit:</strong> [PENDING] - Glass container styling matching mockup</p>
+        <p><strong>Last Commit:</strong> [PENDING] - Refined spacing and toggle consistency</p>
         <p><strong>Build Time:</strong> {new Date().toLocaleTimeString()}</p>
       </div>
     </div>

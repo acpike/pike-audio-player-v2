@@ -128,6 +128,7 @@
   --transition-linear: 0.1s linear;
   
   /* V8 Layout Variables */
+  --spacing-xxs: 2px;
   --spacing-xs: 5px;
   --spacing-sm: 12px;
   --spacing-md: 15px;
