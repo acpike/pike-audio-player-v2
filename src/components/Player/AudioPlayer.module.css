@@ -379,6 +379,8 @@
 /* Portrait mode with track selected - component-level enhancements only */
 .audioPlayerPortraitWithTrack {
   /* Enhanced cover art glow effects for track-selected state */
+  /* Debug border to analyze layout */
+  border: 2px solid lime;
 }
 
 .audioPlayerPortraitWithTrack .coverArtWithTrack {

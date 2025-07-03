@@ -142,6 +142,12 @@
   overflow: visible;
 }
 
+/* Debug borders for track-selected state container analysis */
+[data-has-track="true"].playerPortrait {
+  border: 3px solid magenta;
+  overflow: hidden; /* Temporarily set to see if content escapes */
+}
+
 /* Portrait Layout: AudioPlayer takes top 40% height */
 .playerPortrait > :first-child {
   flex: 0 0 40%;
