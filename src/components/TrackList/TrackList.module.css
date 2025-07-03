@@ -138,7 +138,6 @@
   scroll-snap-type: y mandatory;
   padding: var(--container-padding-sm) 0 var(--spacing-lg) 0;
   margin-top: calc(-1 * var(--spacing-xs));
-  overflow-x: visible;
   width: calc(100% + 8px);
   padding-left: var(--container-padding-lg);
   padding-right: var(--spacing-xl);
