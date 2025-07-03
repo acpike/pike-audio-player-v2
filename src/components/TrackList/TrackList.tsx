@@ -145,7 +145,7 @@ export const TrackList: React.FC<TrackListProps> = ({ playTrack, togglePlayPause
                 </h2>
               </>
             )}
-            {currentTrackIndex !== null && (
+            {(currentTrackIndex !== null || previewTrackIndex !== null) && (
               <div className={styles.albumInfo}>
                 {UI_STRINGS.ALBUM_TRACK_INFO(trackData[0]?.album || UI_STRINGS.UNKNOWN_ALBUM, trackData.length)}
               </div>

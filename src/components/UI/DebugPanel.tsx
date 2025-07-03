@@ -34,11 +34,11 @@ export const DebugPanel = () => {
         </button>
       </div>
       <div className={styles.content}>
-        <p><strong>Version:</strong> V12_PORTRAIT_TRACK_SELECTION_REBUILD</p>
-        <p><strong>Phase:</strong> Phase 3 - Additive CSS Enhancements ✅</p>
-        <p><strong>Features:</strong> Safe data attributes + No layout changes + Both states preserved</p>
-        <p><strong>Git Branch:</strong> sandbox</p>
-        <p><strong>Last Commit:</strong> Phase 3 Complete</p>
+        <p><strong>Version:</strong> V13_LANDSCAPE_PREVIEW_FIX</p>
+        <p><strong>Phase:</strong> Landscape Preview Album Info Fix ✅</p>
+        <p><strong>Features:</strong> Album info properly moves from left to right panel during preview</p>
+        <p><strong>Git Branch:</strong> feature/portrait-layout-fixes</p>
+        <p><strong>Last Commit:</strong> Landscape preview album info fix</p>
         <p><strong>Build Time:</strong> {new Date().toLocaleTimeString()}</p>
       </div>
     </div>
