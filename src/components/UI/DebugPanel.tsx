@@ -34,11 +34,11 @@ export const DebugPanel = () => {
         </button>
       </div>
       <div className={styles.content}>
-        <p><strong>Version:</strong> V24_SMART_SCROLL_PADDING_FADE</p>
-        <p><strong>Phase:</strong> TrackList Fade Effects with Smart Scroll Padding ✅</p>
-        <p><strong>Features:</strong> Production-ready fade effects, minimal smart scroll padding (18px/25px), unified TrackList positioning</p>
+        <p><strong>Version:</strong> V25_LAYOUT_REFINEMENTS</p>
+        <p><strong>Phase:</strong> Cover Art & Status Text Refinements ✅</p>
+        <p><strong>Features:</strong> Landscape-style status text, optimized cover dimensions (65vw), taller TrackList (55vh), improved spacing</p>
         <p><strong>Git Branch:</strong> feature/portrait-layout-fixes</p>
-        <p><strong>Last Commit:</strong> [PENDING] - Add smart scroll padding and fade effects</p>
+        <p><strong>Last Commit:</strong> [PENDING] - Polish layout with status text and dimensions</p>
         <p><strong>Build Time:</strong> {new Date().toLocaleTimeString()}</p>
       </div>
     </div>

@@ -407,9 +407,12 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
               }
             </h1>
             
-            {hasTrackBeenSelected && (
+            {(hasTrackBeenSelected || previewTrackIndex !== null) && (
               <div className={getStatusTextClass()}>
-                {isLoading ? UI_STRINGS.LOADING : isPlaying ? 'Playing' : 'Paused'}
+                {isLoading ? UI_STRINGS.LOADING : 
+                 previewTrackIndex !== null ? UI_STRINGS.PREVIEWING :
+                 hasTrackBeenSelected ? UI_STRINGS.NOW_PLAYING : 
+                 UI_STRINGS.MUSIC_PLAYER}
               </div>
             )}
           </>
