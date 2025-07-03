@@ -148,6 +148,20 @@
   overflow: hidden; /* Temporarily set to see if content escapes */
 }
 
+/* Dynamic height system for track-selected state */
+[data-has-track="true"].playerPortrait > :first-child {
+  flex: 0 0 auto; /* Let AudioPlayer size naturally based on content */
+  max-height: 50%; /* Safety limit to prevent AudioPlayer from taking too much space */
+}
+
+[data-has-track="true"].playerPortrait > :nth-child(3) {
+  flex: 1 1 auto; /* TrackList takes remaining space */
+  min-height: 0; /* Allow flexbox to shrink */
+  height: auto; /* Remove fixed height calculation */
+  margin-top: var(--spacing-lg); /* Consistent spacing */
+  overflow: hidden; /* Ensure internal scrolling works */
+}
+
 /* Portrait Layout: AudioPlayer takes top 40% height */
 .playerPortrait > :first-child {
   flex: 0 0 40%;
