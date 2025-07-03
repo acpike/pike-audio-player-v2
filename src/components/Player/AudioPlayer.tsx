@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { PlayButton } from './PlayButton';
 import { ProgressBar } from './ProgressBar';
-import { TagsToggle } from '../UI/TagsToggle';
 import { useUIStore } from '../../stores/uiStore';
 import { usePreviewStore } from '../../stores/previewStore';
 import { Track, trackData } from '../../types/tracks';

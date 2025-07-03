@@ -1,0 +1,114 @@
+/* Track List Styles - CSS Modules */
+
+.trackListHeader {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.trackListTitle {
+  font-size: var(--font-size-3xl);
+  font-weight: 500;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.trackListContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 480px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
+  scroll-snap-type: y mandatory;
+  padding: var(--container-padding-sm) 0 var(--spacing-lg) 0;
+  margin-top: calc(-1 * var(--spacing-xs));
+  overflow-x: visible;
+  
+  /* Hidden scrollbars */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.trackListContainer::-webkit-scrollbar {
+  display: none; /* WebKit */
+}
+
+.trackList {
+  width: 100%;
+}
+
+/* Modern Landscape mode adjustments */
+@media (orientation: landscape) {
+  .trackList[data-landscape="true"] {
+    flex: 1;
+    min-width: 300px;
+    width: 100%; /* Ensure full width utilization */
+  }
+  
+  .trackListContainer[data-landscape="true"] {
+    max-height: var(--track-list-max-height);
+    width: calc(100% + 8px);
+    padding-left: var(--container-padding-lg);
+    padding-right: var(--spacing-md);
+  }
+  
+  .trackListHeader[data-landscape="true"] {
+    width: 100%;
+    margin-bottom: var(--track-list-header-spacing);
+    padding-left: var(--container-padding-lg);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: relative;
+  }
+
+  .nowPlayingHeader {
+    margin-bottom: 0;
+    margin-top: var(--spacing-xs);
+    width: 100%;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .nowPlayingLabel {
+    font-family: var(--font-family-primary, "Inter", -apple-system, BlinkMacSystemFont, sans-serif);
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: rgba(255, 255, 255, 0.6);
+    text-transform: uppercase;
+    margin-bottom: 5px;
+  }
+
+  .nowPlayingTitle {
+    font-family: var(--font-family-primary, "Inter", -apple-system, BlinkMacSystemFont, sans-serif);
+    font-size: var(--font-size-6xl);
+    font-weight: 800;
+    letter-spacing: 0.01em;
+    color: white;
+    margin: 0 0 5px 0;
+    line-height: 1.1;
+  }
+
+  .trackListHeader[data-landscape="true"] > :last-child {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  .trackListTitle {
+    font-size: var(--font-size-xl);
+    margin-bottom: 15px;
+  }
+  
+  .trackListContainer {
+    gap: 10px;
+    max-height: 350px;
+  }
+}

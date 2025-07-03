@@ -69,20 +69,8 @@
     -webkit-overflow-scrolling: touch;
     
     /* Portrait-specific mask effect - start fade lower to avoid album info */
-    mask: linear-gradient(to bottom, 
-      black 0px,
-      black 20px,
-      black calc(100% - var(--mask-solid-distance)),
-      rgba(0, 0, 0, 0.3) calc(100% - var(--mask-fade-distance)),
-      transparent 100%
-    );
-    -webkit-mask: linear-gradient(to bottom, 
-      black 0px,
-      black 20px,
-      black calc(100% - var(--mask-solid-distance)),
-      rgba(0, 0, 0, 0.3) calc(100% - var(--mask-fade-distance)),
-      transparent 100%
-    );
+    mask: var(--mask-gradient-portrait);
+    -webkit-mask: var(--mask-gradient-portrait);
     
     /* Minimal padding that works within height constraint */
     padding: var(--spacing-sm) 0;
