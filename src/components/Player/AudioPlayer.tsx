@@ -368,7 +368,7 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
       </div>
       
       {/* Album info below cover art - shown on initial load in landscape only */}
-      {!hasTrackBeenSelected && !isPortraitMode && (
+      {!hasTrackBeenSelected && !isPortraitMode && previewTrackIndex === null && (
         <div className={styles.initialAlbumInfo}>
           <div className={styles.initialAlbumName}>
             {trackData[0]?.album || UI_STRINGS.UNKNOWN_ALBUM}
