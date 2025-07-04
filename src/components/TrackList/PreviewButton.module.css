@@ -29,9 +29,7 @@
     var(--primary-blue-15) var(--progress, 0%));
   border-color: var(--primary-blue-alpha);
   color: white;
-  box-shadow:
-    0 6px 24px var(--primary-blue-40),
-    inset 0 1px 0 var(--glass-white-mid);
+  box-shadow: inset 0 1px 0 var(--glass-white-mid); /* Remove blue glow, keep glass effect */
 }
 
 .sizeMini {

@@ -5,6 +5,7 @@ import { trackData } from '../types/tracks';
 import { useAudioDucking } from './useAudioDucking';
 import { UI_STRINGS } from '../constants/strings';
 import { logger } from '../utils/logger';
+import { scrollTrackIntoView } from '../utils/scrollToTrack';
 
 /** Core audio player hook with V7 patterns */
 export const useAudioPlayer = () => {
@@ -229,6 +230,8 @@ export const useAudioPlayer = () => {
           const nextIndex = state.currentTrackIndex + 1;
           if (playTrackRef.current) {
             playTrackRef.current(nextIndex);
+            // Scroll the newly selected track into view
+            scrollTrackIntoView(nextIndex);
           }
         } else {
           // No auto-advance: just stop playback
