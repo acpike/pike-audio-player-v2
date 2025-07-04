@@ -140,15 +140,22 @@
   min-width: 0; /* Allows text truncation */
   overflow: visible; /* Allow glow effects to extend beyond text area */
   display: flex;
-  flex-direction: column;
-  gap: 0; /* No gap between title row and duration */
+  flex-direction: column; /* Back to vertical for proper structure */
+  gap: 0;
 }
 
-/* Remove flex layout from ALL nested elements when description wrapping is active */
+.titleDurationRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
+}
+
+/* Keep column layout for trackInfo when description wrapping is active */
 .trackItemWrapped .trackInfo {
-  display: block !important;
-  flex-direction: unset !important;
-  gap: unset !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0 !important;
   overflow: visible !important;
 }
 
@@ -158,9 +165,9 @@
 }
 
 .trackItemWrapped .trackInfoLandscape {
-  display: block !important;
-  flex-direction: unset !important;
-  gap: unset !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0 !important;
   overflow: visible !important;
 }
 
@@ -169,48 +176,27 @@
   font-weight: 600;
   letter-spacing: -0.01em;
   margin: 0 !important;
-  margin-bottom: 0 !important; /* Force override browser default h3 margin */
   padding: 0 !important;
   color: white;
-  line-height: 1 !important; /* Force very tight line height */
+  line-height: 1.2 !important; /* Slightly more breathing room for single line */
   
   /* Text truncation */
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  flex: 1;
-  min-width: 0;
+  flex: 1; /* Take available space */
+  min-width: 0; /* Allow truncation */
 }
 
-.trackTopRow {
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
-  gap: var(--spacing-sm);
-  margin: 0;
-  padding: 0;
-  margin-bottom: 4px;
-}
-
-/* Remove flex layout from trackTopRow when description wrapping is active */
-.trackItemWrapped .trackTopRow {
-  display: block !important;
-  justify-content: unset !important;
-  align-items: unset !important;
-  gap: unset !important;
-}
-
-/* Add proper spacing for duration when block layout is active */
-.trackItemWrapped .trackDuration {
-  margin-top: 4px;
-}
 
 .trackDuration {
   font-size: var(--font-size-lg);
   color: rgba(255, 255, 255, 0.6);
   margin: 0;
   font-weight: 400;
-  line-height: 1; /* Very tight line height */
+  line-height: 1.2;
+  flex-shrink: 0; /* Don't shrink */
+  padding-right: var(--spacing-xs); /* Breathing room from border */
 }
 
 .trackTags {
@@ -294,7 +280,7 @@
   overflow: visible; /* Allow glow effects to extend beyond text area */
   display: flex;
   flex-direction: column;
-  gap: 0; /* No gap between title row and duration */
+  gap: 0;
 }
 
 .trackTitleLandscape {
@@ -302,10 +288,9 @@
   font-weight: 600;
   letter-spacing: -0.01em;
   margin: 0 !important;
-  margin-bottom: 3px !important;
   padding: 0 !important;
   color: white;
-  line-height: 1 !important;
+  line-height: 1.2 !important;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -318,7 +303,9 @@
   color: rgba(255, 255, 255, 0.6);
   margin: 0;
   font-weight: 400;
-  line-height: 1;
+  line-height: 1.2;
+  flex-shrink: 0; /* Don't shrink */
+  padding-right: var(--spacing-xs); /* Breathing room from border */
 }
 
 .previewButtonsLandscape {

@@ -166,10 +166,10 @@ export const TrackItem: React.FC<TrackItemProps> = ({ track, index, isActive, pl
       />
       
       <div className={getTrackInfoClass()}>
-        <div className={styles.trackTopRow}>
+        <div className={styles.titleDurationRow}>
           <h3 className={getTrackTitleClass()}>{track.title}</h3>
+          <div className={getTrackDurationClass()}>{track.duration}</div>
         </div>
-        <div className={getTrackDurationClass()}>{track.duration}</div>
         
         {tagsToggleState === 'tags' && (
           <div ref={tagsContainerRef} className={styles.trackTags}>
@@ -184,14 +184,15 @@ export const TrackItem: React.FC<TrackItemProps> = ({ track, index, isActive, pl
           </div>
         )}
         
-        {tagsToggleState === 'description' && (
-          <div className={styles.trackDescription}>
-            <p className={styles.trackDescriptionText}>
-              {track.description}
-            </p>
-          </div>
-        )}
       </div>
+      
+      {tagsToggleState === 'description' && (
+        <div className={styles.trackDescription}>
+          <p className={styles.trackDescriptionText}>
+            {track.description}
+          </p>
+        </div>
+      )}
       </div>
   );
 };
