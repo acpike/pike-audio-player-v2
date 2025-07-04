@@ -98,16 +98,22 @@ export const TrackItem: React.FC<TrackItemProps> = ({ track, index, isActive, pl
   // QA Compliant CSS Modules class helpers
   const getTrackItemClass = () => {
     const baseClass = shouldTrackGlow ? `${styles.trackItem} ${styles.active}` : styles.trackItem;
-    return isLandscapeMode ? `${baseClass} ${styles.trackItemLandscape}` : baseClass;
+    const landscapeClass = isLandscapeMode ? `${baseClass} ${styles.trackItemLandscape}` : baseClass;
+    // Use wrapped class when description is showing to enable text flow
+    return tagsToggleState === 'description' ? `${landscapeClass} ${styles.trackItemWrapped}` : landscapeClass;
   };
 
   const getTrackThumbnailClass = () => {
     const baseClass = isLandscapeMode ? styles.trackThumbnailLandscape : styles.trackThumbnail;
-    return shouldThumbnailGlow ? `${baseClass} ${styles.thumbnailGlow}` : baseClass;
+    const glowClass = shouldThumbnailGlow ? `${baseClass} ${styles.thumbnailGlow}` : baseClass;
+    // Add float class when description is showing to enable text wrapping
+    return tagsToggleState === 'description' ? `${glowClass} ${styles.trackThumbnailFloat}` : glowClass;
   };
 
   const getTrackInfoClass = () => {
-    return isLandscapeMode ? styles.trackInfoLandscape : styles.trackInfo;
+    const baseClass = isLandscapeMode ? styles.trackInfoLandscape : styles.trackInfo;
+    // Keep normal track info class - wrapping is handled at track item level
+    return baseClass;
   };
 
   const getTrackTitleClass = () => {
@@ -196,27 +202,6 @@ export const TrackItem: React.FC<TrackItemProps> = ({ track, index, isActive, pl
       <div className={getTrackInfoClass()}>
         <div className={styles.trackTopRow}>
           <h3 className={getTrackTitleClass()}>{track.title}</h3>
-          <div className={getPreviewButtonsClass()}>
-            <PreviewButton
-              isPlaying={isThisTrackPreviewPlaying}
-              isPaused={isThisTrackPreviewSelected && !isPreviewPlaying}
-              progress={previewProgress}
-              onToggle={async () => {
-                if (isThisTrackPreviewPlaying) {
-                  // If this track's preview is playing, pause it
-                  pausePreview();
-                } else if (previewTrackIndex === index && !isPreviewPlaying) {
-                  // If this track was previewing but paused, resume it
-                  await resumePreview();
-                } else {
-                  // If not playing preview or different track, start new preview
-                  setPreviewTrack(index, track.short15);
-                  await playPreview(track.short15);
-                }
-              }}
-              size="mini"
-            />
-          </div>
         </div>
         <div className={getTrackDurationClass()}>{track.duration}</div>
         

@@ -34,6 +34,14 @@
   backface-visibility: hidden;
 }
 
+/* Remove flex layout when description is active to allow text wrapping */
+.trackItemWrapped {
+  display: block !important;
+  align-items: unset !important;
+  gap: unset !important;
+  overflow: visible !important;
+}
+
 .trackItem:hover {
   background: rgba(255, 255, 255, 0.06);
   border-color: rgba(255, 255, 255, 0.2);
@@ -94,6 +102,13 @@
   transform: translateZ(0);
 }
 
+/* Float thumbnail for text wrapping when description is active */
+.trackThumbnailFloat {
+  float: left;
+  margin-right: var(--spacing-md);
+  margin-bottom: 2px;
+}
+
 .thumbnailGlow {
   transform: scale(var(--track-thumbnail-scale-active));
   box-shadow: 
@@ -109,6 +124,14 @@
   display: flex;
   flex-direction: column;
   gap: 0; /* No gap between title row and duration */
+}
+
+/* Remove flex layout from ALL nested elements when description wrapping is active */
+.trackItemWrapped .trackInfo {
+  display: block !important;
+  flex-direction: unset !important;
+  gap: unset !important;
+  overflow: visible !important;
 }
 
 .trackTitle {
@@ -131,11 +154,25 @@
 
 .trackTopRow {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: flex-start;
   gap: var(--spacing-sm);
   margin: 0;
   padding: 0;
+  margin-bottom: 4px;
+}
+
+/* Remove flex layout from trackTopRow when description wrapping is active */
+.trackItemWrapped .trackTopRow {
+  display: block !important;
+  justify-content: unset !important;
+  align-items: unset !important;
+  gap: unset !important;
+}
+
+/* Add proper spacing for duration when block layout is active */
+.trackItemWrapped .trackDuration {
+  margin-top: 4px;
 }
 
 .trackDuration {
@@ -178,6 +215,12 @@
   display: flex;
   justify-content: center;
   flex-shrink: 0;
+}
+
+/* Float preview buttons when description wrapping is active */
+.trackItemWrapped .previewButtons {
+  float: right;
+  margin-left: var(--spacing-sm);
 }
 
 .previewButton {
@@ -328,9 +371,10 @@
   }
 }
 
-/* Toggle-based Description Display */
+/* Toggle-based Description Display with Text Wrapping */
 .trackDescription {
   margin-top: 8px;
+  clear: none; /* Allow text to flow around floated thumbnail */
 }
 
 .trackDescriptionText {
