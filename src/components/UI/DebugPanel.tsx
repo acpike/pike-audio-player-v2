@@ -34,11 +34,11 @@ export const DebugPanel = () => {
         </button>
       </div>
       <div className={styles.content}>
-        <p><strong>Version:</strong> V27_SMART_TAG_LIMITING</p>
-        <p><strong>Phase:</strong> Portrait Description Expansion & Smart Tag System ✅</p>
-        <p><strong>Features:</strong> Portrait description expansion (80% scale, coordinated movement), smart tag limiting (single-line adaptive), landscape-style expanded description</p>
+        <p><strong>Version:</strong> V32_PREMIUM_TAGS_TOGGLE</p>
+        <p><strong>Phase:</strong> Portrait UI Polish ✅</p>
+        <p><strong>Features:</strong> Dramatic inset toggle with brushed metal knob, enhanced depth shadows, premium frosted glass buttons, improved spacing</p>
         <p><strong>Git Branch:</strong> feature/portrait-layout-fixes</p>
-        <p><strong>Last Commit:</strong> [PENDING] - Complete portrait description expansion with smart tags</p>
+        <p><strong>Last Commit:</strong> Premium toggle with dramatic inset and brushed metal knob</p>
         <p><strong>Build Time:</strong> {new Date().toLocaleTimeString()}</p>
       </div>
     </div>

@@ -51,23 +51,44 @@
   width: 26px;
   height: 28px;
   background: 
+    /* Top scratches and wear */
+    linear-gradient(35deg, transparent 18%, rgba(0, 0, 0, 0.25) 19%, rgba(0, 0, 0, 0.25) 20%, transparent 21%),
+    linear-gradient(65deg, transparent 25%, rgba(0, 0, 0, 0.2) 26%, rgba(0, 0, 0, 0.2) 26.5%, transparent 27.5%),
+    /* Top dent */
+    radial-gradient(ellipse at 45% 15%, rgba(0, 0, 0, 0.3) 2px, rgba(0, 0, 0, 0.1) 4px, transparent 6px),
+    /* Worn sides - shinier from touching */
+    radial-gradient(ellipse 50% 80% at 0% 50%, rgba(255, 255, 255, 0.12) 30%, transparent 60%),
+    radial-gradient(ellipse 50% 80% at 100% 50%, rgba(255, 255, 255, 0.1) 30%, transparent 60%),
+    /* Key wear spots */
+    radial-gradient(ellipse at 40% 30%, rgba(0, 0, 0, 0.15) 40%, transparent 70%),
+    /* Brushed metal texture */
     repeating-linear-gradient(45deg, 
-      rgba(255, 255, 255, 0.1) 0px, 
+      rgba(255, 255, 255, 0.06) 0px, 
+      transparent 0.3px, 
       transparent 1px, 
-      transparent 2px, 
-      rgba(255, 255, 255, 0.05) 3px),
-    linear-gradient(135deg, #9ca3af 0%, #6b7280 40%, #4b5563 70%, #374151 100%);
-  border: 1px solid rgba(75, 85, 99, 0.6);
-  border-radius: 50%;
+      rgba(255, 255, 255, 0.03) 1.3px),
+    /* Aged metal base */
+    linear-gradient(135deg, 
+      #8a95a0 0%, 
+      #6b7580 30%, 
+      #525964 60%, 
+      #424954 100%);
+  border: 1px solid rgba(35, 40, 45, 0.9);
+  /* Slight imperfection in the circle */
+  border-radius: 49% 51% 50% 50%;
   transition: all var(--transition-slow);
   box-shadow: 
     0 4px 12px rgba(0, 0, 0, 0.4),
     0 2px 6px rgba(0, 0, 0, 0.3),
     0 1px 3px rgba(0, 0, 0, 0.2),
-    inset 0 2px 0 rgba(255, 255, 255, 0.4),
-    inset 0 -2px 0 rgba(0, 0, 0, 0.4),
-    inset 1px 1px 0 rgba(255, 255, 255, 0.2),
-    inset -1px -1px 0 rgba(0, 0, 0, 0.2);
+    /* Worn edges - less perfect highlights */
+    inset 0 2px 0 rgba(255, 255, 255, 0.2),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.5),
+    inset 1px 1px 0 rgba(255, 255, 255, 0.1),
+    inset -1px -1px 0 rgba(0, 0, 0, 0.3),
+    /* Age spots and wear marks */
+    inset 2px 2px 1px rgba(0, 0, 0, 0.15),
+    inset -2px -2px 1px rgba(0, 0, 0, 0.1);
 }
 
 .tagsToggleInput:checked + .tagsToggleSlider {

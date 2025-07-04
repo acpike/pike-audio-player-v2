@@ -185,14 +185,14 @@
 
 .albumInfo {
   font-family: var(--font-family-primary, "Inter", -apple-system, BlinkMacSystemFont, sans-serif);
-  font-size: var(--font-size-md);
-  font-weight: 400;
-  color: rgba(255, 255, 255, 0.7);
   position: absolute;
   top: calc(var(--spacing-xl) * 2 + 2px);
   right: 0;
   text-align: right;
   padding-right: var(--spacing-xs);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
 }
 
 
@@ -211,9 +211,33 @@
 
 .portraitAlbumInfo {
   font-family: var(--font-family-primary, "Inter", sans-serif);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.albumName {
   font-size: var(--font-size-md);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.95);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+.separator {
+  font-size: var(--font-size-sm);
   font-weight: 400;
+  color: var(--primary-blue);
+  margin: 0 var(--spacing-xxs);
+}
+
+.trackCount {
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
   color: rgba(255, 255, 255, 0.7);
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
 }
 
 /* Mobile optimizations */

@@ -150,7 +150,14 @@
   text-align: center;
   width: 100%;
   overflow: visible;
-  transform: translateY(-30%); /* Move up more to match 80% cover scale */
+  transform: translateY(-35%); /* Move up closer to scaled cover art */
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Scale only the title and status text, not the description */
+.trackInfoPortraitExpanded .trackTitleBase,
+.trackInfoPortraitExpanded .statusTextBase {
+  transform: scale(0.8);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 

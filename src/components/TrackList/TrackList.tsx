@@ -147,7 +147,9 @@ export const TrackList: React.FC<TrackListProps> = ({ playTrack, togglePlayPause
             )}
             {(currentTrackIndex !== null || previewTrackIndex !== null) && (
               <div className={styles.albumInfo}>
-                {UI_STRINGS.ALBUM_TRACK_INFO(trackData[0]?.album || UI_STRINGS.UNKNOWN_ALBUM, trackData.length)}
+                <span className={styles.albumName}>Demo Tracks</span>
+                <span className={styles.separator}>•</span>
+                <span className={styles.trackCount}>5 tracks</span>
               </div>
             )}
           </div>
@@ -158,7 +160,9 @@ export const TrackList: React.FC<TrackListProps> = ({ playTrack, togglePlayPause
         {isPortraitMode && (
           <div className={styles.portraitHeader}>
             <div className={styles.portraitAlbumInfo}>
-              Demo Tracks | 5 tracks
+              <span className={styles.albumName}>Demo Tracks</span>
+              <span className={styles.separator}>•</span>
+              <span className={styles.trackCount}>5 tracks</span>
             </div>
             <TagsToggle />
           </div>
