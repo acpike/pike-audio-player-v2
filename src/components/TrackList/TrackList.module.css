@@ -68,8 +68,8 @@
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     
-    /* Smart scroll padding - minimal increase from original 12px */
-    padding: 18px 0 25px 0; /* top: 18px (+6px), bottom: 25px (+13px) - just enough to clear fade */
+    /* Smart scroll padding with subtle edge spacing */
+    padding: 18px var(--spacing-sm) 25px var(--spacing-sm); /* Add slight horizontal padding between tiles and container border */
     margin: 0;
     
     /* Portrait fade effects */
