@@ -31,11 +31,7 @@ export const TrackItem: React.FC<TrackItemProps> = ({ track, index, isActive, pl
   const tagsContainerRef = useRef<HTMLDivElement>(null);
   const [visibleTagCount, setVisibleTagCount] = useState(track.tags.length);
   
-  // Simple description overlay state
-  const [showDescription, setShowDescription] = useState(false);
   
-  // Simple touch tracking for swipe detection
-  const [touchStart, setTouchStart] = useState<{ x: number; y: number } | null>(null);
   
   // Determine if THIS track is currently playing a preview
   const isThisTrackPreviewPlaying = previewTrackIndex === index && isPreviewPlaying;
@@ -130,36 +126,9 @@ export const TrackItem: React.FC<TrackItemProps> = ({ track, index, isActive, pl
   };
   
 
-  // Simple touch handlers for swipe detection
-  const handleTouchStart = (e: React.TouchEvent) => {
-    const touch = e.touches[0];
-    setTouchStart({ x: touch.clientX, y: touch.clientY });
-  };
 
-  const handleTouchEnd = (e: React.TouchEvent) => {
-    if (!touchStart) return;
-    
-    const touch = e.changedTouches[0];
-    const deltaX = touchStart.x - touch.clientX; // Positive for left swipe
-    const deltaY = Math.abs(touch.clientY - touchStart.y);
-    
-    // Only trigger if it's a clear horizontal left swipe (threshold: 60px)
-    if (deltaX > 60 && deltaY < 40) {
-      setShowDescription(true);
-      e.preventDefault(); // Prevent any other touch interactions
-    }
-    
-    setTouchStart(null);
-  };
-
-  const handleCloseDescription = () => {
-    setShowDescription(false);
-  };
 
   const handleTrackClick = () => {
-    // Don't trigger click if description is showing
-    if (showDescription) return;
-    
     // Scroll the track into view using utility function
     scrollTrackIntoView(index);
     
@@ -178,13 +147,10 @@ export const TrackItem: React.FC<TrackItemProps> = ({ track, index, isActive, pl
 
 
   return (
-    <div className={styles.trackItemWrapper}>
       <div 
         ref={itemRef}
         className={getTrackItemClass()}
         onClick={handleTrackClick}
-        onTouchStart={handleTouchStart}
-        onTouchEnd={handleTouchEnd}
         data-track-index={index}
         style={trackColors ? {
           '--glow-r': trackColors.r,
@@ -227,27 +193,5 @@ export const TrackItem: React.FC<TrackItemProps> = ({ track, index, isActive, pl
         )}
       </div>
       </div>
-      
-      {/* Simple Description Overlay */}
-      {showDescription && (
-        <div 
-          className={styles.descriptionOverlay}
-          onClick={handleCloseDescription}
-        >
-          <div className={styles.descriptionContent}>
-            <button 
-              className={styles.closeButton}
-              onClick={handleCloseDescription}
-              aria-label="Close description"
-            >
-              →
-            </button>
-            <p className={styles.descriptionText}>
-              {track.description}
-            </p>
-          </div>
-        </div>
-      )}
-    </div>
   );
 };
