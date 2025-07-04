@@ -1,5 +1,6 @@
 :root {
-  --track-scale-active: 1.0; /* No scale for track container */
+  --track-scale-active: 1.0; /* No scale for track container in portrait */
+  --track-scale-active-landscape: 1.05; /* Wider scaling for landscape */
   --track-thumbnail-scale-active: 1.12;
   --track-elevation-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
   --track-glow-inner-opacity: 0.35;
@@ -40,6 +41,23 @@
   align-items: unset !important;
   gap: unset !important;
   overflow: visible !important;
+}
+
+/* Preserve active state transforms when wrapped */
+.trackItemWrapped.active {
+  transform: scale(var(--track-scale-active)) !important;
+}
+
+/* Landscape-specific scaling for all active track items */
+@media (orientation: landscape) {
+  .trackItem.active,
+  .trackItemLandscape.active {
+    transform: scale(var(--track-scale-active-landscape)) !important;
+  }
+  
+  .trackItemWrapped.active {
+    transform: scale(var(--track-scale-active-landscape)) !important;
+  }
 }
 
 .trackItem:hover {
@@ -128,6 +146,18 @@
 
 /* Remove flex layout from ALL nested elements when description wrapping is active */
 .trackItemWrapped .trackInfo {
+  display: block !important;
+  flex-direction: unset !important;
+  gap: unset !important;
+  overflow: visible !important;
+}
+
+/* Override landscape-specific flex properties when wrapping is active */
+.trackItemWrapped.trackItemLandscape {
+  gap: unset !important;
+}
+
+.trackItemWrapped .trackInfoLandscape {
   display: block !important;
   flex-direction: unset !important;
   gap: unset !important;
