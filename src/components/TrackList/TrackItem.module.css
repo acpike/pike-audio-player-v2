@@ -149,7 +149,8 @@
 .trackTags {
   display: flex;
   gap: var(--spacing-xs);
-  flex-wrap: wrap;
+  flex-wrap: nowrap; /* Prevent wrapping to multiple lines */
+  overflow: hidden; /* Hide tags that don't fit */
   margin-top: 8px; /* Space from duration when tags are present */
 }
 
@@ -160,6 +161,12 @@
   background: rgba(255, 255, 255, 0.06);
   color: rgba(255, 255, 255, 0.7);
   font-weight: 400;
+  flex-shrink: 0; /* Don't shrink tags */
+  white-space: nowrap; /* Keep tag text on one line */
+}
+
+.trackTag.hidden {
+  display: none; /* Hide tags that don't fit */
 }
 
 .tagSeparator {

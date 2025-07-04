@@ -34,11 +34,11 @@ export const DebugPanel = () => {
         </button>
       </div>
       <div className={styles.content}>
-        <p><strong>Version:</strong> V26_HEADER_CLEANUP</p>
-        <p><strong>Phase:</strong> Simple Header Design & Layout Stabilization ✅</p>
-        <p><strong>Features:</strong> Simplified track header (0.04 opacity), restored cover glow, 53vh TrackList, clean baseline</p>
+        <p><strong>Version:</strong> V27_SMART_TAG_LIMITING</p>
+        <p><strong>Phase:</strong> Portrait Description Expansion & Smart Tag System ✅</p>
+        <p><strong>Features:</strong> Portrait description expansion (80% scale, coordinated movement), smart tag limiting (single-line adaptive), landscape-style expanded description</p>
         <p><strong>Git Branch:</strong> feature/portrait-layout-fixes</p>
-        <p><strong>Last Commit:</strong> [PENDING] - Revert to simple header design</p>
+        <p><strong>Last Commit:</strong> [PENDING] - Complete portrait description expansion with smart tags</p>
         <p><strong>Build Time:</strong> {new Date().toLocaleTimeString()}</p>
       </div>
     </div>

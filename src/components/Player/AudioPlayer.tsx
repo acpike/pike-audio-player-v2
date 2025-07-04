@@ -153,6 +153,7 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
   const getCoverWrapperClass = () => {
     if (isLandscapeMode && isDescriptionExpanded) return styles.coverWrapperLandscapeExpanded;
     if (isLandscapeMode) return styles.coverWrapperLandscape;
+    if (isPortraitMode && isDescriptionExpanded) return styles.coverWrapperPortraitExpanded;
     return styles.coverWrapper;
   };
 
@@ -171,6 +172,7 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
   };
 
   const getTrackInfoClass = () => {
+    if (isPortraitMode && isDescriptionExpanded) return styles.trackInfoPortraitExpanded;
     return styles.trackInfo;
   };
 

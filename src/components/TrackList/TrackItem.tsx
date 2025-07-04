@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { Track } from '../../types/tracks';
 import { useUIStore } from '../../stores/uiStore';
 import { usePreviewStore } from '../../stores/previewStore';
@@ -27,6 +27,8 @@ export const TrackItem: React.FC<TrackItemProps> = ({ track, index, isActive, pl
     resumePreview
   } = usePreviewStore();
   const itemRef = useRef<HTMLDivElement>(null);
+  const tagsContainerRef = useRef<HTMLDivElement>(null);
+  const [visibleTagCount, setVisibleTagCount] = useState(track.tags.length);
   
   // Determine if THIS track is currently playing a preview
   const isThisTrackPreviewPlaying = previewTrackIndex === index && isPreviewPlaying;
@@ -43,6 +45,47 @@ export const TrackItem: React.FC<TrackItemProps> = ({ track, index, isActive, pl
   
   // Extract colors when any glow is needed (track tile or thumbnail)
   const trackColors = useTrackColors(track.title, track.art, shouldTrackGlow);
+
+  // Smart tag limiting - measure and hide tags that don't fit
+  useEffect(() => {
+    if (!tagsToggleState || !tagsContainerRef.current || track.tags.length === 0) return;
+
+    const measureTags = () => {
+      const container = tagsContainerRef.current;
+      if (!container) return;
+
+      const containerWidth = container.offsetWidth;
+      const tags = container.querySelectorAll(`.${styles.trackTag}`);
+      let totalWidth = 0;
+      let visibleCount = 0;
+
+      for (let i = 0; i < tags.length; i++) {
+        const tag = tags[i] as HTMLElement;
+        const tagWidth = tag.offsetWidth;
+        const gap = i > 0 ? 5 : 0; // 5px gap between tags (--spacing-xs)
+        
+        if (totalWidth + gap + tagWidth <= containerWidth) {
+          totalWidth += gap + tagWidth;
+          visibleCount++;
+        } else {
+          break;
+        }
+      }
+
+      setVisibleTagCount(visibleCount);
+    };
+
+    // Small delay to ensure DOM is rendered
+    const timeoutId = setTimeout(measureTags, 10);
+    
+    // Re-measure on window resize
+    window.addEventListener('resize', measureTags);
+    
+    return () => {
+      clearTimeout(timeoutId);
+      window.removeEventListener('resize', measureTags);
+    };
+  }, [tagsToggleState, track.tags.length]);
   
 
   // QA Compliant CSS Modules class helpers
@@ -188,9 +231,12 @@ export const TrackItem: React.FC<TrackItemProps> = ({ track, index, isActive, pl
         <div className={getTrackDurationClass()}>{track.duration}</div>
         
         {tagsToggleState && (
-          <div className={styles.trackTags}>
+          <div ref={tagsContainerRef} className={styles.trackTags}>
             {track.tags.map((tag, tagIndex) => (
-              <span key={tagIndex} className={styles.trackTag}>
+              <span 
+                key={tagIndex} 
+                className={`${styles.trackTag} ${tagIndex >= visibleTagCount ? styles.hidden : ''}`}
+              >
                 {tag}
               </span>
             ))}
