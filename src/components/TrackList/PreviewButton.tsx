@@ -31,7 +31,10 @@ export const PreviewButton: React.FC<PreviewButtonProps> = ({
       style={{ '--progress': `${progress}%` } as React.CSSProperties}
       aria-label={isPlaying ? 'Pause preview' : isPaused ? 'Resume preview' : 'Play 15 second preview'}
     >
-      <span className={styles.buttonText}>15s</span>
+      <span className={styles.buttonText}>
+        <span className={styles.number}>15</span>
+        <span className={styles.unit}>s</span>
+      </span>
       {isPlaying ? (
         <div className={styles.pauseIcon}></div>
       ) : isPaused ? (
