@@ -153,6 +153,7 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
   const getCoverWrapperClass = () => {
     if (isLandscapeMode && isDescriptionExpanded) return styles.coverWrapperLandscapeExpanded;
     if (isLandscapeMode) return styles.coverWrapperLandscape;
+    if (isPortraitMode && isDescriptionExpanded) return styles.coverWrapperPortraitExpanded;
     return styles.coverWrapper;
   };
 
@@ -171,6 +172,7 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
   };
 
   const getTrackInfoClass = () => {
+    if (isPortraitMode && isDescriptionExpanded) return styles.trackInfoPortraitExpanded;
     return styles.trackInfo;
   };
 
@@ -389,27 +391,18 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
               onClick={toggleDebugPanel}
               style={{ cursor: 'pointer' }}
             >
-              {previewTrackIndex !== null && displayTrack ? (
-                <>
-                  {displayTrack.title}
-                  <span style={{ 
-                    fontSize: '0.6em', 
-                    fontWeight: 400, 
-                    marginLeft: '8px',
-                    opacity: 0.8 
-                  }}>
-                    (preview)
-                  </span>
-                </>
-              ) : displayTrack 
+              {displayTrack 
                 ? displayTrack.title 
                 : UI_STRINGS.SELECT_TRACK_BELOW
               }
             </h1>
             
-            {hasTrackBeenSelected && (
+            {(hasTrackBeenSelected || previewTrackIndex !== null) && (
               <div className={getStatusTextClass()}>
-                {isLoading ? UI_STRINGS.LOADING : isPlaying ? 'Playing' : 'Paused'}
+                {isLoading ? UI_STRINGS.LOADING : 
+                 previewTrackIndex !== null ? UI_STRINGS.PREVIEWING :
+                 hasTrackBeenSelected ? UI_STRINGS.NOW_PLAYING : 
+                 UI_STRINGS.MUSIC_PLAYER}
               </div>
             )}
           </>

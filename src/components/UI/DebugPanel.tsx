@@ -34,11 +34,11 @@ export const DebugPanel = () => {
         </button>
       </div>
       <div className={styles.content}>
-        <p><strong>Version:</strong> V12_PORTRAIT_TRACK_SELECTION_REBUILD</p>
-        <p><strong>Phase:</strong> Phase 3 - Additive CSS Enhancements ✅</p>
-        <p><strong>Features:</strong> Safe data attributes + No layout changes + Both states preserved</p>
-        <p><strong>Git Branch:</strong> sandbox</p>
-        <p><strong>Last Commit:</strong> Phase 3 Complete</p>
+        <p><strong>Version:</strong> V32_PREMIUM_TAGS_TOGGLE</p>
+        <p><strong>Phase:</strong> Portrait UI Polish ✅</p>
+        <p><strong>Features:</strong> Dramatic inset toggle with brushed metal knob, enhanced depth shadows, premium frosted glass buttons, improved spacing</p>
+        <p><strong>Git Branch:</strong> feature/portrait-layout-fixes</p>
+        <p><strong>Last Commit:</strong> Premium toggle with dramatic inset and brushed metal knob</p>
         <p><strong>Build Time:</strong> {new Date().toLocaleTimeString()}</p>
       </div>
     </div>

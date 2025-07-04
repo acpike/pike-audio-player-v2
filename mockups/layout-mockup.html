@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Album Info Placement Options</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #1a1a1a;
+            color: white;
+            font-family: Inter, sans-serif;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+        
+        .mockup {
+            max-width: 400px;
+            height: 600px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 24px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .cover-area {
+            height: 200px;
+            background: #333;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+        
+        .title {
+            text-align: center;
+            font-size: 28px;
+            font-weight: 800;
+            margin: 15px 0;
+        }
+        
+        .track-list {
+            flex: 1;
+            background: rgba(0,0,0,0.2);
+            border-radius: 12px;
+            padding: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .track-item {
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .track-thumb {
+            width: 40px;
+            height: 40px;
+            background: #555;
+            border-radius: 6px;
+        }
+        
+        .album-info {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 16px;
+        }
+        
+        .tags-toggle {
+            width: 72px;
+            height: 32px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: rgba(255,255,255,0.8);
+        }
+        
+        .option-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #60a5fa;
+            margin-bottom: 15px;
+        }
+        
+        .current-placement {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin: 15px 0;
+            padding: 0 5px;
+        }
+        
+        .track-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .track-header-simple {
+            margin-bottom: 15px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+            padding-bottom: 8px;
+        }
+        
+        .inline-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- Current Layout -->
+    <div>
+        <div class="option-title">Current Layout (for reference)</div>
+        <div class="mockup">
+            <div class="cover-area">COVER ART</div>
+            <div class="title">Select a track below</div>
+            <div class="current-placement">
+                <div class="album-info">Demo Tracks | 5 tracks</div>
+                <div class="tags-toggle">TAGS</div>
+            </div>
+            <div class="track-list">
+                <div class="track-item">
+                    <div class="track-thumb"></div>
+                    <div>Wanderer's Lament<br><small>2:45</small></div>
+                </div>
+                <div class="track-item">
+                    <div class="track-thumb"></div>
+                    <div>No Return<br><small>2:47</small></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Option 1: Full Header with Tags -->
+    <div>
+        <div class="option-title">Option 1: Full Header (Album info + Tags together)</div>
+        <div class="mockup">
+            <div class="cover-area">COVER ART</div>
+            <div class="title">Select a track below</div>
+            <div class="track-list">
+                <div class="track-header">
+                    <div class="album-info">Demo Tracks | 5 tracks</div>
+                    <div class="tags-toggle">TAGS</div>
+                </div>
+                <div class="track-item">
+                    <div class="track-thumb"></div>
+                    <div>Wanderer's Lament<br><small>2:45</small></div>
+                </div>
+                <div class="track-item">
+                    <div class="track-thumb"></div>
+                    <div>No Return<br><small>2:47</small></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Option 2: Simple Centered Header -->
+    <div>
+        <div class="option-title">Option 2: Simple Centered Header (Tags separate)</div>
+        <div class="mockup">
+            <div class="cover-area">COVER ART</div>
+            <div class="title">Select a track below</div>
+            <div style="text-align: center; margin: 15px 0;">
+                <div class="tags-toggle" style="margin: 0 auto;">TAGS</div>
+            </div>
+            <div class="track-list">
+                <div class="track-header-simple">Demo Tracks | 5 tracks</div>
+                <div class="track-item">
+                    <div class="track-thumb"></div>
+                    <div>Wanderer's Lament<br><small>2:45</small></div>
+                </div>
+                <div class="track-item">
+                    <div class="track-thumb"></div>
+                    <div>No Return<br><small>2:47</small></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Option 3: Inline with First Track -->
+    <div>
+        <div class="option-title">Option 3: Inline with Track List</div>
+        <div class="mockup">
+            <div class="cover-area">COVER ART</div>
+            <div class="title">Select a track below</div>
+            <div style="text-align: center; margin: 15px 0;">
+                <div class="tags-toggle" style="margin: 0 auto;">TAGS</div>
+            </div>
+            <div class="track-list">
+                <div class="inline-header">
+                    <span>Demo Tracks | 5 tracks</span>
+                </div>
+                <div class="track-item">
+                    <div class="track-thumb"></div>
+                    <div>Wanderer's Lament<br><small>2:45</small></div>
+                </div>
+                <div class="track-item">
+                    <div class="track-thumb"></div>
+                    <div>No Return<br><small>2:47</small></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

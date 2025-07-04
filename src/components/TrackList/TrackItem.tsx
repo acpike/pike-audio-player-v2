@@ -1,8 +1,9 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { Track } from '../../types/tracks';
 import { useUIStore } from '../../stores/uiStore';
 import { usePreviewStore } from '../../stores/previewStore';
 import { useTrackColors } from '../../hooks/useTrackColors';
+import { scrollTrackIntoView } from '../../utils/scrollToTrack';
 // import { AUDIO_CONSTANTS } from '../../constants/audio';
 import { PreviewButton } from './PreviewButton';
 import styles from './TrackItem.module.css';
@@ -27,6 +28,8 @@ export const TrackItem: React.FC<TrackItemProps> = ({ track, index, isActive, pl
     resumePreview
   } = usePreviewStore();
   const itemRef = useRef<HTMLDivElement>(null);
+  const tagsContainerRef = useRef<HTMLDivElement>(null);
+  const [visibleTagCount, setVisibleTagCount] = useState(track.tags.length);
   
   // Determine if THIS track is currently playing a preview
   const isThisTrackPreviewPlaying = previewTrackIndex === index && isPreviewPlaying;
@@ -43,6 +46,47 @@ export const TrackItem: React.FC<TrackItemProps> = ({ track, index, isActive, pl
   
   // Extract colors when any glow is needed (track tile or thumbnail)
   const trackColors = useTrackColors(track.title, track.art, shouldTrackGlow);
+
+  // Smart tag limiting - measure and hide tags that don't fit
+  useEffect(() => {
+    if (!tagsToggleState || !tagsContainerRef.current || track.tags.length === 0) return;
+
+    const measureTags = () => {
+      const container = tagsContainerRef.current;
+      if (!container) return;
+
+      const containerWidth = container.offsetWidth;
+      const tags = container.querySelectorAll(`.${styles.trackTag}`);
+      let totalWidth = 0;
+      let visibleCount = 0;
+
+      for (let i = 0; i < tags.length; i++) {
+        const tag = tags[i] as HTMLElement;
+        const tagWidth = tag.offsetWidth;
+        const gap = i > 0 ? 5 : 0; // 5px gap between tags (--spacing-xs)
+        
+        if (totalWidth + gap + tagWidth <= containerWidth) {
+          totalWidth += gap + tagWidth;
+          visibleCount++;
+        } else {
+          break;
+        }
+      }
+
+      setVisibleTagCount(visibleCount);
+    };
+
+    // Small delay to ensure DOM is rendered
+    const timeoutId = setTimeout(measureTags, 10);
+    
+    // Re-measure on window resize
+    window.addEventListener('resize', measureTags);
+    
+    return () => {
+      clearTimeout(timeoutId);
+      window.removeEventListener('resize', measureTags);
+    };
+  }, [tagsToggleState, track.tags.length]);
   
 
   // QA Compliant CSS Modules class helpers
@@ -75,58 +119,8 @@ export const TrackItem: React.FC<TrackItemProps> = ({ track, index, isActive, pl
   
 
   const handleTrackClick = () => {
-    // Scroll the track into view if it's partially visible
-    if (itemRef.current) {
-      const trackElement = itemRef.current;
-      const container = trackElement.parentElement;
-      
-      if (container) {
-        const trackRect = trackElement.getBoundingClientRect();
-        const containerRect = container.getBoundingClientRect();
-        
-        // Check if track is partially out of view
-        const isPartiallyAbove = trackRect.top < containerRect.top;
-        const isPartiallyBelow = trackRect.bottom > containerRect.bottom;
-        
-        if (isPartiallyAbove || isPartiallyBelow) {
-          // Calculate scroll position to center the track
-          const trackOffsetTop = trackElement.offsetTop;
-          const trackHeight = trackElement.offsetHeight;
-          const containerHeight = container.clientHeight;
-          
-          // Scroll to position that centers the track (or puts it at top if too tall)
-          const scrollTop = trackOffsetTop - (containerHeight - trackHeight) / 2;
-          
-          // Temporarily disable scroll-snap for smooth animation
-          container.style.scrollSnapType = 'none';
-          
-          // Smooth scroll with custom duration
-          const startScroll = container.scrollTop;
-          const distance = Math.max(0, scrollTop) - startScroll;
-          const duration = 600; // 600ms for slower, more polished animation
-          const startTime = performance.now();
-          
-          const animateScroll = (currentTime: number) => {
-            const elapsed = currentTime - startTime;
-            const progress = Math.min(elapsed / duration, 1);
-            
-            // Easing function for smooth deceleration
-            const easeOutCubic = 1 - Math.pow(1 - progress, 3);
-            
-            container.scrollTop = startScroll + (distance * easeOutCubic);
-            
-            if (progress < 1) {
-              requestAnimationFrame(animateScroll);
-            } else {
-              // Re-enable scroll-snap after animation completes
-              container.style.scrollSnapType = 'y mandatory';
-            }
-          };
-          
-          requestAnimationFrame(animateScroll);
-        }
-      }
-    }
+    // Scroll the track into view using utility function
+    scrollTrackIntoView(index);
     
     // During preview mode, any track click should start full playback
     if (previewTrackIndex !== null) {
@@ -147,6 +141,7 @@ export const TrackItem: React.FC<TrackItemProps> = ({ track, index, isActive, pl
       ref={itemRef}
       className={getTrackItemClass()}
       onClick={handleTrackClick}
+      data-track-index={index}
       style={trackColors ? {
         '--glow-r': trackColors.r,
         '--glow-g': trackColors.g,
@@ -188,9 +183,12 @@ export const TrackItem: React.FC<TrackItemProps> = ({ track, index, isActive, pl
         <div className={getTrackDurationClass()}>{track.duration}</div>
         
         {tagsToggleState && (
-          <div className={styles.trackTags}>
+          <div ref={tagsContainerRef} className={styles.trackTags}>
             {track.tags.map((tag, tagIndex) => (
-              <span key={tagIndex} className={styles.trackTag}>
+              <span 
+                key={tagIndex} 
+                className={`${styles.trackTag} ${tagIndex >= visibleTagCount ? styles.hidden : ''}`}
+              >
                 {tag}
               </span>
             ))}

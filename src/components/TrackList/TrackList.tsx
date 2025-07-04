@@ -145,9 +145,11 @@ export const TrackList: React.FC<TrackListProps> = ({ playTrack, togglePlayPause
                 </h2>
               </>
             )}
-            {currentTrackIndex !== null && (
+            {(currentTrackIndex !== null || previewTrackIndex !== null) && (
               <div className={styles.albumInfo}>
-                {UI_STRINGS.ALBUM_TRACK_INFO(trackData[0]?.album || UI_STRINGS.UNKNOWN_ALBUM, trackData.length)}
+                <span className={styles.albumName}>Demo Tracks</span>
+                <span className={styles.separator}>•</span>
+                <span className={styles.trackCount}>5 tracks</span>
               </div>
             )}
           </div>
@@ -155,6 +157,16 @@ export const TrackList: React.FC<TrackListProps> = ({ playTrack, togglePlayPause
         {!isPortraitMode && <TagsToggle />}
       </div>
       <div className={styles.trackListWrapper}>
+        {isPortraitMode && (
+          <div className={styles.portraitHeader}>
+            <div className={styles.portraitAlbumInfo}>
+              <span className={styles.albumName}>Demo Tracks</span>
+              <span className={styles.separator}>•</span>
+              <span className={styles.trackCount}>5 tracks</span>
+            </div>
+            <TagsToggle />
+          </div>
+        )}
         <div className={getTrackListContainerClass()} ref={containerRef}>
           {trackData.map((track, index) => (
           <TrackItem

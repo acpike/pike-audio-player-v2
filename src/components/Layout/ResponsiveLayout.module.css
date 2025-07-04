@@ -130,7 +130,7 @@
   max-height: 100vh;
   background: rgba(255, 255, 255, 0.03);
   border-radius: var(--radius-3xl);
-  padding: var(--spacing-lg);
+  padding: var(--spacing-lg) var(--spacing-sm) var(--spacing-sm); /* top=20px, sides/bottom=12px */
   -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
   border: var(--border-width-sm) solid rgba(255, 255, 255, 0.15);
@@ -140,6 +140,7 @@
     inset 0 1px rgba(255, 255, 255, 0.1);
   gap: var(--spacing-md);
   overflow: visible;
+  box-sizing: border-box;
 }
 
 
@@ -149,13 +150,7 @@
   max-height: 50%; /* Safety limit to prevent AudioPlayer from taking too much space */
 }
 
-[data-has-track="true"].playerPortrait > :nth-child(3) {
-  flex: 1 1 auto; /* TrackList takes remaining space */
-  min-height: 0; /* Allow flexbox to shrink */
-  height: auto; /* Remove fixed height calculation */
-  margin-top: var(--spacing-lg); /* Consistent spacing */
-  overflow: hidden; /* Ensure internal scrolling works */
-}
+/* Portrait Layout: Removed duplicate rule - using unified rule below */
 
 /* Portrait Layout: AudioPlayer takes top 40% height */
 .playerPortrait > :first-child {
@@ -164,15 +159,16 @@
   max-width: 100%;
 }
 
-/* Portrait Layout: TrackList takes remaining height - now 3rd child because of album info */
-.playerPortrait > :nth-child(3) {
-  /* Calculate available height: Account for AudioPlayer, padding, gaps, and album info space */
-  height: calc(60vh - 2 * var(--spacing-lg) - var(--spacing-md) - 48px);
-  flex: none;
-  width: 100%;
-  max-width: 100%;
+/* Portrait Layout: TrackList anchored to bottom for fade effect */
+.playerPortrait > :nth-child(2) {
+  position: absolute;
+  bottom: 0; /* No bottom padding - fade effect handles visual separation */
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 2 * var(--spacing-xs));
+  max-width: calc(500px - 2 * var(--spacing-xs)); /* Respect container width */
+  height: 53vh;
   overflow: hidden;
-  margin-top: 45px; /* Adjusted to 45px for optimal positioning */
 }
 
 /* DebugPanel remains unaffected by height constraints */

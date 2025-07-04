@@ -1,5 +1,5 @@
 :root {
-  --track-scale-active: 1.05;
+  --track-scale-active: 1.0; /* No scale for track container */
   --track-thumbnail-scale-active: 1.12;
   --track-elevation-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
   --track-glow-inner-opacity: 0.35;
@@ -12,7 +12,7 @@
   display: flex;
   align-items: center;
   gap: var(--spacing-md);
-  padding: var(--spacing-md);
+  padding: var(--spacing-sm) var(--spacing-md);
   border-radius: var(--radius-lg);
   scroll-snap-align: center;
   background: rgba(255, 255, 255, 0.03);
@@ -20,10 +20,10 @@
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   
-  /* Clean floating effect */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
+  /* Enhanced floating effect to match landscape */
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  -webkit-backdrop-filter: blur(15px);
+  backdrop-filter: blur(15px);
   
   position: relative;
   overflow: visible;
@@ -42,12 +42,12 @@
 }
 
 .trackItem.active {
-  /* Focus on color-tinted background - glow effect moved to ::before pseudo-element */
-  background: rgba(var(--glow-r, 96), var(--glow-g, 165), var(--glow-b, 250), 0.18);
-  border-color: rgba(var(--glow-r, 96), var(--glow-g, 165), var(--glow-b, 250), 0.5);
+  /* Enhanced background for portrait prominence */
+  background: rgba(var(--glow-r, 96), var(--glow-g, 165), var(--glow-b, 250), 0.25);
+  border-color: rgba(var(--glow-r, 96), var(--glow-g, 165), var(--glow-b, 250), 0.7);
   transform: scale(var(--track-scale-active));
   z-index: var(--track-active-z-index);
-  box-shadow: var(--track-elevation-shadow); /* Only drop shadow, no glow */
+  /* Remove shadow to prevent obscuring tracks below */
 }
 
 .trackItem.active::before {
@@ -149,7 +149,8 @@
 .trackTags {
   display: flex;
   gap: var(--spacing-xs);
-  flex-wrap: wrap;
+  flex-wrap: nowrap; /* Prevent wrapping to multiple lines */
+  overflow: hidden; /* Hide tags that don't fit */
   margin-top: 8px; /* Space from duration when tags are present */
 }
 
@@ -160,6 +161,12 @@
   background: rgba(255, 255, 255, 0.06);
   color: rgba(255, 255, 255, 0.7);
   font-weight: 400;
+  flex-shrink: 0; /* Don't shrink tags */
+  white-space: nowrap; /* Keep tag text on one line */
+}
+
+.trackTag.hidden {
+  display: none; /* Hide tags that don't fit */
 }
 
 .tagSeparator {
@@ -291,7 +298,9 @@
 /* Portrait mode track prominence - only when track is selected */
 @media (orientation: portrait) {
   [data-has-track="true"] .trackItem {
-    transform: scale(0.98);
+    transform: scale3d(0.97, 0.97, 1); /* Scale down unselected tracks */
+    opacity: 1.0; /* Keep all tracks fully visible */
+    margin: 0 var(--spacing-xs); /* Add horizontal margin to unselected tracks only */
     max-width: 100%;
     overflow: visible;
     box-sizing: border-box;
@@ -299,10 +308,12 @@
   }
   
   [data-has-track="true"] .trackItem.active {
-    transform: scale(1.0) translateY(-4px);
-    transform-origin: center;
+    transform: scale3d(1.0, 1.0, 1); /* Selected track at natural size - no scaling blur */
+    margin: 0; /* Remove horizontal margin for selected track */
     z-index: 20;
   }
+  
+  /* Remove thumbnail scaling - not needed with main cover art at top */
   
   [data-has-track="true"] .trackItem .trackInfo {
     min-width: 0;
