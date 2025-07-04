@@ -220,7 +220,7 @@ export const TrackItem: React.FC<TrackItemProps> = ({ track, index, isActive, pl
         </div>
         <div className={getTrackDurationClass()}>{track.duration}</div>
         
-        {tagsToggleState && (
+        {tagsToggleState === 'tags' && (
           <div ref={tagsContainerRef} className={styles.trackTags}>
             {track.tags.map((tag, tagIndex) => (
               <span 
@@ -230,6 +230,14 @@ export const TrackItem: React.FC<TrackItemProps> = ({ track, index, isActive, pl
                 {tag}
               </span>
             ))}
+          </div>
+        )}
+        
+        {tagsToggleState === 'description' && (
+          <div className={styles.trackDescription}>
+            <p className={styles.trackDescriptionText}>
+              {track.description}
+            </p>
           </div>
         )}
       </div>

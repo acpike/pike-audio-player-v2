@@ -17,7 +17,7 @@
 
 .tagsToggleSlider {
   position: relative;
-  width: 72px;
+  width: 120px;
   height: 32px;
   background: rgba(0, 0, 0, 0.4);
   border-radius: var(--radius-5xl);
@@ -28,28 +28,67 @@
     inset 0 2px 6px rgba(0, 0, 0, 0.5),
     inset 0 1px 3px rgba(0, 0, 0, 0.4),
     0 1px 0 rgba(255, 255, 255, 0.08);
+  cursor: pointer;
 }
 
+/* DEBUG: Center line - visible on top of everything */
+.tagsToggleSlider {
+  position: relative;
+}
+
+.tagsToggleSlider::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: -5px;
+  bottom: -5px;
+  width: 2px;
+  background: red;
+  z-index: 1000;
+  pointer-events: none;
+  margin-left: -1px; /* Center the 2px line */
+}
+
+/* Text labels in track */
 .tagsToggleText {
   position: absolute;
   top: 50%;
-  right: var(--spacing-xs);
   transform: translateY(-50%);
   font-size: var(--font-size-sm);
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  color: rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.4);
   transition: all var(--transition-smooth);
+  pointer-events: none;
+}
+
+.leftLabel {
+  left: 8px;
+}
+
+.centerLabel {
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.rightLabel {
+  right: 8px;
+}
+
+/* Symbols on knob - moved to before pseudo-element */
+.tagsToggleSlider:before {
+  /* Knob styling... */
+  /* Symbol will be added via content in state-specific rules */
 }
 
 .tagsToggleSlider:before {
-  content: '';
+  content: '○'; /* Default symbol - will be overridden by states */
   position: absolute;
-  top: 2px;
+  top: -1px;
   left: 2px;
-  width: 26px;
-  height: 28px;
+  width: 30px;
+  height: 30px;
   background: 
     /* Top scratches and wear */
     linear-gradient(35deg, transparent 18%, rgba(0, 0, 0, 0.25) 19%, rgba(0, 0, 0, 0.25) 20%, transparent 21%),
@@ -74,24 +113,84 @@
       #525964 60%, 
       #424954 100%);
   border: 1px solid rgba(35, 40, 45, 0.9);
-  /* Slight imperfection in the circle */
-  border-radius: 49% 51% 50% 50%;
+  border-radius: 50%;
   transition: all var(--transition-slow);
   box-shadow: 
-    0 4px 12px rgba(0, 0, 0, 0.4),
-    0 2px 6px rgba(0, 0, 0, 0.3),
-    0 1px 3px rgba(0, 0, 0, 0.2),
-    /* Worn edges - less perfect highlights */
+    0 3px 8px rgba(0, 0, 0, 0.4),
+    0 1px 3px rgba(0, 0, 0, 0.3),
+    /* Simple highlight and shadow for depth */
     inset 0 2px 0 rgba(255, 255, 255, 0.2),
-    inset 0 -2px 0 rgba(0, 0, 0, 0.5),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.3),
     inset 1px 1px 0 rgba(255, 255, 255, 0.1),
-    inset -1px -1px 0 rgba(0, 0, 0, 0.3),
-    /* Age spots and wear marks */
-    inset 2px 2px 1px rgba(0, 0, 0, 0.15),
-    inset -2px -2px 1px rgba(0, 0, 0, 0.1);
+    inset -1px -1px 0 rgba(0, 0, 0, 0.2);
+    
+  /* Center the symbol text */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1;
+  text-shadow: 
+    0 -2px 3px rgba(0, 0, 0, 0.8),
+    0 1px 1px rgba(255, 255, 255, 0.4),
+    -1px -1px 2px rgba(0, 0, 0, 0.6),
+    1px 1px 1px rgba(255, 255, 255, 0.2);
 }
 
-.tagsToggleInput:checked + .tagsToggleSlider {
+/* 3-way toggle states */
+.tagsToggleSlider.description {
+  background: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.5);
+  box-shadow: 
+    inset 0 4px 12px rgba(0, 0, 0, 0.5),
+    inset 0 2px 6px rgba(0, 0, 0, 0.4),
+    inset 0 1px 3px rgba(0, 0, 0, 0.3),
+    0 1px 0 rgba(255, 255, 255, 0.08),
+    0 0 0 1px rgba(255, 255, 255, 0.4);
+}
+
+.tagsToggleSlider.description:before {
+  transform: translateX(0px);
+  content: 'D';
+  color: rgba(255, 255, 255, 0.6);
+  top: -1px;
+}
+
+/* .tagsToggleSlider.description:after {
+  content: 'D';
+  color: #c084fc;
+} */
+
+.tagsToggleSlider.description .leftLabel {
+  color: rgba(255, 255, 255, 1.0);
+  opacity: 0;
+}
+
+.tagsToggleSlider.off {
+  /* Default styling - no changes */
+}
+
+.tagsToggleSlider.off:before {
+  transform: translateX(41px);
+  content: 'OFF';
+  color: rgba(255, 255, 255, 0.6);
+  top: -1px;
+  font-size: 8px;
+}
+
+/* .tagsToggleSlider.off:after {
+  content: '○';
+  color: rgba(255, 255, 255, 0.8);
+} */
+
+.tagsToggleSlider.off .centerLabel {
+  color: rgba(255, 255, 255, 0.8);
+  opacity: 0;
+}
+
+.tagsToggleSlider.tags {
   background: rgba(96, 165, 250, 0.2);
   border-color: rgba(96, 165, 250, 0.4);
   box-shadow: 
@@ -102,22 +201,21 @@
     0 0 0 1px rgba(96, 165, 250, 0.3);
 }
 
-.tagsToggleInput:checked + .tagsToggleSlider:before {
-  transform: translateX(40px);
-  box-shadow: 
-    0 4px 12px rgba(0, 0, 0, 0.4),
-    0 2px 6px rgba(0, 0, 0, 0.3),
-    0 1px 3px rgba(0, 0, 0, 0.2),
-    0 0 8px rgba(96, 165, 250, 0.2),
-    inset 0 2px 0 rgba(255, 255, 255, 0.4),
-    inset 0 -2px 0 rgba(0, 0, 0, 0.4),
-    inset 1px 1px 0 rgba(255, 255, 255, 0.2),
-    inset -1px -1px 0 rgba(0, 0, 0, 0.2);
+.tagsToggleSlider.tags:before {
+  transform: translateX(84px);
+  content: 'T';
+  color: rgba(255, 255, 255, 0.6);
+  top: -1px;
 }
 
-.tagsToggleInput:checked + .tagsToggleSlider .tagsToggleText {
+/* .tagsToggleSlider.tags:after {
+  content: 'T';
   color: #93c5fd;
-  right: 32px;
+} */
+
+.tagsToggleSlider.tags .rightLabel {
+  color: #93c5fd;
+  opacity: 0;
 }
 
 /* Landscape mode adjustments */
@@ -134,35 +232,22 @@
   }
   
   .tagsToggleSlider {
-    width: 72px;
+    width: 120px;
     height: 32px;
     border-radius: var(--radius-5xl);
   }
   
   .tagsToggleSlider:before {
     top: 0px;
-    width: 26px;
-    height: 28px;
-  }
-  
-  .tagsToggleInput:checked + .tagsToggleSlider:before {
-    transform: translateX(40px);
-  }
-  
-  .tagsToggleText {
-    font-size: var(--font-size-sm);
-    right: var(--spacing-xs);
-  }
-  
-  .tagsToggleInput:checked + .tagsToggleSlider .tagsToggleText {
-    right: 32px;
+    width: 30px;
+    height: 30px;
   }
 }
 
 /* Mobile responsive adjustments - only for landscape mobile */
 @media (max-width: 768px) and (orientation: landscape) {
   .tagsToggleSlider {
-    width: 68px;
+    width: 110px;
     height: 30px;
     border-radius: var(--radius-4xl);
   }
@@ -172,16 +257,4 @@
     height: 24px;
   }
   
-  .tagsToggleInput:checked + .tagsToggleSlider:before {
-    transform: translateX(40px);
-  }
-  
-  .tagsToggleText {
-    font-size: var(--font-size-2xs);
-    right: 6px;
-  }
-  
-  .tagsToggleInput:checked + .tagsToggleSlider .tagsToggleText {
-    right: 28px;
-  }
 }

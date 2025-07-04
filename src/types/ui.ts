@@ -11,7 +11,7 @@ export interface UIState {
   isDescriptionExpanded: boolean;
   isSwipeExpanded: boolean;
   isSwipeActive: boolean;
-  tagsToggleState: boolean;
+  tagsToggleState: 'off' | 'tags' | 'description';
   screenWidth: number;
   screenHeight: number;
   parentOrigin: string | null;
@@ -25,6 +25,6 @@ export interface UIActions {
   setDescriptionExpanded: (expanded: boolean) => void;
   setSwipeExpanded: (expanded: boolean) => void;
   setSwipeActive: (active: boolean) => void;
-  setTagsToggle: (state: boolean) => void;
+  setTagsToggle: (state: 'off' | 'tags' | 'description') => void;
   updateScreenDimensions: () => void;
 }

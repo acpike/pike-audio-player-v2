@@ -328,6 +328,18 @@
   }
 }
 
+/* Toggle-based Description Display */
+.trackDescription {
+  margin-top: 8px;
+}
+
+.trackDescriptionText {
+  font-size: 15px;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0;
+}
+
 /* Simple Description Overlay System */
 .trackItemWrapper {
   position: relative;
