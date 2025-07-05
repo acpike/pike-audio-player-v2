@@ -12,14 +12,25 @@ export const PreviewOverlay: React.FC<PreviewOverlayProps> = ({
   progress,
   timeRemaining
 }) => {
-  // Hide overlay when not visible or when progress indicates completion
-  if (!isVisible || progress >= 100) return null;
+  const [shouldFadeOut, setShouldFadeOut] = React.useState(false);
+  
+  // Start fade-out when preview is near completion (last 0.5 seconds or when reaching 100%)
+  React.useEffect(() => {
+    if (progress >= 95 || timeRemaining <= 0.5) {
+      setShouldFadeOut(true);
+    } else {
+      setShouldFadeOut(false);
+    }
+  }, [progress, timeRemaining]);
+  
+  // Hide overlay when not visible
+  if (!isVisible) return null;
 
   const circumference = 2 * Math.PI * 22; // radius = 22px for larger overlay
   const strokeDashoffset = circumference - (progress / 100) * circumference;
 
   return (
-    <div className={styles.overlay}>
+    <div className={`${styles.overlay} ${shouldFadeOut ? styles.fadeOut : ''}`}>
       <svg className={styles.progressRing} width="48" height="48">
         {/* Background circle */}
         <circle

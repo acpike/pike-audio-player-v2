@@ -118,8 +118,8 @@ export const TrackItem: React.FC<TrackItemProps> = ({ track, index, isActive, pl
   const getTrackThumbnailClass = () => {
     const baseClass = isLandscapeMode ? styles.trackThumbnailLandscape : styles.trackThumbnail;
     const glowClass = shouldThumbnailGlow ? `${baseClass} ${styles.thumbnailGlow}` : baseClass;
-    // Add float class when description is showing to enable text wrapping
-    return tagsToggleState === 'description' ? `${glowClass} ${styles.trackThumbnailFloat}` : glowClass;
+    // Don't add trackThumbnailFloat class - floating is handled by container
+    return glowClass;
   };
 
   const getTrackInfoClass = () => {

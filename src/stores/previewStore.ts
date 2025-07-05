@@ -67,7 +67,10 @@ export const usePreviewStore = create<PreviewStore>((set, get) => ({
     });
     
     audio.addEventListener('ended', () => {
-      get().stopPreview();
+      // Delay stop to allow for natural fade-out in audio
+      setTimeout(() => {
+        get().stopPreview();
+      }, 500); // 500ms delay to preserve fade-out
     });
     
     audio.addEventListener('pause', () => {

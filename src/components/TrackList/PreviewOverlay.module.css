@@ -19,6 +19,15 @@
   box-shadow: 
     0 4px 16px rgba(0, 0, 0, 0.6),
     0 0 0 1px rgba(255, 255, 255, 0.2);
+  
+  /* Smooth fade in/out animations */
+  opacity: 1;
+  transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+}
+
+.overlay.fadeOut {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.8);
 }
 
 .progressRing {
