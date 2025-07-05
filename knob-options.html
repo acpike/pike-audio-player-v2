@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knob Options - Aaron Pike Media Player</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #141414 100%);
+            color: white;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: rgba(20, 20, 20, 0.8);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 800;
+            color: rgba(96, 165, 250, 1);
+            margin-bottom: 8px;
+            letter-spacing: -0.02em;
+        }
+
+        .header p {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.4;
+        }
+
+        .knob-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .knob-card {
+            background: rgba(20, 20, 20, 0.8);
+            border-radius: 16px;
+            padding: 20px;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .knob-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .knob-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 6px;
+        }
+
+        .knob-description {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        /* Base toggle structure - keeping your exact layout */
+        .tagsToggleContainer {
+            display: flex;
+            justify-content: center;
+            padding: 0 0 10px 0;
+        }
+
+        .tagsToggleSlider {
+            position: relative;
+            width: 120px;
+            height: 32px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 16px;
+            transition: all 0.25s ease;
+            border: 1.5px solid rgba(0, 0, 0, 0.5);
+            box-shadow: 
+                inset 0 4px 12px rgba(0, 0, 0, 0.6),
+                inset 0 2px 6px rgba(0, 0, 0, 0.5),
+                inset 0 1px 3px rgba(0, 0, 0, 0.4),
+                0 1px 0 rgba(255, 255, 255, 0.08);
+            cursor: pointer;
+        }
+
+        .tagsToggleText {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: rgba(255, 255, 255, 0.4);
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        .leftLabel {
+            left: 8px;
+        }
+
+        .centerLabel {
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .rightLabel {
+            right: 8px;
+        }
+
+        /* Knob Option 1: Simple Glass */
+        .knob-glass:before {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 30px;
+            height: 28px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 
+                0 2px 4px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .knob-glass:after {
+            content: 'OFF';
+            position: absolute;
+            top: 50%;
+            left: 17px;
+            transform: translateY(-50%);
+            font-size: 9px;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.8);
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+
+        .knob-glass.description:before {
+            transform: translateX(0px);
+            background: rgba(96, 165, 250, 0.3);
+            border-color: rgba(96, 165, 250, 0.5);
+        }
+
+        .knob-glass.description:after {
+            content: 'D';
+            left: 17px;
+            color: rgba(96, 165, 250, 1);
+        }
+
+        .knob-glass.off:before {
+            transform: translateX(42px);
+        }
+
+        .knob-glass.off:after {
+            content: 'OFF';
+            left: 59px;
+        }
+
+        .knob-glass.tags:before {
+            transform: translateX(84px);
+            background: rgba(96, 165, 250, 0.3);
+            border-color: rgba(96, 165, 250, 0.5);
+        }
+
+        .knob-glass.tags:after {
+            content: 'T';
+            left: 99px;
+            color: rgba(96, 165, 250, 1);
+        }
+
+        /* Knob Option 2: Clean Gradient */
+        .knob-gradient:before {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 30px;
+            height: 28px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
+            border-radius: 14px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .knob-gradient:after {
+            content: 'OFF';
+            position: absolute;
+            top: 50%;
+            left: 17px;
+            transform: translateY(-50%);
+            font-size: 9px;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.8);
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+
+        .knob-gradient.description:before {
+            transform: translateX(0px);
+            background: linear-gradient(135deg, rgba(96, 165, 250, 0.8) 0%, rgba(96, 165, 250, 0.6) 100%);
+            box-shadow: 0 0 6px rgba(96, 165, 250, 0.4);
+        }
+
+        .knob-gradient.description:after {
+            content: 'D';
+            left: 17px;
+            color: white;
+        }
+
+        .knob-gradient.off:before {
+            transform: translateX(42px);
+        }
+
+        .knob-gradient.off:after {
+            content: 'OFF';
+            left: 59px;
+        }
+
+        .knob-gradient.tags:before {
+            transform: translateX(84px);
+            background: linear-gradient(135deg, rgba(96, 165, 250, 0.8) 0%, rgba(96, 165, 250, 0.6) 100%);
+            box-shadow: 0 0 6px rgba(96, 165, 250, 0.4);
+        }
+
+        .knob-gradient.tags:after {
+            content: 'T';
+            left: 99px;
+            color: white;
+        }
+
+        /* Knob Option 3: Soft Glow */
+        .knob-glow:before {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 30px;
+            height: 28px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .knob-glow:after {
+            content: 'OFF';
+            position: absolute;
+            top: 50%;
+            left: 17px;
+            transform: translateY(-50%);
+            font-size: 9px;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.8);
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+
+        .knob-glow.description:before {
+            transform: translateX(0px);
+            background: rgba(96, 165, 250, 0.2);
+            border-color: rgba(96, 165, 250, 0.5);
+            box-shadow: 0 0 8px rgba(96, 165, 250, 0.3), inset 0 0 4px rgba(96, 165, 250, 0.2);
+        }
+
+        .knob-glow.description:after {
+            content: 'D';
+            left: 17px;
+            color: rgba(96, 165, 250, 1);
+        }
+
+        .knob-glow.off:before {
+            transform: translateX(42px);
+        }
+
+        .knob-glow.off:after {
+            content: 'OFF';
+            left: 59px;
+        }
+
+        .knob-glow.tags:before {
+            transform: translateX(84px);
+            background: rgba(96, 165, 250, 0.2);
+            border-color: rgba(96, 165, 250, 0.5);
+            box-shadow: 0 0 8px rgba(96, 165, 250, 0.3), inset 0 0 4px rgba(96, 165, 250, 0.2);
+        }
+
+        .knob-glow.tags:after {
+            content: 'T';
+            left: 99px;
+            color: rgba(96, 165, 250, 1);
+        }
+
+        /* Knob Option 4: Minimal Flat */
+        .knob-flat:before {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 30px;
+            height: 28px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .knob-flat:after {
+            content: 'OFF';
+            position: absolute;
+            top: 50%;
+            left: 17px;
+            transform: translateY(-50%);
+            font-size: 9px;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.8);
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+
+        .knob-flat.description:before {
+            transform: translateX(0px);
+            background: rgba(96, 165, 250, 0.8);
+            box-shadow: 0 2px 6px rgba(96, 165, 250, 0.3);
+        }
+
+        .knob-flat.description:after {
+            content: 'D';
+            left: 17px;
+            color: white;
+        }
+
+        .knob-flat.off:before {
+            transform: translateX(42px);
+        }
+
+        .knob-flat.off:after {
+            content: 'OFF';
+            left: 59px;
+        }
+
+        .knob-flat.tags:before {
+            transform: translateX(84px);
+            background: rgba(96, 165, 250, 0.8);
+            box-shadow: 0 2px 6px rgba(96, 165, 250, 0.3);
+        }
+
+        .knob-flat.tags:after {
+            content: 'T';
+            left: 99px;
+            color: white;
+        }
+
+        /* Knob Option 5: Subtle Raised */
+        .knob-raised:before {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 30px;
+            height: 28px;
+            background: rgba(255, 255, 255, 0.12);
+            border-radius: 14px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 
+                0 2px 4px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+        }
+
+        .knob-raised:after {
+            content: 'OFF';
+            position: absolute;
+            top: 50%;
+            left: 17px;
+            transform: translateY(-50%);
+            font-size: 9px;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.8);
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+
+        .knob-raised.description:before {
+            transform: translateX(0px);
+            background: rgba(96, 165, 250, 0.6);
+            box-shadow: 
+                0 2px 6px rgba(96, 165, 250, 0.3),
+                inset 0 1px 0 rgba(96, 165, 250, 0.4),
+                inset 0 -1px 0 rgba(96, 165, 250, 0.2);
+        }
+
+        .knob-raised.description:after {
+            content: 'D';
+            left: 17px;
+            color: white;
+        }
+
+        .knob-raised.off:before {
+            transform: translateX(42px);
+        }
+
+        .knob-raised.off:after {
+            content: 'OFF';
+            left: 59px;
+        }
+
+        .knob-raised.tags:before {
+            transform: translateX(84px);
+            background: rgba(96, 165, 250, 0.6);
+            box-shadow: 
+                0 2px 6px rgba(96, 165, 250, 0.3),
+                inset 0 1px 0 rgba(96, 165, 250, 0.4),
+                inset 0 -1px 0 rgba(96, 165, 250, 0.2);
+        }
+
+        .knob-raised.tags:after {
+            content: 'T';
+            left: 99px;
+            color: white;
+        }
+
+        /* Knob Option 6: Ultra Minimal */
+        .knob-minimal:before {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 28px;
+            height: 26px;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 13px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .knob-minimal:after {
+            content: 'OFF';
+            position: absolute;
+            top: 50%;
+            left: 17px;
+            transform: translateY(-50%);
+            font-size: 9px;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.8);
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+
+        .knob-minimal.description:before {
+            transform: translateX(0px);
+            background: rgba(96, 165, 250, 0.9);
+        }
+
+        .knob-minimal.description:after {
+            content: 'D';
+            left: 17px;
+            color: white;
+        }
+
+        .knob-minimal.off:before {
+            transform: translateX(42px);
+        }
+
+        .knob-minimal.off:after {
+            content: 'OFF';
+            left: 59px;
+        }
+
+        .knob-minimal.tags:before {
+            transform: translateX(84px);
+            background: rgba(96, 165, 250, 0.9);
+        }
+
+        .knob-minimal.tags:after {
+            content: 'T';
+            left: 99px;
+            color: white;
+        }
+
+        /* State labels */
+        .state-labels {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 12px;
+        }
+
+        .state-label {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .state-label.active {
+            color: rgba(96, 165, 250, 1);
+            font-weight: 600;
+        }
+
+        /* Active state styling for track */
+        .description {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: 
+                inset 0 4px 12px rgba(0, 0, 0, 0.5),
+                inset 0 2px 6px rgba(0, 0, 0, 0.4),
+                inset 0 1px 3px rgba(0, 0, 0, 0.3),
+                0 1px 0 rgba(255, 255, 255, 0.08),
+                0 0 0 1px rgba(255, 255, 255, 0.4);
+        }
+
+        .description .leftLabel {
+            color: rgba(255, 255, 255, 1.0);
+            opacity: 0;
+        }
+
+        .tags {
+            background: rgba(96, 165, 250, 0.2);
+            border-color: rgba(96, 165, 250, 0.4);
+            box-shadow: 
+                inset 0 4px 12px rgba(0, 0, 0, 0.5),
+                inset 0 2px 6px rgba(0, 0, 0, 0.4),
+                inset 0 1px 3px rgba(0, 0, 0, 0.3),
+                0 1px 0 rgba(255, 255, 255, 0.08),
+                0 0 0 1px rgba(96, 165, 250, 0.3);
+        }
+
+        .tags .rightLabel {
+            color: #93c5fd;
+            opacity: 0;
+        }
+
+        .off .centerLabel {
+            color: rgba(255, 255, 255, 0.8);
+            opacity: 0;
+        }
+
+        .comparison {
+            background: rgba(20, 20, 20, 0.8);
+            border-radius: 16px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 20px;
+        }
+
+        .comparison h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: rgba(96, 165, 250, 1);
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .comparison p {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.5;
+            text-align: center;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .knob-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .knob-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Knob Style Options</h1>
+            <p>Clean knob alternatives for your existing toggle design.<br>
+               Same exact functionality, just replacing the complex vintage metal knob.</p>
+        </div>
+
+        <div class="knob-grid">
+            <!-- Knob Option 1: Simple Glass -->
+            <div class="knob-card">
+                <div class="knob-title">Simple Glass</div>
+                <div class="knob-description">
+                    Clean glass morphism effect with subtle transparency and backdrop blur.
+                </div>
+                <div class="tagsToggleContainer">
+                    <div class="tagsToggleSlider knob-glass off" data-knob="glass">
+                        <span class="tagsToggleText leftLabel">DESC</span>
+                        <span class="tagsToggleText centerLabel">○</span>
+                        <span class="tagsToggleText rightLabel">TAGS</span>
+                    </div>
+                </div>
+                <div class="state-labels">
+                    <span class="state-label" data-state="description">Description</span>
+                    <span class="state-label active" data-state="off">Off</span>
+                    <span class="state-label" data-state="tags">Tags</span>
+                </div>
+            </div>
+
+            <!-- Knob Option 2: Clean Gradient -->
+            <div class="knob-card">
+                <div class="knob-title">Clean Gradient</div>
+                <div class="knob-description">
+                    Smooth gradient background with subtle glow on active states.
+                </div>
+                <div class="tagsToggleContainer">
+                    <div class="tagsToggleSlider knob-gradient off" data-knob="gradient">
+                        <span class="tagsToggleText leftLabel">DESC</span>
+                        <span class="tagsToggleText centerLabel">○</span>
+                        <span class="tagsToggleText rightLabel">TAGS</span>
+                    </div>
+                </div>
+                <div class="state-labels">
+                    <span class="state-label" data-state="description">Description</span>
+                    <span class="state-label active" data-state="off">Off</span>
+                    <span class="state-label" data-state="tags">Tags</span>
+                </div>
+            </div>
+
+            <!-- Knob Option 3: Soft Glow -->
+            <div class="knob-card">
+                <div class="knob-title">Soft Glow</div>
+                <div class="knob-description">
+                    Subtle LED-like glow effects on active states while maintaining clean look.
+                </div>
+                <div class="tagsToggleContainer">
+                    <div class="tagsToggleSlider knob-glow off" data-knob="glow">
+                        <span class="tagsToggleText leftLabel">DESC</span>
+                        <span class="tagsToggleText centerLabel">○</span>
+                        <span class="tagsToggleText rightLabel">TAGS</span>
+                    </div>
+                </div>
+                <div class="state-labels">
+                    <span class="state-label" data-state="description">Description</span>
+                    <span class="state-label active" data-state="off">Off</span>
+                    <span class="state-label" data-state="tags">Tags</span>
+                </div>
+            </div>
+
+            <!-- Knob Option 4: Minimal Flat -->
+            <div class="knob-card">
+                <div class="knob-title">Minimal Flat</div>
+                <div class="knob-description">
+                    Ultra-clean flat design with solid color states and subtle shadows.
+                </div>
+                <div class="tagsToggleContainer">
+                    <div class="tagsToggleSlider knob-flat off" data-knob="flat">
+                        <span class="tagsToggleText leftLabel">DESC</span>
+                        <span class="tagsToggleText centerLabel">○</span>
+                        <span class="tagsToggleText rightLabel">TAGS</span>
+                    </div>
+                </div>
+                <div class="state-labels">
+                    <span class="state-label" data-state="description">Description</span>
+                    <span class="state-label active" data-state="off">Off</span>
+                    <span class="state-label" data-state="tags">Tags</span>
+                </div>
+            </div>
+
+            <!-- Knob Option 5: Subtle Raised -->
+            <div class="knob-card">
+                <div class="knob-title">Subtle Raised</div>
+                <div class="knob-description">
+                    Gentle raised effect with inset highlights for tactile appearance.
+                </div>
+                <div class="tagsToggleContainer">
+                    <div class="tagsToggleSlider knob-raised off" data-knob="raised">
+                        <span class="tagsToggleText leftLabel">DESC</span>
+                        <span class="tagsToggleText centerLabel">○</span>
+                        <span class="tagsToggleText rightLabel">TAGS</span>
+                    </div>
+                </div>
+                <div class="state-labels">
+                    <span class="state-label" data-state="description">Description</span>
+                    <span class="state-label active" data-state="off">Off</span>
+                    <span class="state-label" data-state="tags">Tags</span>
+                </div>
+            </div>
+
+            <!-- Knob Option 6: Ultra Minimal -->
+            <div class="knob-card">
+                <div class="knob-title">Ultra Minimal</div>
+                <div class="knob-description">
+                    Completely minimal approach with just color change and no shadows.
+                </div>
+                <div class="tagsToggleContainer">
+                    <div class="tagsToggleSlider knob-minimal off" data-knob="minimal">
+                        <span class="tagsToggleText leftLabel">DESC</span>
+                        <span class="tagsToggleText centerLabel">○</span>
+                        <span class="tagsToggleText rightLabel">TAGS</span>
+                    </div>
+                </div>
+                <div class="state-labels">
+                    <span class="state-label" data-state="description">Description</span>
+                    <span class="state-label active" data-state="off">Off</span>
+                    <span class="state-label" data-state="tags">Tags</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="comparison">
+            <h3>Clean Alternatives to Your Current Vintage Metal Knob</h3>
+            <p>Each option maintains your exact toggle functionality and layout while providing a much cleaner aesthetic that matches your glass morphism design system. Click any toggle to test the 3-way switching behavior.</p>
+        </div>
+    </div>
+
+    <script>
+        // Toggle functionality
+        const toggles = document.querySelectorAll('[data-knob]');
+        
+        toggles.forEach(toggle => {
+            toggle.addEventListener('click', (e) => {
+                const rect = toggle.getBoundingClientRect();
+                const clickX = e.clientX - rect.left;
+                const toggleWidth = rect.width;
+                
+                let newState;
+                if (clickX < toggleWidth / 3) {
+                    newState = 'description';
+                } else if (clickX > (toggleWidth * 2) / 3) {
+                    newState = 'tags';
+                } else {
+                    newState = 'off';
+                }
+                
+                // Update toggle state
+                toggle.className = toggle.className.replace(/\b(description|off|tags)\b/g, '');
+                toggle.classList.add(newState);
+                
+                // Update state labels
+                updateStateLabels(toggle, newState);
+            });
+        });
+        
+        function updateStateLabels(toggle, activeState) {
+            const card = toggle.closest('.knob-card');
+            const labels = card.querySelectorAll('.state-label');
+            
+            labels.forEach(label => {
+                const state = label.getAttribute('data-state');
+                label.classList.toggle('active', state === activeState);
+            });
+        }
+        
+        // Keyboard navigation
+        toggles.forEach(toggle => {
+            toggle.setAttribute('tabindex', '0');
+            toggle.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    
+                    const currentState = getCurrentState(toggle);
+                    let newState;
+                    
+                    // Cycle through states
+                    switch (currentState) {
+                        case 'description':
+                            newState = 'off';
+                            break;
+                        case 'off':
+                            newState = 'tags';
+                            break;
+                        case 'tags':
+                            newState = 'description';
+                            break;
+                    }
+                    
+                    // Update toggle state
+                    toggle.className = toggle.className.replace(/\b(description|off|tags)\b/g, '');
+                    toggle.classList.add(newState);
+                    
+                    updateStateLabels(toggle, newState);
+                }
+            });
+        });
+        
+        function getCurrentState(toggle) {
+            if (toggle.classList.contains('description')) return 'description';
+            if (toggle.classList.contains('tags')) return 'tags';
+            return 'off';
+        }
+    </script>
+</body>
+</html>

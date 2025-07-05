@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrackList Design Options Mockup</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+            font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+            color: white;
+            min-height: 100vh;
+        }
+        
+        .mockup-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2rem;
+            font-weight: 800;
+        }
+        
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .option-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .option-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .tracklist-demo {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            overflow: hidden;
+            width: 100%;
+            max-width: 280px;
+            margin: 0 auto;
+        }
+        
+        /* Header Option 1: Elevated Header */
+        .header-elevated {
+            background: rgba(255, 255, 255, 0.15);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 12px 16px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .header-elevated .header-label {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 4px;
+        }
+        
+        .header-elevated .header-title {
+            font-size: 18px;
+            font-weight: 800;
+            color: white;
+            margin: 0;
+        }
+        
+        /* Header Option 2: Minimal Border */
+        .header-minimal {
+            background: transparent;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 12px 16px;
+        }
+        
+        .header-minimal .header-label {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 4px;
+        }
+        
+        .header-minimal .header-title {
+            font-size: 18px;
+            font-weight: 800;
+            color: white;
+            margin: 0;
+        }
+        
+        /* Header Option 3: Gradient Background */
+        .header-gradient {
+            background: linear-gradient(135deg, rgba(96, 165, 250, 0.2), rgba(147, 197, 253, 0.1));
+            border-bottom: 1px solid rgba(96, 165, 250, 0.3);
+            padding: 12px 16px;
+        }
+        
+        .header-gradient .header-label {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 4px;
+        }
+        
+        .header-gradient .header-title {
+            font-size: 18px;
+            font-weight: 800;
+            color: white;
+            margin: 0;
+        }
+        
+        /* Track Items */
+        .track-container {
+            padding: 8px;
+        }
+        
+        .track-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            margin-bottom: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .track-item:hover {
+            background: rgba(255, 255, 255, 0.06);
+            transform: scale(1.02);
+        }
+        
+        .track-thumbnail {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(45deg, #ff6b6b, #ffd93d);
+            border-radius: 6px;
+            margin-right: 12px;
+        }
+        
+        .track-info {
+            flex: 1;
+        }
+        
+        .track-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: white;
+            margin: 0 0 2px 0;
+        }
+        
+        .track-duration {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+            margin: 0;
+        }
+        
+        /* Button Options */
+        .button-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.02);
+        }
+        
+        /* Button Style 1: Outlined vs Filled */
+        .btn-outlined {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: rgba(255, 255, 255, 0.8);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        
+        .btn-filled {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        
+        /* Button Style 2: Different Colors */
+        .btn-primary {
+            background: rgba(96, 165, 250, 0.2);
+            border: 1px solid rgba(96, 165, 250, 0.4);
+            color: rgba(147, 197, 253, 1);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: rgba(255, 255, 255, 0.7);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        
+        /* Button Style 3: Size Hierarchy */
+        .btn-large {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 24px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        
+        .btn-small {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.7);
+            padding: 4px 8px;
+            border-radius: 16px;
+            font-size: 10px;
+            font-weight: 500;
+        }
+        
+        .description {
+            margin-top: 15px;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.4;
+        }
+        
+        .pros-cons {
+            margin-top: 10px;
+        }
+        
+        .pros, .cons {
+            font-size: 12px;
+            margin: 5px 0;
+        }
+        
+        .pros {
+            color: rgba(34, 197, 94, 0.8);
+        }
+        
+        .cons {
+            color: rgba(239, 68, 68, 0.8);
+        }
+    </style>
+</head>
+<body>
+    <div class="mockup-container">
+        <h1>TrackList Design Options Mockup</h1>
+        
+        <h2 style="text-align: center; margin-bottom: 30px; color: rgba(255, 255, 255, 0.8);">Header Differentiation Options</h2>
+        
+        <div class="options-grid">
+            <!-- Header Option 1 -->
+            <div class="option-card">
+                <div class="option-title">Option 1: Elevated Header</div>
+                <div class="tracklist-demo">
+                    <div class="header-elevated">
+                        <div class="header-label">Demo Tracks</div>
+                        <div class="header-title">5 tracks</div>
+                    </div>
+                    <div class="track-container">
+                        <div class="track-item">
+                            <div class="track-thumbnail"></div>
+                            <div class="track-info">
+                                <div class="track-title">Wanderer's Lament</div>
+                                <div class="track-duration">2:45</div>
+                            </div>
+                        </div>
+                        <div class="track-item">
+                            <div class="track-thumbnail" style="background: linear-gradient(45deg, #4facfe, #00f2fe);"></div>
+                            <div class="track-info">
+                                <div class="track-title">No Return</div>
+                                <div class="track-duration">2:47</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="description">
+                    Elevated background with backdrop blur creates clear separation from track tiles.
+                </div>
+                <div class="pros-cons">
+                    <div class="pros">✓ Clear hierarchy, professional look</div>
+                    <div class="cons">✗ Slightly more visual weight</div>
+                </div>
+            </div>
+            
+            <!-- Header Option 2 -->
+            <div class="option-card">
+                <div class="option-title">Option 2: Minimal Border</div>
+                <div class="tracklist-demo">
+                    <div class="header-minimal">
+                        <div class="header-label">Demo Tracks</div>
+                        <div class="header-title">5 tracks</div>
+                    </div>
+                    <div class="track-container">
+                        <div class="track-item">
+                            <div class="track-thumbnail"></div>
+                            <div class="track-info">
+                                <div class="track-title">Wanderer's Lament</div>
+                                <div class="track-duration">2:45</div>
+                            </div>
+                        </div>
+                        <div class="track-item">
+                            <div class="track-thumbnail" style="background: linear-gradient(45deg, #4facfe, #00f2fe);"></div>
+                            <div class="track-info">
+                                <div class="track-title">No Return</div>
+                                <div class="track-duration">2:47</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="description">
+                    Clean border separation with transparent background maintains minimalism.
+                </div>
+                <div class="pros-cons">
+                    <div class="pros">✓ Clean, minimal, lightweight</div>
+                    <div class="cons">✗ Less visual separation</div>
+                </div>
+            </div>
+            
+            <!-- Header Option 3 -->
+            <div class="option-card">
+                <div class="option-title">Option 3: Gradient Accent</div>
+                <div class="tracklist-demo">
+                    <div class="header-gradient">
+                        <div class="header-label">Demo Tracks</div>
+                        <div class="header-title">5 tracks</div>
+                    </div>
+                    <div class="track-container">
+                        <div class="track-item">
+                            <div class="track-thumbnail"></div>
+                            <div class="track-info">
+                                <div class="track-title">Wanderer's Lament</div>
+                                <div class="track-duration">2:45</div>
+                            </div>
+                        </div>
+                        <div class="track-item">
+                            <div class="track-thumbnail" style="background: linear-gradient(45deg, #4facfe, #00f2fe);"></div>
+                            <div class="track-info">
+                                <div class="track-title">No Return</div>
+                                <div class="track-duration">2:47</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="description">
+                    Subtle blue gradient ties into the brand color and creates visual interest.
+                </div>
+                <div class="pros-cons">
+                    <div class="pros">✓ Brand consistency, engaging</div>
+                    <div class="cons">✗ May compete with track colors</div>
+                </div>
+            </div>
+        </div>
+        
+        <h2 style="text-align: center; margin: 40px 0 30px; color: rgba(255, 255, 255, 0.8);">Button Differentiation Options</h2>
+        
+        <div class="options-grid">
+            <!-- Button Option 1 -->
+            <div class="option-card">
+                <div class="option-title">Option 1: Outlined vs Filled</div>
+                <div class="tracklist-demo">
+                    <div class="button-row">
+                        <div class="btn-outlined">TAGS</div>
+                        <div class="btn-filled">15s</div>
+                    </div>
+                </div>
+                <div class="description">
+                    Tags button is outlined (secondary), preview button is filled (primary action).
+                </div>
+                <div class="pros-cons">
+                    <div class="pros">✓ Clear hierarchy, familiar pattern</div>
+                    <div class="cons">✗ May still look similar at glance</div>
+                </div>
+            </div>
+            
+            <!-- Button Option 2 -->
+            <div class="option-card">
+                <div class="option-title">Option 2: Color Differentiation</div>
+                <div class="tracklist-demo">
+                    <div class="button-row">
+                        <div class="btn-primary">TAGS</div>
+                        <div class="btn-secondary">15s</div>
+                    </div>
+                </div>
+                <div class="description">
+                    Different color themes: blue accent for tags, neutral for preview actions.
+                </div>
+                <div class="pros-cons">
+                    <div class="pros">✓ Very distinct, color-coded actions</div>
+                    <div class="cons">✗ More colorful, may not fit minimalism</div>
+                </div>
+            </div>
+            
+            <!-- Button Option 3 -->
+            <div class="option-card">
+                <div class="option-title">Option 3: Size Hierarchy</div>
+                <div class="tracklist-demo">
+                    <div class="button-row">
+                        <div class="btn-large">TAGS</div>
+                        <div class="btn-small">15s</div>
+                    </div>
+                </div>
+                <div class="description">
+                    Different sizes indicate importance: larger for persistent actions, smaller for quick actions.
+                </div>
+                <div class="pros-cons">
+                    <div class="pros">✓ Clear importance hierarchy</div>
+                    <div class="cons">✗ May look unbalanced</div>
+                </div>
+            </div>
+        </div>
+        
+        <div style="margin-top: 40px; padding: 20px; background: rgba(255, 255, 255, 0.05); border-radius: 12px;">
+            <h3 style="margin-top: 0;">Recommendations</h3>
+            <p style="color: rgba(255, 255, 255, 0.8); line-height: 1.6;">
+                <strong>For Headers:</strong> Option 1 (Elevated Header) provides the best balance of clarity and professionalism.<br>
+                <strong>For Buttons:</strong> Option 1 (Outlined vs Filled) maintains design consistency while establishing clear hierarchy.<br>
+                <strong>Additional:</strong> Add 8-12px horizontal padding to track container for scaling room.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

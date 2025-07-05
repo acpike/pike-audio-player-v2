@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apple-Grade Premium Headers</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", sans-serif;
+            color: white;
+            min-height: 100vh;
+        }
+        
+        .mockup-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #60a5fa, #93c5fd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.02em;
+        }
+        
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .option-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 20px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .option-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .option-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.95);
+            letter-spacing: -0.01em;
+        }
+        
+        .option-subtitle {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.6);
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: 400;
+        }
+        
+        .header-demo {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            overflow: hidden;
+            margin-bottom: 15px;
+            position: relative;
+        }
+        
+        .demo-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 16px;
+            position: relative;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .header-label {
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.75);
+            margin-bottom: 2px;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+        }
+        
+        .header-title {
+            font-size: 17px;
+            font-weight: 700;
+            color: white;
+            margin: 0;
+            letter-spacing: -0.02em;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+        }
+        
+        .tags-btn {
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.85);
+            padding: 6px 12px;
+            border-radius: 14px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            transition: all 0.2s ease;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+        }
+        
+        .track-preview {
+            padding: 8px;
+        }
+        
+        .track-item {
+            display: flex;
+            align-items: center;
+            padding: 8px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 8px;
+            margin-bottom: 4px;
+            transition: all 0.2s ease;
+        }
+        
+        .track-item:hover {
+            background: rgba(255, 255, 255, 0.04);
+        }
+        
+        .track-thumb {
+            width: 28px;
+            height: 28px;
+            background: linear-gradient(45deg, #ff6b6b, #ffd93d);
+            border-radius: 6px;
+            margin-right: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .track-info {
+            flex: 1;
+        }
+        
+        .track-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: white;
+            margin: 0;
+            letter-spacing: -0.01em;
+        }
+        
+        .track-duration {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.5);
+            margin: 2px 0 0 0;
+        }
+        
+        /* Option 1: Apple Music Vibrancy */
+        .apple-vibrancy {
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.35) 0%, 
+                rgba(255, 255, 255, 0.15) 50%,
+                rgba(255, 255, 255, 0.25) 100%);
+            backdrop-filter: blur(40px) saturate(2.0) brightness(1.1);
+            -webkit-backdrop-filter: blur(40px) saturate(2.0) brightness(1.1);
+            box-shadow: 
+                0 1px 0 rgba(255, 255, 255, 0.6) inset,
+                0 -1px 0 rgba(255, 255, 255, 0.1) inset,
+                0 12px 32px rgba(255, 255, 255, 0.1),
+                0 4px 16px rgba(255, 255, 255, 0.05),
+                0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        .apple-vibrancy::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(255, 255, 255, 0.8) 20%,
+                rgba(255, 255, 255, 0.9) 50%, 
+                rgba(255, 255, 255, 0.8) 80%,
+                transparent 100%);
+        }
+        
+        /* Option 2: iOS Control Center */
+        .ios-control {
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.28) 0%, 
+                rgba(255, 255, 255, 0.18) 100%);
+            backdrop-filter: blur(30px) saturate(1.8) contrast(1.1);
+            -webkit-backdrop-filter: blur(30px) saturate(1.8) contrast(1.1);
+            border: 0.5px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 
+                0 0.5px 0 rgba(255, 255, 255, 0.5) inset,
+                0 8px 24px rgba(255, 255, 255, 0.12),
+                0 16px 48px rgba(255, 255, 255, 0.05),
+                0 2px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .ios-control::after {
+            content: '';
+            position: absolute;
+            top: 1px;
+            left: 1px;
+            right: 1px;
+            bottom: 1px;
+            border-radius: inherit;
+            border: 0.5px solid rgba(255, 255, 255, 0.2);
+            pointer-events: none;
+        }
+        
+        /* Option 3: macOS Big Sur Translucency */
+        .macos-translucent {
+            background: linear-gradient(145deg, 
+                rgba(255, 255, 255, 0.32) 0%, 
+                rgba(255, 255, 255, 0.16) 40%,
+                rgba(255, 255, 255, 0.24) 100%);
+            backdrop-filter: blur(50px) saturate(1.9) brightness(1.05);
+            -webkit-backdrop-filter: blur(50px) saturate(1.9) brightness(1.05);
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            box-shadow: 
+                0 1px 0 rgba(255, 255, 255, 0.7) inset,
+                0 0 0 0.5px rgba(255, 255, 255, 0.2) inset,
+                0 10px 30px rgba(255, 255, 255, 0.1),
+                0 20px 60px rgba(255, 255, 255, 0.05),
+                0 1px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Option 4: Figma Glass */
+        .figma-glass {
+            background: radial-gradient(ellipse at top, 
+                rgba(255, 255, 255, 0.3) 0%, 
+                rgba(255, 255, 255, 0.18) 60%,
+                rgba(255, 255, 255, 0.22) 100%);
+            backdrop-filter: blur(35px) saturate(2.2) hue-rotate(5deg);
+            -webkit-backdrop-filter: blur(35px) saturate(2.2) hue-rotate(5deg);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 
+                0 2px 0 rgba(255, 255, 255, 0.4) inset,
+                0 -1px 0 rgba(255, 255, 255, 0.15) inset,
+                0 8px 32px rgba(255, 255, 255, 0.12),
+                0 16px 64px rgba(255, 255, 255, 0.06),
+                0 4px 16px rgba(0, 0, 0, 0.08);
+        }
+        
+        /* Option 5: Ultra Premium Layered */
+        .ultra-premium {
+            background: linear-gradient(160deg, 
+                rgba(255, 255, 255, 0.38) 0%, 
+                rgba(255, 255, 255, 0.15) 30%,
+                rgba(255, 255, 255, 0.28) 70%,
+                rgba(255, 255, 255, 0.20) 100%);
+            backdrop-filter: blur(45px) saturate(2.4) brightness(1.08) contrast(1.02);
+            -webkit-backdrop-filter: blur(45px) saturate(2.4) brightness(1.08) contrast(1.02);
+            border: 1px solid rgba(255, 255, 255, 0.45);
+            box-shadow: 
+                0 2px 1px rgba(255, 255, 255, 0.6) inset,
+                0 0 0 1px rgba(255, 255, 255, 0.15) inset,
+                0 12px 36px rgba(255, 255, 255, 0.15),
+                0 24px 72px rgba(255, 255, 255, 0.08),
+                0 6px 20px rgba(255, 255, 255, 0.04),
+                0 2px 8px rgba(0, 0, 0, 0.12);
+        }
+        
+        .ultra-premium::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(255, 255, 255, 0.6) 15%,
+                rgba(255, 255, 255, 0.9) 30%,
+                rgba(255, 255, 255, 1) 50%,
+                rgba(255, 255, 255, 0.9) 70%,
+                rgba(255, 255, 255, 0.6) 85%,
+                transparent 100%);
+            border-radius: 1px;
+        }
+        
+        .ultra-premium::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            right: 2px;
+            bottom: 2px;
+            border-radius: inherit;
+            border: 0.5px solid rgba(255, 255, 255, 0.25);
+            pointer-events: none;
+        }
+        
+        .description {
+            margin-top: 15px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.5;
+            text-align: center;
+        }
+        
+        .pros-cons {
+            margin-top: 12px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+        
+        .pros, .cons {
+            font-size: 11px;
+            margin: 0;
+            padding: 6px;
+            border-radius: 6px;
+            text-align: center;
+        }
+        
+        .pros {
+            color: rgba(34, 197, 94, 0.9);
+            background: rgba(34, 197, 94, 0.1);
+        }
+        
+        .cons {
+            color: rgba(239, 68, 68, 0.9);
+            background: rgba(239, 68, 68, 0.1);
+        }
+        
+        .recommendation {
+            margin-top: 40px;
+            padding: 30px;
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.08) 0%, 
+                rgba(255, 255, 255, 0.03) 100%);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+        }
+        
+        .recommendation h3 {
+            margin-top: 0;
+            color: rgba(255, 255, 255, 0.95);
+            font-size: 1.4rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+        
+        .rec-text {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+            font-size: 14px;
+        }
+        
+        .tech-specs {
+            margin-top: 20px;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        
+        .tech-specs h4 {
+            margin: 0 0 10px 0;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 600;
+        }
+        
+        .tech-specs code {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.8);
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="mockup-container">
+        <h1>Apple-Grade Premium Headers</h1>
+        
+        <div class="options-grid">
+            <!-- Option 1: Apple Music Vibrancy -->
+            <div class="option-card">
+                <div class="option-title">Apple Music Vibrancy</div>
+                <div class="option-subtitle">iOS Music app aesthetic</div>
+                <div class="header-demo">
+                    <div class="demo-header apple-vibrancy">
+                        <div class="header-content">
+                            <div class="header-label">Demo Tracks</div>
+                            <div class="header-title">5 tracks</div>
+                        </div>
+                        <div class="tags-btn">TAGS</div>
+                    </div>
+                    <div class="track-preview">
+                        <div class="track-item">
+                            <div class="track-thumb"></div>
+                            <div class="track-info">
+                                <div class="track-name">Wanderer's Lament</div>
+                                <div class="track-duration">2:45</div>
+                            </div>
+                        </div>
+                        <div class="track-item">
+                            <div class="track-thumb" style="background: linear-gradient(45deg, #4facfe, #00f2fe);"></div>
+                            <div class="track-info">
+                                <div class="track-name">No Return</div>
+                                <div class="track-duration">2:47</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="description">Ultra-high saturation and brightness with premium glow effects</div>
+                <div class="pros-cons">
+                    <div class="pros">✓ Most premium feel</div>
+                    <div class="cons">✗ Very bright</div>
+                </div>
+            </div>
+            
+            <!-- Option 2: iOS Control Center -->
+            <div class="option-card">
+                <div class="option-title">iOS Control Center</div>
+                <div class="option-subtitle">System-level frosted glass</div>
+                <div class="header-demo">
+                    <div class="demo-header ios-control">
+                        <div class="header-content">
+                            <div class="header-label">Demo Tracks</div>
+                            <div class="header-title">5 tracks</div>
+                        </div>
+                        <div class="tags-btn">TAGS</div>
+                    </div>
+                    <div class="track-preview">
+                        <div class="track-item">
+                            <div class="track-thumb"></div>
+                            <div class="track-info">
+                                <div class="track-name">Wanderer's Lament</div>
+                                <div class="track-duration">2:45</div>
+                            </div>
+                        </div>
+                        <div class="track-item">
+                            <div class="track-thumb" style="background: linear-gradient(45deg, #4facfe, #00f2fe);"></div>
+                            <div class="track-info">
+                                <div class="track-name">No Return</div>
+                                <div class="track-duration">2:47</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="description">Familiar iOS system aesthetic with double-border technique</div>
+                <div class="pros-cons">
+                    <div class="pros">✓ Familiar & trusted</div>
+                    <div class="cons">✗ Complex borders</div>
+                </div>
+            </div>
+            
+            <!-- Option 3: macOS Big Sur -->
+            <div class="option-card">
+                <div class="option-title">macOS Big Sur</div>
+                <div class="option-subtitle">Desktop translucency</div>
+                <div class="header-demo">
+                    <div class="demo-header macos-translucent">
+                        <div class="header-content">
+                            <div class="header-label">Demo Tracks</div>
+                            <div class="header-title">5 tracks</div>
+                        </div>
+                        <div class="tags-btn">TAGS</div>
+                    </div>
+                    <div class="track-preview">
+                        <div class="track-item">
+                            <div class="track-thumb"></div>
+                            <div class="track-info">
+                                <div class="track-name">Wanderer's Lament</div>
+                                <div class="track-duration">2:45</div>
+                            </div>
+                        </div>
+                        <div class="track-item">
+                            <div class="track-thumb" style="background: linear-gradient(45deg, #4facfe, #00f2fe);"></div>
+                            <div class="track-info">
+                                <div class="track-name">No Return</div>
+                                <div class="track-duration">2:47</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="description">Professional desktop-grade translucency with subtle depth</div>
+                <div class="pros-cons">
+                    <div class="pros">✓ Professional</div>
+                    <div class="cons">✗ Heavy blur</div>
+                </div>
+            </div>
+            
+            <!-- Option 4: Figma Glass -->
+            <div class="option-card">
+                <div class="option-title">Figma Glass</div>
+                <div class="option-subtitle">Modern design tool aesthetic</div>
+                <div class="header-demo">
+                    <div class="demo-header figma-glass">
+                        <div class="header-content">
+                            <div class="header-label">Demo Tracks</div>
+                            <div class="header-title">5 tracks</div>
+                        </div>
+                        <div class="tags-btn">TAGS</div>
+                    </div>
+                    <div class="track-preview">
+                        <div class="track-item">
+                            <div class="track-thumb"></div>
+                            <div class="track-info">
+                                <div class="track-name">Wanderer's Lament</div>
+                                <div class="track-duration">2:45</div>
+                            </div>
+                        </div>
+                        <div class="track-item">
+                            <div class="track-thumb" style="background: linear-gradient(45deg, #4facfe, #00f2fe);"></div>
+                            <div class="track-info">
+                                <div class="track-name">No Return</div>
+                                <div class="track-duration">2:47</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="description">Radial gradient with subtle hue rotation for warmth</div>
+                <div class="pros-cons">
+                    <div class="pros">✓ Modern & warm</div>
+                    <div class="cons">✗ Subtle effects</div>
+                </div>
+            </div>
+            
+            <!-- Option 5: Ultra Premium -->
+            <div class="option-card">
+                <div class="option-title">Ultra Premium Layered</div>
+                <div class="option-subtitle">Maximum luxury aesthetic</div>
+                <div class="header-demo">
+                    <div class="demo-header ultra-premium">
+                        <div class="header-content">
+                            <div class="header-label">Demo Tracks</div>
+                            <div class="header-title">5 tracks</div>
+                        </div>
+                        <div class="tags-btn">TAGS</div>
+                    </div>
+                    <div class="track-preview">
+                        <div class="track-item">
+                            <div class="track-thumb"></div>
+                            <div class="track-info">
+                                <div class="track-name">Wanderer's Lament</div>
+                                <div class="track-duration">2:45</div>
+                            </div>
+                        </div>
+                        <div class="track-item">
+                            <div class="track-thumb" style="background: linear-gradient(45deg, #4facfe, #00f2fe);"></div>
+                            <div class="track-info">
+                                <div class="track-name">No Return</div>
+                                <div class="track-duration">2:47</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="description">Complex layered approach with multiple pseudo-elements</div>
+                <div class="pros-cons">
+                    <div class="pros">✓ Ultimate luxury</div>
+                    <div class="cons">✗ Performance cost</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="recommendation">
+            <h3>🎯 Recommended: Apple Music Vibrancy</h3>
+            <p class="rec-text">
+                For your space-themed music player, the <strong>Apple Music Vibrancy</strong> approach will give you that 
+                premium iOS feel users expect. The high saturation and brightness create luxury while the multiple 
+                shadow layers add sophisticated depth that separates beautifully from your dark track tiles.
+            </p>
+            
+            <div class="tech-specs">
+                <h4>Technical Implementation:</h4>
+                <p style="margin: 8px 0; font-size: 12px; color: rgba(255, 255, 255, 0.7);">
+                    <code>backdrop-filter: blur(40px) saturate(2.0) brightness(1.1)</code><br>
+                    <code>background: linear-gradient(135deg, rgba(255,255,255,0.35), rgba(255,255,255,0.25))</code><br>
+                    <code>box-shadow</code>: Multi-layered white glow + inset highlights
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

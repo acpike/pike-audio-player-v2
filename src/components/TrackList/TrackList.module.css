@@ -71,20 +71,50 @@
     /* Smart scroll padding with minimal edge spacing */
     padding: 18px var(--spacing-xs) 25px var(--spacing-xs); /* Minimal horizontal padding - tracks almost touch container border */
     margin: 0;
+    position: relative;
+  }
+  
+  /* Fade effects using mask for modern browsers */
+  @supports (mask: linear-gradient(to bottom, transparent, black)) or (-webkit-mask: linear-gradient(to bottom, transparent, black)) {
+    .trackListContainer {
+      mask: linear-gradient(to bottom,
+        transparent 0px,
+        black 30px,
+        black calc(100% - 40px),
+        transparent 100%
+      );
+      -webkit-mask: linear-gradient(to bottom,
+        transparent 0px,
+        black 30px,
+        black calc(100% - 40px),
+        transparent 100%
+      );
+    }
+  }
+  
+  /* Fallback fade effects using pseudo-elements for browsers without mask support */
+  @supports not (mask: linear-gradient(to bottom, transparent, black)) and not (-webkit-mask: linear-gradient(to bottom, transparent, black)) {
+    .trackListContainer::before,
+    .trackListContainer::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 30px;
+      pointer-events: none;
+      z-index: 10;
+    }
     
-    /* Portrait fade effects */
-    mask: linear-gradient(to bottom,
-      transparent 0px,
-      black 30px,
-      black calc(100% - 40px),
-      transparent 100%
-    );
-    -webkit-mask: linear-gradient(to bottom,
-      transparent 0px,
-      black 30px,
-      black calc(100% - 40px),
-      transparent 100%
-    );
+    .trackListContainer::before {
+      top: 0;
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 1), transparent);
+    }
+    
+    .trackListContainer::after {
+      bottom: 0;
+      height: 40px;
+      background: linear-gradient(to top, rgba(0, 0, 0, 1), transparent);
+    }
   }
 }
 
@@ -204,13 +234,21 @@
   padding: var(--spacing-lg) var(--spacing-md);
   border-bottom: 2px solid rgba(255, 255, 255, 0.15);
   border-top: 1px solid rgba(255, 255, 255, 0.2);
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  /* Fallback for browsers without backdrop-filter support */
+  background: rgba(20, 20, 20, 0.85);
   border-top-left-radius: var(--radius-lg);
   border-top-right-radius: var(--radius-lg);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   flex-shrink: 0; /* Prevent header from shrinking */
+}
+
+/* Enhanced styling when backdrop-filter is supported */
+@supports (backdrop-filter: blur(12px)) or (-webkit-backdrop-filter: blur(12px)) {
+  .portraitHeader {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
 }
 
 .portraitAlbumInfo {

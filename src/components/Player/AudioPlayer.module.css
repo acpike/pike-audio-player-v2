@@ -25,8 +25,10 @@
 
 .coverWrapper {
   position: relative;
-  width: 90vw;
-  height: 65vw;
+  /* Responsive sizing without problematic viewport units */
+  width: min(90vw, 450px);
+  height: 0;
+  padding-bottom: min(65vw, 325px); /* Maintains aspect ratio */
   max-width: 450px;
   max-height: var(--cover-max-size);
   margin: var(--spacing-xs) auto 0; /* Add small top margin for mobile-friendly spacing */
@@ -39,10 +41,22 @@
   align-items: center;
 }
 
+/* Alternative approach for iOS Safari to avoid viewport unit issues */
+@supports (-webkit-touch-callout: none) {
+  .coverWrapper {
+    width: 90%;
+    height: auto;
+    aspect-ratio: 1.38 / 1; /* 90vw / 65vw ratio */
+    padding-bottom: 0;
+  }
+}
+
 .coverWrapperPortraitExpanded {
   position: relative;
-  width: 90vw;
-  height: 65vw;
+  /* Responsive sizing without problematic viewport units */
+  width: min(90vw, 450px);
+  height: 0;
+  padding-bottom: min(65vw, 325px); /* Maintains aspect ratio */
   max-width: 450px;
   max-height: var(--cover-max-size);
   margin: var(--spacing-xs) auto 0; /* Keep same top margin as normal state */
@@ -55,6 +69,16 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+/* Alternative approach for iOS Safari to avoid viewport unit issues */
+@supports (-webkit-touch-callout: none) {
+  .coverWrapperPortraitExpanded {
+    width: 90%;
+    height: auto;
+    aspect-ratio: 1.38 / 1; /* 90vw / 65vw ratio */
+    padding-bottom: 0;
+  }
 }
 
 .coverWrapperLandscape {
