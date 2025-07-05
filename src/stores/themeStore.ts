@@ -22,8 +22,8 @@ interface ThemeStore extends ThemeState, ThemeActions {}
  * dynamic color extraction from cover art for glow effects.
  */
 export const useThemeStore = create<ThemeStore>((set, get) => ({
-  // V8 State Properties - Clean initial state
-  currentGlowColor: DEFAULT_GLOW.ELECTRIC_BLUE,
+  // V8 State Properties - Clean initial state with neutral default
+  currentGlowColor: 'transparent', // Neutral until color extracted
   isSpaceBlackEnabled: true, // Default to Space Black theme
   extractedColors: null,
 
@@ -91,17 +91,17 @@ export const useThemeStore = create<ThemeStore>((set, get) => ({
   /**
    * Reset to default colors - Pure state management
    * 
-   * Clears extracted colors and returns to default glow color.
-   * Components should use useCSSProperty hook to sync CSS.
+   * Clears extracted colors and returns to neutral state.
+   * Blue fallback only exists in CSS for true emergencies.
    */
   resetToDefaults: () => {
     try {
       set({ 
         extractedColors: null,
-        currentGlowColor: DEFAULT_GLOW.ELECTRIC_BLUE 
+        currentGlowColor: 'transparent' // Neutral state, no blue flash
       });
       
-      logger.info('Theme reset to defaults');
+      logger.info('Theme reset to neutral defaults');
     } catch (error) {
       logger.error('Failed to reset theme to defaults', { 
         error: error instanceof Error ? error.message : String(error) 

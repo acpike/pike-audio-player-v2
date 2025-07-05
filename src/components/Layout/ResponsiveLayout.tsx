@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDeviceDetection } from '../../hooks/useDeviceDetection';
 import { useTouchDeviceClasses, useDeviceTypeClasses } from '../../hooks/useBodyClasses';
 import { useUIStore } from '../../stores/uiStore';
@@ -24,8 +24,12 @@ export const ResponsiveLayout: React.FC<ResponsiveLayoutProps> = ({ children }) 
   useTouchDeviceClasses();
   useDeviceTypeClasses(deviceType);
 
-  // Tags toggle state is managed by UI store with proper localStorage integration
-  // No need for duplicate localStorage loading here
+  // Initialize UI store - triggers necessary store updates for color system timing
+  useEffect(() => {
+    // Trigger store initialization to ensure proper color extraction timing
+    // The setTagsToggle call ensures the store is properly initialized for color system
+    setTagsToggle('off'); // Always start in off mode as designed
+  }, [setTagsToggle]);
 
   // QA Compliant CSS Modules class selector - UNCHANGED to preserve layout
   const getPlayerClass = () => {
