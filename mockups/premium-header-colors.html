@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Header Color Options</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+            font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+            color: white;
+            min-height: 100vh;
+        }
+        
+        .mockup-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #60a5fa, #93c5fd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .colors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .color-option {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .color-option:hover {
+            transform: translateY(-2px);
+        }
+        
+        .option-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .header-demo {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+        
+        .demo-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            backdrop-filter: blur(20px) saturate(1.8);
+            -webkit-backdrop-filter: blur(20px) saturate(1.8);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+            position: relative;
+        }
+        
+        .demo-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.4) 50%, transparent 100%);
+        }
+        
+        .header-text {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .header-label {
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 2px;
+        }
+        
+        .header-title {
+            font-size: 14px;
+            font-weight: 800;
+            color: white;
+            margin: 0;
+        }
+        
+        .tags-btn {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: rgba(255, 255, 255, 0.8);
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 9px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        
+        .track-preview {
+            padding: 8px;
+        }
+        
+        .track-item {
+            display: flex;
+            align-items: center;
+            padding: 8px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 6px;
+            margin-bottom: 4px;
+        }
+        
+        .track-thumb {
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(45deg, #ff6b6b, #ffd93d);
+            border-radius: 4px;
+            margin-right: 8px;
+        }
+        
+        .track-info {
+            flex: 1;
+        }
+        
+        .track-name {
+            font-size: 11px;
+            font-weight: 600;
+            color: white;
+            margin: 0;
+        }
+        
+        .color-info {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.6);
+            text-align: center;
+            line-height: 1.4;
+        }
+        
+        /* Color Variations */
+        
+        /* 1. Electric Blue (Current Brand) */
+        .electric-blue {
+            background: linear-gradient(135deg, 
+                rgba(96, 165, 250, 0.20) 0%, 
+                rgba(96, 165, 250, 0.12) 100%);
+            box-shadow: 
+                0 1px 0 rgba(147, 197, 253, 0.3) inset,
+                0 8px 25px rgba(96, 165, 250, 0.15),
+                0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* 2. Cyan Glow */
+        .cyan-glow {
+            background: linear-gradient(135deg, 
+                rgba(34, 211, 238, 0.18) 0%, 
+                rgba(34, 211, 238, 0.10) 100%);
+            box-shadow: 
+                0 1px 0 rgba(103, 232, 249, 0.3) inset,
+                0 8px 25px rgba(34, 211, 238, 0.15),
+                0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* 3. Purple Luxury */
+        .purple-luxury {
+            background: linear-gradient(135deg, 
+                rgba(147, 51, 234, 0.18) 0%, 
+                rgba(147, 51, 234, 0.10) 100%);
+            box-shadow: 
+                0 1px 0 rgba(196, 181, 253, 0.3) inset,
+                0 8px 25px rgba(147, 51, 234, 0.15),
+                0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* 4. Rose Gold */
+        .rose-gold {
+            background: linear-gradient(135deg, 
+                rgba(244, 114, 182, 0.18) 0%, 
+                rgba(244, 114, 182, 0.10) 100%);
+            box-shadow: 
+                0 1px 0 rgba(251, 207, 232, 0.3) inset,
+                0 8px 25px rgba(244, 114, 182, 0.15),
+                0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* 5. Emerald Pro */
+        .emerald-pro {
+            background: linear-gradient(135deg, 
+                rgba(16, 185, 129, 0.18) 0%, 
+                rgba(16, 185, 129, 0.10) 100%);
+            box-shadow: 
+                0 1px 0 rgba(110, 231, 183, 0.3) inset,
+                0 8px 25px rgba(16, 185, 129, 0.15),
+                0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* 6. Warm Amber */
+        .warm-amber {
+            background: linear-gradient(135deg, 
+                rgba(245, 158, 11, 0.18) 0%, 
+                rgba(245, 158, 11, 0.10) 100%);
+            box-shadow: 
+                0 1px 0 rgba(252, 211, 77, 0.3) inset,
+                0 8px 25px rgba(245, 158, 11, 0.15),
+                0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* 7. Deep Teal */
+        .deep-teal {
+            background: linear-gradient(135deg, 
+                rgba(20, 184, 166, 0.18) 0%, 
+                rgba(20, 184, 166, 0.10) 100%);
+            box-shadow: 
+                0 1px 0 rgba(153, 246, 228, 0.3) inset,
+                0 8px 25px rgba(20, 184, 166, 0.15),
+                0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* 8. Crimson Elite */
+        .crimson-elite {
+            background: linear-gradient(135deg, 
+                rgba(220, 38, 127, 0.18) 0%, 
+                rgba(220, 38, 127, 0.10) 100%);
+            box-shadow: 
+                0 1px 0 rgba(251, 207, 232, 0.3) inset,
+                0 8px 25px rgba(220, 38, 127, 0.15),
+                0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* 9. Platinum White */
+        .platinum-white {
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.25) 0%, 
+                rgba(255, 255, 255, 0.15) 100%);
+            box-shadow: 
+                0 1px 0 rgba(255, 255, 255, 0.4) inset,
+                0 8px 25px rgba(255, 255, 255, 0.08),
+                0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* 10. Indigo Deep */
+        .indigo-deep {
+            background: linear-gradient(135deg, 
+                rgba(79, 70, 229, 0.18) 0%, 
+                rgba(79, 70, 229, 0.10) 100%);
+            box-shadow: 
+                0 1px 0 rgba(165, 180, 252, 0.3) inset,
+                0 8px 25px rgba(79, 70, 229, 0.15),
+                0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* 11. Sunset Orange */
+        .sunset-orange {
+            background: linear-gradient(135deg, 
+                rgba(251, 146, 60, 0.18) 0%, 
+                rgba(251, 146, 60, 0.10) 100%);
+            box-shadow: 
+                0 1px 0 rgba(254, 215, 170, 0.3) inset,
+                0 8px 25px rgba(251, 146, 60, 0.15),
+                0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* 12. Neon Green */
+        .neon-green {
+            background: linear-gradient(135deg, 
+                rgba(34, 197, 94, 0.18) 0%, 
+                rgba(34, 197, 94, 0.10) 100%);
+            box-shadow: 
+                0 1px 0 rgba(134, 239, 172, 0.3) inset,
+                0 8px 25px rgba(34, 197, 94, 0.15),
+                0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* 13. Lavender Mist */
+        .lavender-mist {
+            background: linear-gradient(135deg, 
+                rgba(168, 85, 247, 0.18) 0%, 
+                rgba(168, 85, 247, 0.10) 100%);
+            box-shadow: 
+                0 1px 0 rgba(221, 214, 254, 0.3) inset,
+                0 8px 25px rgba(168, 85, 247, 0.15),
+                0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* 14. Steel Blue */
+        .steel-blue {
+            background: linear-gradient(135deg, 
+                rgba(71, 85, 105, 0.25) 0%, 
+                rgba(71, 85, 105, 0.15) 100%);
+            box-shadow: 
+                0 1px 0 rgba(148, 163, 184, 0.3) inset,
+                0 8px 25px rgba(71, 85, 105, 0.15),
+                0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* 15. Cosmic Purple */
+        .cosmic-purple {
+            background: linear-gradient(135deg, 
+                rgba(139, 92, 246, 0.18) 0%, 
+                rgba(139, 92, 246, 0.10) 100%);
+            box-shadow: 
+                0 1px 0 rgba(196, 181, 253, 0.3) inset,
+                0 8px 25px rgba(139, 92, 246, 0.15),
+                0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .recommendation {
+            margin-top: 40px;
+            padding: 25px;
+            background: rgba(96, 165, 250, 0.05);
+            border-radius: 16px;
+            border: 1px solid rgba(96, 165, 250, 0.2);
+        }
+        
+        .recommendation h3 {
+            margin-top: 0;
+            color: rgba(147, 197, 253, 1);
+        }
+        
+        .rec-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .rec-item {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .rec-item h4 {
+            margin: 0 0 8px 0;
+            font-size: 14px;
+            color: white;
+        }
+        
+        .rec-item p {
+            margin: 0;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+    <div class="mockup-container">
+        <h1>15 Premium Header Color Options</h1>
+        
+        <div class="colors-grid">
+            <!-- 1. Electric Blue -->
+            <div class="color-option">
+                <div class="option-title">1. Electric Blue (Your Brand)</div>
+                <div class="header-demo">
+                    <div class="demo-header electric-blue">
+                        <div class="header-text">
+                            <div class="header-label">Demo Tracks</div>
+                            <div class="header-title">5 tracks</div>
+                        </div>
+                        <div class="tags-btn">TAGS</div>
+                    </div>
+                    <div class="track-preview">
+                        <div class="track-item">
+                            <div class="track-thumb"></div>
+                            <div class="track-info">
+                                <div class="track-name">Wanderer's Lament</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="color-info">Your current brand color with premium styling</div>
+            </div>
+            
+            <!-- 2. Cyan Glow -->
+            <div class="color-option">
+                <div class="option-title">2. Cyan Glow</div>
+                <div class="header-demo">
+                    <div class="demo-header cyan-glow">
+                        <div class="header-text">
+                            <div class="header-label">Demo Tracks</div>
+                            <div class="header-title">5 tracks</div>
+                        </div>
+                        <div class="tags-btn">TAGS</div>
+                    </div>
+                    <div class="track-preview">
+                        <div class="track-item">
+                            <div class="track-thumb"></div>
+                            <div class="track-info">
+                                <div class="track-name">Wanderer's Lament</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="color-info">Modern tech vibe, complements blue palette</div>
+            </div>
+            
+            <!-- 3. Purple Luxury -->
+            <div class="color-option">
+                <div class="option-title">3. Purple Luxury</div>
+                <div class="header-demo">
+                    <div class="demo-header purple-luxury">
+                        <div class="header-text">
+                            <div class="header-label">Demo Tracks</div>
+                            <div class="header-title">5 tracks</div>
+                        </div>
+                        <div class="tags-btn">TAGS</div>
+                    </div>
+                    <div class="track-preview">
+                        <div class="track-item">
+                            <div class="track-thumb"></div>
+                            <div class="track-info">
+                                <div class="track-name">Wanderer's Lament</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="color-info">Premium feel, great for music apps</div>
+            </div>
+            
+            <!-- 4. Rose Gold -->
+            <div class="color-option">
+                <div class="option-title">4. Rose Gold</div>
+                <div class="header-demo">
+                    <div class="demo-header rose-gold">
+                        <div class="header-text">
+                            <div class="header-label">Demo Tracks</div>
+                            <div class="header-title">5 tracks</div>
+                        </div>
+                        <div class="tags-btn">TAGS</div>
+                    </div>
+                    <div class="track-preview">
+                        <div class="track-item">
+                            <div class="track-thumb"></div>
+                            <div class="track-info">
+                                <div class="track-name">Wanderer's Lament</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="color-info">Elegant, Apple-inspired premium aesthetic</div>
+            </div>
+            
+            <!-- 5. Emerald Pro -->
+            <div class="color-option">
+                <div class="option-title">5. Emerald Pro</div>
+                <div class="header-demo">
+                    <div class="demo-header emerald-pro">
+                        <div class="header-text">
+                            <div class="header-label">Demo Tracks</div>
+                            <div class="header-title">5 tracks</div>
+                        </div>
+                        <div class="tags-btn">TAGS</div>
+                    </div>
+                    <div class="track-preview">
+                        <div class="track-item">
+                            <div class="track-thumb"></div>
+                            <div class="track-info">
+                                <div class="track-name">Wanderer's Lament</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="color-info">Fresh, sophisticated green accent</div>
+            </div>
+            
+            <!-- 6. Warm Amber -->
+            <div class="color-option">
+                <div class="option-title">6. Warm Amber</div>
+                <div class="header-demo">
+                    <div class="demo-header warm-amber">
+                        <div class="header-text">
+                            <div class="header-label">Demo Tracks</div>
+                            <div class="header-title">5 tracks</div>
+                        </div>
+                        <div class="tags-btn">TAGS</div>
+                    </div>
+                    <div class="track-preview">
+                        <div class="track-item">
+                            <div class="track-thumb"></div>
+                            <div class="track-info">
+                                <div class="track-name">Wanderer's Lament</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="color-info">Warm, inviting, premium gold feel</div>
+            </div>
+            
+            <!-- 7. Deep Teal -->
+            <div class="color-option">
+                <div class="option-title">7. Deep Teal</div>
+                <div class="header-demo">
+                    <div class="demo-header deep-teal">
+                        <div class="header-text">
+                            <div class="header-label">Demo Tracks</div>
+                            <div class="header-title">5 tracks</div>
+                        </div>
+                        <div class="tags-btn">TAGS</div>
+                    </div>
+                    <div class="track-preview">
+                        <div class="track-item">
+                            <div class="track-thumb"></div>
+                            <div class="track-info">
+                                <div class="track-name">Wanderer's Lament</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="color-info">Professional, calming ocean vibe</div>
+            </div>
+            
+            <!-- 8. Crimson Elite -->
+            <div class="color-option">
+                <div class="option-title">8. Crimson Elite</div>
+                <div class="header-demo">
+                    <div class="demo-header crimson-elite">
+                        <div class="header-text">
+                            <div class="header-label">Demo Tracks</div>
+                            <div class="header-title">5 tracks</div>
+                        </div>
+                        <div class="tags-btn">TAGS</div>
+                    </div>
+                    <div class="track-preview">
+                        <div class="track-item">
+                            <div class="track-thumb"></div>
+                            <div class="track-info">
+                                <div class="track-name">Wanderer's Lament</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="color-info">Bold, powerful, attention-grabbing</div>
+            </div>
+            
+            <!-- 9. Platinum White -->
+            <div class="color-option">
+                <div class="option-title">9. Platinum White</div>
+                <div class="header-demo">
+                    <div class="demo-header platinum-white">
+                        <div class="header-text">
+                            <div class="header-label">Demo Tracks</div>
+                            <div class="header-title">5 tracks</div>
+                        </div>
+                        <div class="tags-btn">TAGS</div>
+                    </div>
+                    <div class="track-preview">
+                        <div class="track-item">
+                            <div class="track-thumb"></div>
+                            <div class="track-info">
+                                <div class="track-name">Wanderer's Lament</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="color-info">Clean, minimalist, luxury white</div>
+            </div>
+            
+            <!-- 10. Indigo Deep -->
+            <div class="color-option">
+                <div class="option-title">10. Indigo Deep</div>
+                <div class="header-demo">
+                    <div class="demo-header indigo-deep">
+                        <div class="header-text">
+                            <div class="header-label">Demo Tracks</div>
+                            <div class="header-title">5 tracks</div>
+                        </div>
+                        <div class="tags-btn">TAGS</div>
+                    </div>
+                    <div class="track-preview">
+                        <div class="track-item">
+                            <div class="track-thumb"></div>
+                            <div class="track-info">
+                                <div class="track-name">Wanderer's Lament</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="color-info">Rich, sophisticated deep blue</div>
+            </div>
+            
+            <!-- 11. Sunset Orange -->
+            <div class="color-option">
+                <div class="option-title">11. Sunset Orange</div>
+                <div class="header-demo">
+                    <div class="demo-header sunset-orange">
+                        <div class="header-text">
+                            <div class="header-label">Demo Tracks</div>
+                            <div class="header-title">5 tracks</div>
+                        </div>
+                        <div class="tags-btn">TAGS</div>
+                    </div>
+                    <div class="track-preview">
+                        <div class="track-item">
+                            <div class="track-thumb"></div>
+                            <div class="track-info">
+                                <div class="track-name">Wanderer's Lament</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="color-info">Energetic, warm, creative vibe</div>
+            </div>
+            
+            <!-- 12. Neon Green -->
+            <div class="color-option">
+                <div class="option-title">12. Neon Green</div>
+                <div class="header-demo">
+                    <div class="demo-header neon-green">
+                        <div class="header-text">
+                            <div class="header-label">Demo Tracks</div>
+                            <div class="header-title">5 tracks</div>
+                        </div>
+                        <div class="tags-btn">TAGS</div>
+                    </div>
+                    <div class="track-preview">
+                        <div class="track-item">
+                            <div class="track-thumb"></div>
+                            <div class="track-info">
+                                <div class="track-name">Wanderer's Lament</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="color-info">Fresh, modern, tech-forward feel</div>
+            </div>
+            
+            <!-- 13. Lavender Mist -->
+            <div class="color-option">
+                <div class="option-title">13. Lavender Mist</div>
+                <div class="header-demo">
+                    <div class="demo-header lavender-mist">
+                        <div class="header-text">
+                            <div class="header-label">Demo Tracks</div>
+                            <div class="header-title">5 tracks</div>
+                        </div>
+                        <div class="tags-btn">TAGS</div>
+                    </div>
+                    <div class="track-preview">
+                        <div class="track-item">
+                            <div class="track-thumb"></div>
+                            <div class="track-info">
+                                <div class="track-name">Wanderer's Lament</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="color-info">Soft, dreamy, artistic atmosphere</div>
+            </div>
+            
+            <!-- 14. Steel Blue -->
+            <div class="color-option">
+                <div class="option-title">14. Steel Blue</div>
+                <div class="header-demo">
+                    <div class="demo-header steel-blue">
+                        <div class="header-text">
+                            <div class="header-label">Demo Tracks</div>
+                            <div class="header-title">5 tracks</div>
+                        </div>
+                        <div class="tags-btn">TAGS</div>
+                    </div>
+                    <div class="track-preview">
+                        <div class="track-item">
+                            <div class="track-thumb"></div>
+                            <div class="track-info">
+                                <div class="track-name">Wanderer's Lament</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="color-info">Industrial, professional, muted elegance</div>
+            </div>
+            
+            <!-- 15. Cosmic Purple -->
+            <div class="color-option">
+                <div class="option-title">15. Cosmic Purple</div>
+                <div class="header-demo">
+                    <div class="demo-header cosmic-purple">
+                        <div class="header-text">
+                            <div class="header-label">Demo Tracks</div>
+                            <div class="header-title">5 tracks</div>
+                        </div>
+                        <div class="tags-btn">TAGS</div>
+                    </div>
+                    <div class="track-preview">
+                        <div class="track-item">
+                            <div class="track-thumb"></div>
+                            <div class="track-info">
+                                <div class="track-name">Wanderer's Lament</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="color-info">Mystical, space-themed, perfect for your aesthetic</div>
+            </div>
+        </div>
+        
+        <div class="recommendation">
+            <h3>My Top Recommendations</h3>
+            <div class="rec-grid">
+                <div class="rec-item">
+                    <h4>🎯 Best Overall: Cosmic Purple</h4>
+                    <p>Matches your space theme perfectly while feeling premium and sophisticated. Great contrast with track tiles.</p>
+                </div>
+                <div class="rec-item">
+                    <h4>🔥 Most Premium: Rose Gold</h4>
+                    <p>Apple-inspired elegance that screams high-end. Warm contrast against your cool space background.</p>
+                </div>
+                <div class="rec-item">
+                    <h4>💼 Most Professional: Steel Blue</h4>
+                    <p>Muted sophistication that won't compete with track colors. Perfect for professional music apps.</p>
+                </div>
+                <div class="rec-item">
+                    <h4>⚡ Brand Consistent: Electric Blue Enhanced</h4>
+                    <p>Your current brand color with premium styling upgrades. Safe choice that maintains brand identity.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

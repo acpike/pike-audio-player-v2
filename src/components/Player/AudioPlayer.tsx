@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { PlayButton } from './PlayButton';
 import { ProgressBar } from './ProgressBar';
+import { InstructionalText } from '../UI/InstructionalText';
 import { useUIStore } from '../../stores/uiStore';
 import { usePreviewStore } from '../../stores/previewStore';
 import { Track, trackData } from '../../types/tracks';
@@ -59,7 +60,6 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
   
   // Determine if we should show controls (hide during any preview activity)
   const shouldShowControls = previewTrackIndex === null;
-  const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
   const previousTrackRef = useRef<Track | null>(null);
   
   // Auto-hide play button state
@@ -151,9 +151,7 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
   };
 
   const getCoverWrapperClass = () => {
-    if (isLandscapeMode && isDescriptionExpanded) return styles.coverWrapperLandscapeExpanded;
     if (isLandscapeMode) return styles.coverWrapperLandscape;
-    if (isPortraitMode && isDescriptionExpanded) return styles.coverWrapperPortraitExpanded;
     return styles.coverWrapper;
   };
 
@@ -172,7 +170,6 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
   };
 
   const getTrackInfoClass = () => {
-    if (isPortraitMode && isDescriptionExpanded) return styles.trackInfoPortraitExpanded;
     return styles.trackInfo;
   };
 
@@ -189,29 +186,7 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
     return `${baseClass} ${specificClass}`;
   };
 
-  const getDescriptionWrapperClass = () => {
-    if (isLandscapeMode && isDescriptionExpanded) return styles.descriptionWrapperLandscapeExpanded;
-    if (isLandscapeMode) return styles.descriptionWrapperLandscape;
-    if (isDescriptionExpanded) return styles.descriptionWrapperExpanded;
-    return styles.descriptionWrapper;
-  };
 
-  const getMorphingDescriptionClass = () => {
-    if (isLandscapeMode && isDescriptionExpanded) return styles.morphingDescriptionLandscapeExpanded;
-    if (isLandscapeMode) return styles.morphingDescriptionLandscape;
-    if (isDescriptionExpanded) return styles.morphingDescriptionExpanded;
-    return styles.morphingDescription;
-  };
-
-  const getDescriptionTextClass = () => {
-    const baseClass = styles.descriptionTextBase;
-    const specificClass = isLandscapeMode ? styles.descriptionTextLandscape : styles.descriptionText;
-    return `${baseClass} ${specificClass}`;
-  };
-
-  const getButtonTextClass = () => {
-    return isLandscapeMode ? styles.buttonTextLandscape : styles.buttonText;
-  };
 
   // Auto-hide play button after 3 seconds when playing
   useEffect(() => {
@@ -243,11 +218,8 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
     };
   }, [isPlaying, hasTrackBeenSelected]);
 
-  // Auto-collapse description when track changes, auto-expand during preview
+  // Track previous track for reference
   useEffect(() => {
-    if (previousTrackRef.current && currentTrack && previousTrackRef.current.title !== currentTrack.title) {
-      setIsDescriptionExpanded(false);
-    }
     previousTrackRef.current = currentTrack;
   }, [currentTrack]);
 
@@ -291,19 +263,6 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
     };
   }, [displayTrack?.title, hasTrackBeenSelected, isLandscapeMode, isPortraitMode]);
   
-  // Auto-expand description during preview (playing or paused), collapse when preview ends
-  useEffect(() => {
-    if (previewTrackIndex !== null) {
-      setIsDescriptionExpanded(true);
-    } else {
-      // Collapse description when preview ends completely
-      setIsDescriptionExpanded(false);
-    }
-  }, [previewTrackIndex]);
-
-  const toggleDescription = () => {
-    setIsDescriptionExpanded(!isDescriptionExpanded);
-  };
 
   const toggleDebugPanel = () => {
     window.dispatchEvent(new Event('toggleDebugPanel'));
@@ -398,7 +357,7 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
             </h1>
             
             {(hasTrackBeenSelected || previewTrackIndex !== null) && (
-              <div className={getStatusTextClass()}>
+              <div className={`${getStatusTextClass()} ${isLoading ? styles.statusTextLoading : ''}`}>
                 {isLoading ? UI_STRINGS.LOADING : 
                  previewTrackIndex !== null ? UI_STRINGS.PREVIEWING :
                  hasTrackBeenSelected ? UI_STRINGS.NOW_PLAYING : 
@@ -408,38 +367,10 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
           </>
         )}
         
-        {/* Morphing Description Component */}
-        {(hasTrackBeenSelected || previewTrackIndex !== null) && displayTrack && (
-          <div className={getDescriptionWrapperClass()}>
-            <div 
-              key={displayTrack.title}
-              className={getMorphingDescriptionClass()}
-              onClick={previewTrackIndex !== null ? undefined : toggleDescription}
-              role={previewTrackIndex !== null ? undefined : "button"}
-              tabIndex={previewTrackIndex !== null ? -1 : 0}
-              onKeyDown={previewTrackIndex !== null ? undefined : (e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault();
-                  toggleDescription();
-                }
-              }}
-              aria-label={previewTrackIndex !== null ? 'Preview description' : (isDescriptionExpanded ? 'Collapse description' : 'Expand description')}
-              style={previewTrackIndex !== null ? { cursor: 'default' } : undefined}
-            >
-              {isDescriptionExpanded ? (
-                <p className={getDescriptionTextClass()}>
-                  {displayTrack.description || 'No description available for this track.'}
-                </p>
-              ) : (
-                <span className={getButtonTextClass()}>
-                  {UI_STRINGS.DESCRIPTION}
-                </span>
-              )}
-            </div>
-          </div>
-        )}
-        
       </div>
+      
+      {/* Instructional text for first-time users */}
+      <InstructionalText isVisible={!hasTrackBeenSelected && previewTrackIndex === null} />
     </div>
   );
 };

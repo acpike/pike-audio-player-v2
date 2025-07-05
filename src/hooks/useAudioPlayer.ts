@@ -312,6 +312,9 @@ export const useAudioPlayer = () => {
     const audio = audioRef.current;
     if (!track || !audio) return;
 
+    // Scroll the track into view when manually selected
+    scrollTrackIntoView(index);
+
     // Stop any preview that might be playing
     resetPreview();
 

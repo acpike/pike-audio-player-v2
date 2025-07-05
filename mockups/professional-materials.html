@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Material Simulation - $5M Grade</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            margin: 0;
+            padding: 40px;
+            background: 
+                radial-gradient(ellipse at 20% 80%, rgba(15, 52, 96, 0.8) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(26, 26, 46, 0.9) 0%, transparent 50%),
+                radial-gradient(ellipse at 40% 40%, rgba(22, 33, 62, 0.7) 0%, transparent 50%),
+                linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #000000 100%);
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui, sans-serif;
+            color: white;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        /* Ambient lighting simulation */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: 
+                radial-gradient(circle at 30% 20%, rgba(96, 165, 250, 0.03) 0%, transparent 40%),
+                radial-gradient(circle at 70% 80%, rgba(147, 197, 253, 0.02) 0%, transparent 40%);
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        h1 {
+            text-align: center;
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, 
+                #ffffff 0%, 
+                #e0e7ff 25%, 
+                #c7d2fe 50%, 
+                #a5b4fc 75%, 
+                #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.03em;
+            text-shadow: 0 4px 20px rgba(96, 165, 250, 0.3);
+        }
+        
+        .subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 60px;
+            font-weight: 400;
+            letter-spacing: 0.02em;
+        }
+        
+        .materials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+        
+        .material-card {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 24px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            position: relative;
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        
+        .material-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+        }
+        
+        .material-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: rgba(255, 255, 255, 0.95);
+            letter-spacing: -0.02em;
+        }
+        
+        .material-subtitle {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 25px;
+            font-weight: 400;
+        }
+        
+        .header-demo {
+            border-radius: 18px;
+            overflow: hidden;
+            position: relative;
+            margin-bottom: 20px;
+            background: rgba(0, 0, 0, 0.3);
+        }
+        
+        .demo-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .header-content {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .header-label {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 3px;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+        }
+        
+        .header-title {
+            font-size: 19px;
+            font-weight: 800;
+            margin: 0;
+            letter-spacing: -0.03em;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+        }
+        
+        .tags-btn {
+            padding: 8px 16px;
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+            cursor: pointer;
+        }
+        
+        .track-preview {
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.2);
+        }
+        
+        .track-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 10px;
+            margin-bottom: 6px;
+            transition: all 0.3s ease;
+        }
+        
+        .track-item:hover {
+            background: rgba(255, 255, 255, 0.04);
+            transform: translateX(4px);
+        }
+        
+        .track-thumb {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            margin-right: 12px;
+            box-shadow: 
+                0 4px 12px rgba(0, 0, 0, 0.3),
+                0 1px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .track-info {
+            flex: 1;
+        }
+        
+        .track-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: white;
+            margin: 0 0 2px 0;
+            letter-spacing: -0.01em;
+        }
+        
+        .track-duration {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+            margin: 0;
+            font-variant-numeric: tabular-nums;
+        }
+        
+        /* 1. AEROSPACE TITANIUM */
+        .aerospace-titanium {
+            background: 
+                linear-gradient(145deg, 
+                    rgba(255, 255, 255, 0.45) 0%,
+                    rgba(255, 255, 255, 0.25) 15%,
+                    rgba(230, 235, 245, 0.35) 35%,
+                    rgba(200, 210, 230, 0.3) 55%,
+                    rgba(255, 255, 255, 0.4) 80%,
+                    rgba(240, 245, 255, 0.35) 100%);
+            backdrop-filter: blur(60px) saturate(2.5) brightness(1.15) contrast(1.08);
+            -webkit-backdrop-filter: blur(60px) saturate(2.5) brightness(1.15) contrast(1.08);
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            position: relative;
+            box-shadow: 
+                /* Primary reflection */
+                0 2px 1px rgba(255, 255, 255, 0.8) inset,
+                /* Secondary highlight */
+                0 -2px 1px rgba(255, 255, 255, 0.4) inset,
+                /* Edge glow */
+                0 0 0 1px rgba(255, 255, 255, 0.3) inset,
+                /* Outer shadows */
+                0 16px 40px rgba(255, 255, 255, 0.15),
+                0 32px 80px rgba(255, 255, 255, 0.08),
+                0 8px 24px rgba(0, 0, 0, 0.12),
+                /* Ambient reflection */
+                0 4px 16px rgba(147, 197, 253, 0.1);
+        }
+        
+        .aerospace-titanium::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, 
+                transparent 0%,
+                rgba(255, 255, 255, 0.4) 5%,
+                rgba(255, 255, 255, 0.9) 15%,
+                rgba(255, 255, 255, 1) 25%,
+                rgba(255, 255, 255, 1) 50%,
+                rgba(255, 255, 255, 1) 75%,
+                rgba(255, 255, 255, 0.9) 85%,
+                rgba(255, 255, 255, 0.4) 95%,
+                transparent 100%);
+            border-radius: 2px;
+        }
+        
+        .aerospace-titanium::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            right: 3px;
+            bottom: 3px;
+            border-radius: inherit;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            pointer-events: none;
+        }
+        
+        .aerospace-titanium .header-label {
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+        
+        .aerospace-titanium .header-title {
+            color: white;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+        }
+        
+        .aerospace-titanium .tags-btn {
+            background: rgba(255, 255, 255, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            color: rgba(255, 255, 255, 0.95);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* 2. SURGICAL STEEL */
+        .surgical-steel {
+            background: 
+                radial-gradient(ellipse at top left, 
+                    rgba(255, 255, 255, 0.4) 0%,
+                    rgba(240, 248, 255, 0.35) 25%,
+                    rgba(226, 232, 240, 0.3) 50%,
+                    rgba(255, 255, 255, 0.38) 100%);
+            backdrop-filter: blur(50px) saturate(2.2) brightness(1.12) contrast(1.05) hue-rotate(2deg);
+            -webkit-backdrop-filter: blur(50px) saturate(2.2) brightness(1.12) contrast(1.05) hue-rotate(2deg);
+            border: 1.5px solid rgba(255, 255, 255, 0.55);
+            position: relative;
+            box-shadow: 
+                /* Brushed metal reflection */
+                0 1px 0 rgba(255, 255, 255, 0.7) inset,
+                0 -1px 0 rgba(255, 255, 255, 0.3) inset,
+                /* Side highlights */
+                1px 0 0 rgba(255, 255, 255, 0.2) inset,
+                -1px 0 0 rgba(255, 255, 255, 0.2) inset,
+                /* Outer glow */
+                0 12px 32px rgba(255, 255, 255, 0.12),
+                0 24px 64px rgba(255, 255, 255, 0.06),
+                0 6px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .surgical-steel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                repeating-linear-gradient(90deg,
+                    transparent 0px,
+                    rgba(255, 255, 255, 0.03) 1px,
+                    rgba(255, 255, 255, 0.06) 2px,
+                    rgba(255, 255, 255, 0.03) 3px,
+                    transparent 4px,
+                    transparent 8px);
+            border-radius: inherit;
+            pointer-events: none;
+        }
+        
+        .surgical-steel .header-label {
+            color: rgba(255, 255, 255, 0.85);
+        }
+        
+        .surgical-steel .header-title {
+            color: white;
+        }
+        
+        .surgical-steel .tags-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        /* 3. CRYSTAL QUARTZ */
+        .crystal-quartz {
+            background: 
+                linear-gradient(160deg, 
+                    rgba(255, 255, 255, 0.5) 0%,
+                    rgba(255, 255, 255, 0.15) 20%,
+                    rgba(240, 248, 255, 0.25) 40%,
+                    rgba(219, 234, 254, 0.3) 60%,
+                    rgba(255, 255, 255, 0.35) 80%,
+                    rgba(248, 250, 252, 0.4) 100%);
+            backdrop-filter: blur(80px) saturate(3.0) brightness(1.2) contrast(1.1);
+            -webkit-backdrop-filter: blur(80px) saturate(3.0) brightness(1.2) contrast(1.1);
+            border: 2px solid rgba(255, 255, 255, 0.7);
+            position: relative;
+            box-shadow: 
+                /* Primary crystal reflection */
+                0 3px 1px rgba(255, 255, 255, 0.9) inset,
+                0 -2px 1px rgba(255, 255, 255, 0.5) inset,
+                /* Internal refraction */
+                0 0 0 1px rgba(255, 255, 255, 0.4) inset,
+                0 0 0 3px rgba(255, 255, 255, 0.1) inset,
+                /* External glow */
+                0 20px 50px rgba(255, 255, 255, 0.2),
+                0 40px 100px rgba(255, 255, 255, 0.1),
+                0 8px 32px rgba(255, 255, 255, 0.15),
+                /* Chromatic aberration simulation */
+                0 0 20px rgba(96, 165, 250, 0.05),
+                0 0 40px rgba(147, 197, 253, 0.03);
+        }
+        
+        .crystal-quartz::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: 
+                linear-gradient(90deg, 
+                    transparent 0%,
+                    rgba(255, 255, 255, 0.6) 10%,
+                    rgba(255, 255, 255, 1) 20%,
+                    rgba(255, 255, 255, 1) 80%,
+                    rgba(255, 255, 255, 0.6) 90%,
+                    transparent 100%);
+            border-radius: 2px;
+        }
+        
+        .crystal-quartz::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 20%;
+            right: 20%;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 1px;
+        }
+        
+        .crystal-quartz .header-label {
+            color: rgba(255, 255, 255, 0.95);
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .crystal-quartz .header-title {
+            color: white;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+        }
+        
+        .crystal-quartz .tags-btn {
+            background: rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            color: white;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* 4. LIQUID MERCURY */
+        .liquid-mercury {
+            background: 
+                radial-gradient(circle at 30% 20%, 
+                    rgba(255, 255, 255, 0.55) 0%,
+                    rgba(226, 232, 240, 0.4) 30%,
+                    rgba(203, 213, 225, 0.35) 60%,
+                    rgba(255, 255, 255, 0.45) 100%);
+            backdrop-filter: blur(70px) saturate(2.8) brightness(1.18) contrast(1.12) blur(1px);
+            -webkit-backdrop-filter: blur(70px) saturate(2.8) brightness(1.18) contrast(1.12);
+            border: 3px solid rgba(255, 255, 255, 0.8);
+            position: relative;
+            box-shadow: 
+                /* Liquid surface tension */
+                0 4px 2px rgba(255, 255, 255, 1) inset,
+                0 -3px 2px rgba(255, 255, 255, 0.6) inset,
+                /* Meniscus effect */
+                0 0 0 1px rgba(255, 255, 255, 0.5) inset,
+                0 0 0 2px rgba(255, 255, 255, 0.2) inset,
+                /* Reflection pool */
+                0 25px 60px rgba(255, 255, 255, 0.25),
+                0 50px 120px rgba(255, 255, 255, 0.12),
+                0 12px 40px rgba(255, 255, 255, 0.18),
+                0 4px 16px rgba(0, 0, 0, 0.08);
+        }
+        
+        .liquid-mercury::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: 
+                linear-gradient(90deg, 
+                    transparent 0%,
+                    rgba(255, 255, 255, 0.8) 15%,
+                    rgba(255, 255, 255, 1) 50%,
+                    rgba(255, 255, 255, 0.8) 85%,
+                    transparent 100%);
+            border-radius: 3px;
+            animation: mercuryShimmer 4s ease-in-out infinite;
+        }
+        
+        @keyframes mercuryShimmer {
+            0%, 100% { 
+                opacity: 1;
+                transform: scaleX(1);
+            }
+            50% { 
+                opacity: 0.8;
+                transform: scaleX(0.95);
+            }
+        }
+        
+        .liquid-mercury .header-label {
+            color: rgba(255, 255, 255, 1);
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+        }
+        
+        .liquid-mercury .header-title {
+            color: white;
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+        
+        .liquid-mercury .tags-btn {
+            background: rgba(255, 255, 255, 0.35);
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            color: white;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* 5. DIAMOND COATING */
+        .diamond-coating {
+            background: 
+                conic-gradient(from 45deg at 50% 50%, 
+                    rgba(255, 255, 255, 0.6) 0deg,
+                    rgba(240, 248, 255, 0.45) 60deg,
+                    rgba(219, 234, 254, 0.4) 120deg,
+                    rgba(255, 255, 255, 0.55) 180deg,
+                    rgba(248, 250, 252, 0.5) 240deg,
+                    rgba(255, 255, 255, 0.6) 300deg,
+                    rgba(255, 255, 255, 0.6) 360deg);
+            backdrop-filter: blur(90px) saturate(3.5) brightness(1.25) contrast(1.15) hue-rotate(1deg);
+            -webkit-backdrop-filter: blur(90px) saturate(3.5) brightness(1.25) contrast(1.15) hue-rotate(1deg);
+            border: 3px solid rgba(255, 255, 255, 0.9);
+            position: relative;
+            box-shadow: 
+                /* Diamond facet reflections */
+                0 5px 2px rgba(255, 255, 255, 1) inset,
+                0 -4px 2px rgba(255, 255, 255, 0.7) inset,
+                2px 0 2px rgba(255, 255, 255, 0.4) inset,
+                -2px 0 2px rgba(255, 255, 255, 0.4) inset,
+                /* Internal light dispersion */
+                0 0 0 1px rgba(255, 255, 255, 0.6) inset,
+                0 0 0 2px rgba(255, 255, 255, 0.3) inset,
+                0 0 0 3px rgba(255, 255, 255, 0.1) inset,
+                /* Brilliant cut reflections */
+                0 30px 75px rgba(255, 255, 255, 0.3),
+                0 60px 150px rgba(255, 255, 255, 0.15),
+                0 15px 50px rgba(255, 255, 255, 0.2),
+                /* Rainbow dispersion */
+                0 0 30px rgba(96, 165, 250, 0.08),
+                0 0 60px rgba(147, 197, 253, 0.05),
+                0 0 90px rgba(219, 234, 254, 0.03);
+        }
+        
+        .diamond-coating::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 8px;
+            background: 
+                linear-gradient(90deg, 
+                    transparent 0%,
+                    rgba(255, 255, 255, 1) 25%,
+                    rgba(255, 255, 255, 1) 75%,
+                    transparent 100%);
+            border-radius: 4px;
+            animation: diamondSparkle 3s ease-in-out infinite alternate;
+        }
+        
+        .diamond-coating::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%),
+                linear-gradient(-45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+            border-radius: inherit;
+            pointer-events: none;
+        }
+        
+        @keyframes diamondSparkle {
+            0% { 
+                opacity: 1;
+                transform: scaleY(1);
+            }
+            100% { 
+                opacity: 0.7;
+                transform: scaleY(0.8);
+            }
+        }
+        
+        .diamond-coating .header-label {
+            color: white;
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+        
+        .diamond-coating .header-title {
+            color: white;
+            text-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+        }
+        
+        .diamond-coating .tags-btn {
+            background: rgba(255, 255, 255, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.7);
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .material-description {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.75);
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .technical-specs {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 12px;
+            padding: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .technical-specs h4 {
+            margin: 0 0 10px 0;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .tech-detail {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.6);
+            margin: 4px 0;
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+        }
+        
+        .recommendation {
+            margin-top: 60px;
+            padding: 40px;
+            background: 
+                linear-gradient(135deg, 
+                    rgba(255, 255, 255, 0.08) 0%, 
+                    rgba(255, 255, 255, 0.03) 50%,
+                    rgba(255, 255, 255, 0.06) 100%);
+            border-radius: 28px;
+            border: 2px solid rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(40px) saturate(1.5);
+            position: relative;
+        }
+        
+        .recommendation::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(96, 165, 250, 0.6) 50%, 
+                transparent 100%);
+            border-radius: 1px;
+        }
+        
+        .recommendation h3 {
+            margin-top: 0;
+            font-size: 2rem;
+            font-weight: 800;
+            color: white;
+            letter-spacing: -0.02em;
+            margin-bottom: 20px;
+        }
+        
+        .rec-text {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.85);
+            line-height: 1.7;
+            margin-bottom: 25px;
+        }
+        
+        .final-specs {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 16px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        
+        .final-specs h4 {
+            margin: 0 0 15px 0;
+            font-size: 18px;
+            color: rgba(96, 165, 250, 1);
+            font-weight: 700;
+        }
+        
+        .spec-item {
+            margin: 8px 0;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.8);
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+        }
+        
+        .spec-value {
+            color: rgba(147, 197, 253, 0.9);
+            font-weight: 600;
+        }
+        
+        /* Track thumbnails */
+        .track-thumb.thumb1 {
+            background: linear-gradient(135deg, #ff6b6b, #ffd93d);
+        }
+        
+        .track-thumb.thumb2 {
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Professional Material Simulation</h1>
+        <p class="subtitle">$5M Grade Industrial Design Standards</p>
+        
+        <div class="materials-grid">
+            <!-- 1. Aerospace Titanium -->
+            <div class="material-card">
+                <div class="material-title">Aerospace Titanium</div>
+                <div class="material-subtitle">Grade 5 Ti-6Al-4V Medical Implant Finish</div>
+                <div class="header-demo">
+                    <div class="demo-header aerospace-titanium">
+                        <div class="header-content">
+                            <div class="header-label">Demo Tracks</div>
+                            <div class="header-title">5 tracks</div>
+                        </div>
+                        <div class="tags-btn">TAGS</div>
+                    </div>
+                    <div class="track-preview">
+                        <div class="track-item">
+                            <div class="track-thumb thumb1"></div>
+                            <div class="track-info">
+                                <div class="track-name">Wanderer's Lament</div>
+                                <div class="track-duration">2:45</div>
+                            </div>
+                        </div>
+                        <div class="track-item">
+                            <div class="track-thumb thumb2"></div>
+                            <div class="track-info">
+                                <div class="track-name">No Return</div>
+                                <div class="track-duration">2:47</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="material-description">
+                    Simulates the biocompatible titanium alloy used in aerospace and medical applications. Features multiple reflection layers with anisotropic highlights mimicking the crystalline structure of worked titanium.
+                </div>
+                <div class="technical-specs">
+                    <h4>Material Properties</h4>
+                    <div class="tech-detail">• 60px gaussian blur with 2.5× saturation boost</div>
+                    <div class="tech-detail">• 6-layer shadow system for surface topology</div>
+                    <div class="tech-detail">• Dual pseudo-element highlight simulation</div>
+                    <div class="tech-detail">• Multi-directional inset reflections</div>
+                </div>
+            </div>
+            
+            <!-- 2. Surgical Steel -->
+            <div class="material-card">
+                <div class="material-title">Surgical Steel</div>
+                <div class="material-subtitle">316L Stainless Brushed Finish</div>
+                <div class="header-demo">
+                    <div class="demo-header surgical-steel">
+                        <div class="header-content">
+                            <div class="header-label">Demo Tracks</div>
+                            <div class="header-title">5 tracks</div>
+                        </div>
+                        <div class="tags-btn">TAGS</div>
+                    </div>
+                    <div class="track-preview">
+                        <div class="track-item">
+                            <div class="track-thumb thumb1"></div>
+                            <div class="track-info">
+                                <div class="track-name">Wanderer's Lament</div>
+                                <div class="track-duration">2:45</div>
+                            </div>
+                        </div>
+                        <div class="track-item">
+                            <div class="track-thumb thumb2"></div>
+                            <div class="track-info">
+                                <div class="track-name">No Return</div>
+                                <div class="track-duration">2:47</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="material-description">
+                    Recreates the brushed finish of medical-grade stainless steel. Uses repeating linear gradients to simulate the microscopic grooves from directional polishing, creating authentic anisotropic reflections.
+                </div>
+                <div class="technical-specs">
+                    <h4>Surface Treatment</h4>
+                    <div class="tech-detail">• Repeating 8px linear gradient pattern</div>
+                    <div class="tech-detail">• Radial lighting from top-left quadrant</div>
+                    <div class="tech-detail">• 2° hue rotation for steel warmth</div>
+                    <div class="tech-detail">• Side-wall highlight simulation</div>
+                </div>
+            </div>
+            
+            <!-- 3. Crystal Quartz -->
+            <div class="material-card">
+                <div class="material-title">Crystal Quartz</div>
+                <div class="material-subtitle">Optical Grade Fused Silica</div>
+                <div class="header-demo">
+                    <div class="demo-header crystal-quartz">
+                        <div class="header-content">
+                            <div class="header-label">Demo Tracks</div>
+                            <div class="header-title">5 tracks</div>
+                        </div>
+                        <div class="tags-btn">TAGS</div>
+                    </div>
+                    <div class="track-preview">
+                        <div class="track-item">
+                            <div class="track-thumb thumb1"></div>
+                            <div class="track-info">
+                                <div class="track-name">Wanderer's Lament</div>
+                                <div class="track-duration">2:47</div>
+                            </div>
+                        </div>
+                        <div class="track-item">
+                            <div class="track-thumb thumb2"></div>
+                            <div class="track-info">
+                                <div class="track-name">No Return</div>
+                                <div class="track-duration">2:47</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="material-description">
+                    Simulates laboratory-grade crystal with internal refraction and chromatic aberration. Multiple inset borders create the effect of light bending through different density layers within the crystal structure.
+                </div>
+                <div class="technical-specs">
+                    <h4>Optical Properties</h4>
+                    <div class="tech-detail">• 80px blur with 3.0× saturation enhancement</div>
+                    <div class="tech-detail">• 4-layer inset border refraction simulation</div>
+                    <div class="tech-detail">• Chromatic aberration via blue glow layers</div>
+                    <div class="tech-detail">• Dual-highlight edge definition</div>
+                </div>
+            </div>
+            
+            <!-- 4. Liquid Mercury -->
+            <div class="material-card">
+                <div class="material-title">Liquid Mercury</div>
+                <div class="material-subtitle">Room Temperature Liquid Metal</div>
+                <div class="header-demo">
+                    <div class="demo-header liquid-mercury">
+                        <div class="header-content">
+                            <div class="header-label">Demo Tracks</div>
+                            <div class="header-title">5 tracks</div>
+                        </div>
+                        <div class="tags-btn">TAGS</div>
+                    </div>
+                    <div class="track-preview">
+                        <div class="track-item">
+                            <div class="track-thumb thumb1"></div>
+                            <div class="track-info">
+                                <div class="track-name">Wanderer's Lament</div>
+                                <div class="track-duration">2:45</div>
+                            </div>
+                        </div>
+                        <div class="track-item">
+                            <div class="track-thumb thumb2"></div>
+                            <div class="track-info">
+                                <div class="track-name">No Return</div>
+                                <div class="track-duration">2:47</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="material-description">
+                    Replicates the surface tension and perfect reflectivity of liquid mercury. Animated shimmer effect simulates the natural oscillation of a liquid metal surface responding to vibration.
+                </div>
+                <div class="technical-specs">
+                    <h4>Fluid Dynamics</h4>
+                    <div class="tech-detail">• Radial gradient for meniscus curvature</div>
+                    <div class="tech-detail">• 4s oscillation animation</div>
+                    <div class="tech-detail">• 6px surface tension highlight</div>
+                    <div class="tech-detail">• Perfect reflectivity simulation</div>
+                </div>
+            </div>
+            
+            <!-- 5. Diamond Coating -->
+            <div class="material-card">
+                <div class="material-title">Diamond Coating</div>
+                <div class="material-subtitle">CVD Diamond Film on Substrate</div>
+                <div class="header-demo">
+                    <div class="demo-header diamond-coating">
+                        <div class="header-content">
+                            <div class="header-label">Demo Tracks</div>
+                            <div class="header-title">5 tracks</div>
+                        </div>
+                        <div class="tags-btn">TAGS</div>
+                    </div>
+                    <div class="track-preview">
+                        <div class="track-item">
+                            <div class="track-thumb thumb1"></div>
+                            <div class="track-info">
+                                <div class="track-name">Wanderer's Lament</div>
+                                <div class="track-duration">2:45</div>
+                            </div>
+                        </div>
+                        <div class="track-item">
+                            <div class="track-thumb thumb2"></div>
+                            <div class="track-info">
+                                <div class="track-name">No Return</div>
+                                <div class="track-duration">2:47</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="material-description">
+                    Simulates the brilliant fire and scintillation of diamond-coated surfaces. Conic gradients create multifaceted reflections while animated sparkle effects replicate diamond's unique optical properties.
+                </div>
+                <div class="technical-specs">
+                    <h4>Crystalline Structure</h4>
+                    <div class="tech-detail">• Conic gradient for faceted reflections</div>
+                    <div class="tech-detail">• 90px ultra-blur with 3.5× saturation</div>
+                    <div class="tech-detail">• 8-direction inset reflection system</div>
+                    <div class="tech-detail">• RGB chromatic dispersion layers</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="recommendation">
+            <h3>🏆 Recommended: Crystal Quartz</h3>
+            <p class="rec-text">
+                For your $5M space-themed audio player, the <strong>Crystal Quartz</strong> material provides the perfect balance of premium luxury and technical sophistication. The internal refraction effects create authentic depth while the chromatic aberration adds the subtle rainbow dispersion that occurs in real optical glass.
+            </p>
+            <p class="rec-text">
+                This material simulation uses the same optical principles found in high-end camera lenses and scientific instruments, giving your interface the credibility and premium feel expected of professional-grade equipment.
+            </p>
+            
+            <div class="final-specs">
+                <h4>Implementation Specifications</h4>
+                <div class="spec-item">Blur Radius: <span class="spec-value">80px gaussian</span></div>
+                <div class="spec-item">Saturation: <span class="spec-value">3.0× enhancement</span></div>
+                <div class="spec-item">Brightness: <span class="spec-value">1.2× with 1.1× contrast</span></div>
+                <div class="spec-item">Border System: <span class="spec-value">4-layer inset refraction</span></div>
+                <div class="spec-item">Dispersion: <span class="spec-value">Blue chromatic aberration</span></div>
+                <div class="spec-item">Performance: <span class="spec-value">Hardware-accelerated transforms</span></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toggle Design Options - Aaron Pike Media Player</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #141414 100%);
+            color: white;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: rgba(20, 20, 20, 0.8);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 800;
+            color: rgba(96, 165, 250, 1);
+            margin-bottom: 8px;
+            letter-spacing: -0.02em;
+        }
+
+        .header p {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.4;
+        }
+
+        .design-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .design-card {
+            background: rgba(20, 20, 20, 0.8);
+            border-radius: 20px;
+            padding: 25px;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .design-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .design-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .design-description {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 25px;
+            text-align: center;
+            line-height: 1.4;
+        }
+
+        .toggle-demo {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .state-labels {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .state-label {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .state-label.active {
+            color: rgba(96, 165, 250, 1);
+            font-weight: 600;
+        }
+
+        /* Design 1: Glass Morphism Toggle */
+        .glass-toggle {
+            position: relative;
+            width: 120px;
+            height: 32px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .glass-toggle:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .glass-toggle .slider {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 36px;
+            height: 28px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(5px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .glass-toggle.description .slider {
+            transform: translateX(0);
+            background: rgba(96, 165, 250, 0.3);
+            border-color: rgba(96, 165, 250, 0.6);
+        }
+
+        .glass-toggle.off .slider {
+            transform: translateX(42px);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .glass-toggle.tags .slider {
+            transform: translateX(80px);
+            background: rgba(96, 165, 250, 0.3);
+            border-color: rgba(96, 165, 250, 0.6);
+        }
+
+        /* Design 2: Clean Gradient Toggle */
+        .gradient-toggle {
+            position: relative;
+            width: 120px;
+            height: 32px;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.4) 100%);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .gradient-toggle:hover {
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4), 0 0 8px rgba(96, 165, 250, 0.2);
+        }
+
+        .gradient-toggle .slider {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 36px;
+            height: 28px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
+            border-radius: 14px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .gradient-toggle.description .slider {
+            transform: translateX(0);
+            background: linear-gradient(135deg, rgba(96, 165, 250, 0.8) 0%, rgba(96, 165, 250, 0.6) 100%);
+            box-shadow: 0 0 8px rgba(96, 165, 250, 0.4);
+        }
+
+        .gradient-toggle.off .slider {
+            transform: translateX(42px);
+        }
+
+        .gradient-toggle.tags .slider {
+            transform: translateX(80px);
+            background: linear-gradient(135deg, rgba(96, 165, 250, 0.8) 0%, rgba(96, 165, 250, 0.6) 100%);
+            box-shadow: 0 0 8px rgba(96, 165, 250, 0.4);
+        }
+
+        /* Design 3: Segmented Control */
+        .segmented-toggle {
+            display: flex;
+            width: 120px;
+            height: 32px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .segmented-toggle .segment {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 9px;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.5);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .segmented-toggle .segment:hover {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .segmented-toggle .segment.active {
+            color: white;
+            background: rgba(96, 165, 250, 0.3);
+            backdrop-filter: blur(5px);
+        }
+
+        .segmented-toggle .segment.active::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(96, 165, 250, 0.2);
+            border-radius: 14px;
+            border: 1px solid rgba(96, 165, 250, 0.4);
+        }
+
+        /* Design 4: LED-style Toggle */
+        .led-toggle {
+            position: relative;
+            width: 120px;
+            height: 32px;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .led-toggle .slider {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 36px;
+            height: 28px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 14px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .led-toggle.description .slider {
+            transform: translateX(0);
+            background: rgba(96, 165, 250, 0.2);
+            border-color: rgba(96, 165, 250, 0.5);
+            box-shadow: 0 0 12px rgba(96, 165, 250, 0.3), inset 0 0 8px rgba(96, 165, 250, 0.2);
+            color: rgba(96, 165, 250, 1);
+        }
+
+        .led-toggle.off .slider {
+            transform: translateX(42px);
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .led-toggle.tags .slider {
+            transform: translateX(80px);
+            background: rgba(96, 165, 250, 0.2);
+            border-color: rgba(96, 165, 250, 0.5);
+            box-shadow: 0 0 12px rgba(96, 165, 250, 0.3), inset 0 0 8px rgba(96, 165, 250, 0.2);
+            color: rgba(96, 165, 250, 1);
+        }
+
+        /* Design 5: Minimalist Flat */
+        .flat-toggle {
+            position: relative;
+            width: 120px;
+            height: 32px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .flat-toggle:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .flat-toggle .slider {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 36px;
+            height: 28px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.7);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .flat-toggle.description .slider {
+            transform: translateX(0);
+            background: rgba(96, 165, 250, 0.8);
+            color: white;
+            box-shadow: 0 2px 8px rgba(96, 165, 250, 0.3);
+        }
+
+        .flat-toggle.off .slider {
+            transform: translateX(42px);
+        }
+
+        .flat-toggle.tags .slider {
+            transform: translateX(80px);
+            background: rgba(96, 165, 250, 0.8);
+            color: white;
+            box-shadow: 0 2px 8px rgba(96, 165, 250, 0.3);
+        }
+
+        /* Track labels */
+        .track-labels {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 8px;
+            pointer-events: none;
+        }
+
+        .track-label {
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: rgba(255, 255, 255, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        /* Add labels to all designs except segmented */
+        .glass-toggle .track-labels,
+        .gradient-toggle .track-labels,
+        .led-toggle .track-labels,
+        .flat-toggle .track-labels {
+            display: flex;
+        }
+
+        /* Notes section */
+        .notes {
+            background: rgba(20, 20, 20, 0.8);
+            border-radius: 16px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 20px;
+        }
+
+        .notes h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: rgba(96, 165, 250, 1);
+            margin-bottom: 12px;
+        }
+
+        .notes p {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+
+        .notes ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .notes li {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.5;
+            margin-bottom: 6px;
+            padding-left: 16px;
+            position: relative;
+        }
+
+        .notes li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: rgba(96, 165, 250, 0.8);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .design-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 0 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Toggle Design Options</h1>
+            <p>Clean, modern alternatives that match your glass morphism aesthetic.<br>
+               Click each toggle to test the 3-way functionality: Description → Off → Tags</p>
+        </div>
+
+        <div class="design-grid">
+            <!-- Design 1: Glass Morphism -->
+            <div class="design-card">
+                <div class="design-title">Glass Morphism</div>
+                <div class="design-description">
+                    Uses your existing glass effects with subtle depth and backdrop blur. 
+                    Active states show with your blue accent color.
+                </div>
+                <div class="toggle-demo">
+                    <div class="glass-toggle off" data-toggle="glass">
+                        <div class="slider">OFF</div>
+                        <div class="track-labels">
+                            <span class="track-label">DESC</span>
+                            <span class="track-label">OFF</span>
+                            <span class="track-label">TAGS</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="state-labels">
+                    <span class="state-label" data-state="description">Description</span>
+                    <span class="state-label active" data-state="off">Off</span>
+                    <span class="state-label" data-state="tags">Tags</span>
+                </div>
+            </div>
+
+            <!-- Design 2: Clean Gradient -->
+            <div class="design-card">
+                <div class="design-title">Clean Gradient</div>
+                <div class="design-description">
+                    Smooth gradients with your blue accent color. 
+                    Active states glow subtly to indicate selection.
+                </div>
+                <div class="toggle-demo">
+                    <div class="gradient-toggle off" data-toggle="gradient">
+                        <div class="slider">OFF</div>
+                        <div class="track-labels">
+                            <span class="track-label">DESC</span>
+                            <span class="track-label">OFF</span>
+                            <span class="track-label">TAGS</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="state-labels">
+                    <span class="state-label" data-state="description">Description</span>
+                    <span class="state-label active" data-state="off">Off</span>
+                    <span class="state-label" data-state="tags">Tags</span>
+                </div>
+            </div>
+
+            <!-- Design 3: Segmented Control -->
+            <div class="design-card">
+                <div class="design-title">Segmented Control</div>
+                <div class="design-description">
+                    Modern iOS/web-style segmented control. 
+                    Each segment is individually clickable and highlighted.
+                </div>
+                <div class="toggle-demo">
+                    <div class="segmented-toggle" data-toggle="segmented">
+                        <div class="segment" data-segment="description">DESC</div>
+                        <div class="segment active" data-segment="off">OFF</div>
+                        <div class="segment" data-segment="tags">TAGS</div>
+                    </div>
+                </div>
+                <div class="state-labels">
+                    <span class="state-label" data-state="description">Description</span>
+                    <span class="state-label active" data-state="off">Off</span>
+                    <span class="state-label" data-state="tags">Tags</span>
+                </div>
+            </div>
+
+            <!-- Design 4: LED-style -->
+            <div class="design-card">
+                <div class="design-title">LED-style</div>
+                <div class="design-description">
+                    Clean design with subtle glow effects that match your aesthetic. 
+                    Active states have an LED-like glow.
+                </div>
+                <div class="toggle-demo">
+                    <div class="led-toggle off" data-toggle="led">
+                        <div class="slider">OFF</div>
+                        <div class="track-labels">
+                            <span class="track-label">DESC</span>
+                            <span class="track-label">OFF</span>
+                            <span class="track-label">TAGS</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="state-labels">
+                    <span class="state-label" data-state="description">Description</span>
+                    <span class="state-label active" data-state="off">Off</span>
+                    <span class="state-label" data-state="tags">Tags</span>
+                </div>
+            </div>
+
+            <!-- Design 5: Minimalist Flat -->
+            <div class="design-card">
+                <div class="design-title">Minimalist Flat</div>
+                <div class="design-description">
+                    Clean and minimal but with proper shadows to avoid looking cheap. 
+                    Active states use solid blue background.
+                </div>
+                <div class="toggle-demo">
+                    <div class="flat-toggle off" data-toggle="flat">
+                        <div class="slider">OFF</div>
+                        <div class="track-labels">
+                            <span class="track-label">DESC</span>
+                            <span class="track-label">OFF</span>
+                            <span class="track-label">TAGS</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="state-labels">
+                    <span class="state-label" data-state="description">Description</span>
+                    <span class="state-label active" data-state="off">Off</span>
+                    <span class="state-label" data-state="tags">Tags</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="notes">
+            <h3>Design Notes</h3>
+            <p>All designs use your exact color palette and design tokens:</p>
+            <ul>
+                <li><strong>Primary Blue:</strong> rgba(96, 165, 250, 1) - Your signature accent color</li>
+                <li><strong>Glass Effects:</strong> rgba(255, 255, 255, 0.05) backgrounds with backdrop blur</li>
+                <li><strong>Consistent Sizing:</strong> 120px × 32px to match your current toggle dimensions</li>
+                <li><strong>Typography:</strong> Inter font family with proper weights and letter spacing</li>
+                <li><strong>Animations:</strong> Smooth cubic-bezier transitions matching your design system</li>
+            </ul>
+            <p>Each toggle maintains the same 3-way functionality as your current implementation with proper keyboard navigation support.</p>
+        </div>
+    </div>
+
+    <script>
+        // Toggle functionality
+        const toggles = document.querySelectorAll('[data-toggle]');
+        
+        toggles.forEach(toggle => {
+            const toggleType = toggle.getAttribute('data-toggle');
+            
+            toggle.addEventListener('click', (e) => {
+                if (toggleType === 'segmented') {
+                    // Special handling for segmented control
+                    const segment = e.target.closest('.segment');
+                    if (segment) {
+                        const segmentType = segment.getAttribute('data-segment');
+                        
+                        // Remove active class from all segments
+                        toggle.querySelectorAll('.segment').forEach(s => s.classList.remove('active'));
+                        
+                        // Add active class to clicked segment
+                        segment.classList.add('active');
+                        
+                        // Update state labels
+                        updateStateLabels(toggle, segmentType);
+                    }
+                } else {
+                    // Standard toggle behavior
+                    const rect = toggle.getBoundingClientRect();
+                    const clickX = e.clientX - rect.left;
+                    const toggleWidth = rect.width;
+                    
+                    let newState;
+                    if (clickX < toggleWidth / 3) {
+                        newState = 'description';
+                    } else if (clickX > (toggleWidth * 2) / 3) {
+                        newState = 'tags';
+                    } else {
+                        newState = 'off';
+                    }
+                    
+                    // Update toggle state
+                    toggle.className = toggle.className.replace(/\b(description|off|tags)\b/g, '');
+                    toggle.classList.add(newState);
+                    
+                    // Update slider text
+                    const slider = toggle.querySelector('.slider');
+                    if (slider) {
+                        switch (newState) {
+                            case 'description':
+                                slider.textContent = 'D';
+                                break;
+                            case 'off':
+                                slider.textContent = 'OFF';
+                                break;
+                            case 'tags':
+                                slider.textContent = 'T';
+                                break;
+                        }
+                    }
+                    
+                    // Update state labels
+                    updateStateLabels(toggle, newState);
+                }
+            });
+        });
+        
+        function updateStateLabels(toggle, activeState) {
+            const card = toggle.closest('.design-card');
+            const labels = card.querySelectorAll('.state-label');
+            
+            labels.forEach(label => {
+                const state = label.getAttribute('data-state');
+                label.classList.toggle('active', state === activeState);
+            });
+        }
+        
+        // Keyboard navigation
+        toggles.forEach(toggle => {
+            toggle.setAttribute('tabindex', '0');
+            toggle.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    
+                    const currentState = getCurrentState(toggle);
+                    let newState;
+                    
+                    // Cycle through states
+                    switch (currentState) {
+                        case 'description':
+                            newState = 'off';
+                            break;
+                        case 'off':
+                            newState = 'tags';
+                            break;
+                        case 'tags':
+                            newState = 'description';
+                            break;
+                    }
+                    
+                    // Trigger state change
+                    if (toggle.getAttribute('data-toggle') === 'segmented') {
+                        const segment = toggle.querySelector(`[data-segment="${newState}"]`);
+                        if (segment) {
+                            segment.click();
+                        }
+                    } else {
+                        toggle.className = toggle.className.replace(/\b(description|off|tags)\b/g, '');
+                        toggle.classList.add(newState);
+                        
+                        const slider = toggle.querySelector('.slider');
+                        if (slider) {
+                            switch (newState) {
+                                case 'description':
+                                    slider.textContent = 'D';
+                                    break;
+                                case 'off':
+                                    slider.textContent = 'OFF';
+                                    break;
+                                case 'tags':
+                                    slider.textContent = 'T';
+                                    break;
+                            }
+                        }
+                        
+                        updateStateLabels(toggle, newState);
+                    }
+                }
+            });
+        });
+        
+        function getCurrentState(toggle) {
+            if (toggle.classList.contains('description')) return 'description';
+            if (toggle.classList.contains('tags')) return 'tags';
+            if (toggle.getAttribute('data-toggle') === 'segmented') {
+                const activeSegment = toggle.querySelector('.segment.active');
+                return activeSegment ? activeSegment.getAttribute('data-segment') : 'off';
+            }
+            return 'off';
+        }
+    </script>
+</body>
+</html>

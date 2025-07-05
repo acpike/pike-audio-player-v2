@@ -10,6 +10,7 @@ export const scrollTrackIntoView = (trackIndex: number) => {
     console.warn(`Track element not found for index ${trackIndex}`);
     return;
   }
+  
 
   const container = trackElement.parentElement;
   

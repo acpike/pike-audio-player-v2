@@ -37,19 +37,27 @@ export class LocalStorageManager {
   }
 
   // V7 Tags toggle persistence - From V7 progress summary
-  static loadTagsToggleState(): boolean {
+  static loadTagsToggleState(): 'off' | 'tags' | 'description' {
     try {
       const persistedState = localStorage.getItem('tagsToggleState');
       if (persistedState !== null) {
-        return JSON.parse(persistedState);
+        const parsed = JSON.parse(persistedState);
+        // Handle legacy boolean values
+        if (typeof parsed === 'boolean') {
+          return parsed ? 'tags' : 'off';
+        }
+        // Validate new string values
+        if (['off', 'tags', 'description'].includes(parsed)) {
+          return parsed;
+        }
       }
     } catch (error) {
       logger.warn('Failed to load tags toggle state', { error: error instanceof Error ? error.message : String(error) });
     }
-    return false; // Default state
+    return 'off'; // Default state
   }
 
-  static persistTagsToggleState(state: boolean): void {
+  static persistTagsToggleState(state: 'off' | 'tags' | 'description'): void {
     try {
       localStorage.setItem('tagsToggleState', JSON.stringify(state));
       logger.localStorage('persisted', 'tagsToggleState', state);

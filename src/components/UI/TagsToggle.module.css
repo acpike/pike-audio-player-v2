@@ -17,8 +17,8 @@
 
 .tagsToggleSlider {
   position: relative;
-  width: 72px;
-  height: 32px;
+  width: 140px;
+  height: 40px;
   background: rgba(0, 0, 0, 0.4);
   border-radius: var(--radius-5xl);
   transition: all var(--transition-medium);
@@ -28,70 +28,130 @@
     inset 0 2px 6px rgba(0, 0, 0, 0.5),
     inset 0 1px 3px rgba(0, 0, 0, 0.4),
     0 1px 0 rgba(255, 255, 255, 0.08);
+  cursor: pointer;
 }
 
+
+
+/* Text labels in track */
 .tagsToggleText {
   position: absolute;
   top: 50%;
-  right: var(--spacing-xs);
   transform: translateY(-50%);
   font-size: var(--font-size-sm);
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  color: rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.4);
   transition: all var(--transition-smooth);
+  pointer-events: none;
+}
+
+.leftLabel {
+  left: 8px;
+}
+
+.centerLabel {
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.rightLabel {
+  right: 8px;
+}
+
+/* Symbols on knob - moved to before pseudo-element */
+.tagsToggleSlider:before {
+  /* Knob styling... */
+  /* Symbol will be added via content in state-specific rules */
 }
 
 .tagsToggleSlider:before {
-  content: '';
+  content: '○';
   position: absolute;
-  top: 2px;
-  left: 2px;
-  width: 26px;
-  height: 28px;
+  top: 0px;
+  left: 0px;
+  width: 38px;
+  height: 38px;
   background: 
-    /* Top scratches and wear */
-    linear-gradient(35deg, transparent 18%, rgba(0, 0, 0, 0.25) 19%, rgba(0, 0, 0, 0.25) 20%, transparent 21%),
-    linear-gradient(65deg, transparent 25%, rgba(0, 0, 0, 0.2) 26%, rgba(0, 0, 0, 0.2) 26.5%, transparent 27.5%),
-    /* Top dent */
-    radial-gradient(ellipse at 45% 15%, rgba(0, 0, 0, 0.3) 2px, rgba(0, 0, 0, 0.1) 4px, transparent 6px),
     /* Worn sides - shinier from touching */
     radial-gradient(ellipse 50% 80% at 0% 50%, rgba(255, 255, 255, 0.12) 30%, transparent 60%),
-    radial-gradient(ellipse 50% 80% at 100% 50%, rgba(255, 255, 255, 0.1) 30%, transparent 60%),
-    /* Key wear spots */
-    radial-gradient(ellipse at 40% 30%, rgba(0, 0, 0, 0.15) 40%, transparent 70%),
-    /* Brushed metal texture */
-    repeating-linear-gradient(45deg, 
-      rgba(255, 255, 255, 0.06) 0px, 
-      transparent 0.3px, 
-      transparent 1px, 
-      rgba(255, 255, 255, 0.03) 1.3px),
-    /* Aged metal base */
-    linear-gradient(135deg, 
-      #8a95a0 0%, 
-      #6b7580 30%, 
-      #525964 60%, 
-      #424954 100%);
+    radial-gradient(ellipse 50% 80% at 100% 50%, rgba(255, 255, 255, 0.1) 30%, transparent 60%);
   border: 1px solid rgba(35, 40, 45, 0.9);
   /* Slight imperfection in the circle */
-  border-radius: 49% 51% 50% 50%;
+  border-radius: 19px;
   transition: all var(--transition-slow);
   box-shadow: 
-    0 4px 12px rgba(0, 0, 0, 0.4),
-    0 2px 6px rgba(0, 0, 0, 0.3),
-    0 1px 3px rgba(0, 0, 0, 0.2),
-    /* Worn edges - less perfect highlights */
+    0 3px 8px rgba(0, 0, 0, 0.4),
+    0 1px 3px rgba(0, 0, 0, 0.3),
+    /* Simple highlight and shadow for depth */
     inset 0 2px 0 rgba(255, 255, 255, 0.2),
-    inset 0 -2px 0 rgba(0, 0, 0, 0.5),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.3),
     inset 1px 1px 0 rgba(255, 255, 255, 0.1),
-    inset -1px -1px 0 rgba(0, 0, 0, 0.3),
-    /* Age spots and wear marks */
-    inset 2px 2px 1px rgba(0, 0, 0, 0.15),
-    inset -2px -2px 1px rgba(0, 0, 0, 0.1);
+    inset -1px -1px 0 rgba(0, 0, 0, 0.2);
+    
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1;
+  text-shadow: 
+    0 -2px 3px rgba(0, 0, 0, 0.8),
+    0 1px 1px rgba(255, 255, 255, 0.4),
+    -1px -1px 2px rgba(0, 0, 0, 0.6),
+    1px 1px 1px rgba(255, 255, 255, 0.2);
 }
 
-.tagsToggleInput:checked + .tagsToggleSlider {
+/* 3-way toggle states */
+.tagsToggleSlider.description {
+  background: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.5);
+  box-shadow: 
+    inset 0 4px 12px rgba(0, 0, 0, 0.5),
+    inset 0 2px 6px rgba(0, 0, 0, 0.4),
+    inset 0 1px 3px rgba(0, 0, 0, 0.3),
+    0 1px 0 rgba(255, 255, 255, 0.08),
+    0 0 0 1px rgba(255, 255, 255, 0.4);
+}
+
+.tagsToggleSlider.description:before {
+  transform: translateX(0px);
+  content: 'D';
+}
+
+/* .tagsToggleSlider.description:after {
+  content: 'D';
+  color: #c084fc;
+} */
+
+.tagsToggleSlider.description .leftLabel {
+  color: rgba(255, 255, 255, 1.0);
+  opacity: 0;
+}
+
+.tagsToggleSlider.off {
+  /* Default styling - no changes */
+}
+
+.tagsToggleSlider.off:before {
+  transform: translateX(48px);
+  content: 'OFF';
+  font-size: 10px;
+}
+
+/* .tagsToggleSlider.off:after {
+  content: '○';
+  color: rgba(255, 255, 255, 0.8);
+} */
+
+.tagsToggleSlider.off .centerLabel {
+  color: rgba(255, 255, 255, 0.8);
+  opacity: 0;
+}
+
+.tagsToggleSlider.tags {
   background: rgba(96, 165, 250, 0.2);
   border-color: rgba(96, 165, 250, 0.4);
   box-shadow: 
@@ -102,22 +162,19 @@
     0 0 0 1px rgba(96, 165, 250, 0.3);
 }
 
-.tagsToggleInput:checked + .tagsToggleSlider:before {
-  transform: translateX(40px);
-  box-shadow: 
-    0 4px 12px rgba(0, 0, 0, 0.4),
-    0 2px 6px rgba(0, 0, 0, 0.3),
-    0 1px 3px rgba(0, 0, 0, 0.2),
-    0 0 8px rgba(96, 165, 250, 0.2),
-    inset 0 2px 0 rgba(255, 255, 255, 0.4),
-    inset 0 -2px 0 rgba(0, 0, 0, 0.4),
-    inset 1px 1px 0 rgba(255, 255, 255, 0.2),
-    inset -1px -1px 0 rgba(0, 0, 0, 0.2);
+.tagsToggleSlider.tags:before {
+  transform: translateX(100px);
+  content: 'T';
 }
 
-.tagsToggleInput:checked + .tagsToggleSlider .tagsToggleText {
+/* .tagsToggleSlider.tags:after {
+  content: 'T';
   color: #93c5fd;
-  right: 32px;
+} */
+
+.tagsToggleSlider.tags .rightLabel {
+  color: #93c5fd;
+  opacity: 0;
 }
 
 /* Landscape mode adjustments */
@@ -134,54 +191,31 @@
   }
   
   .tagsToggleSlider {
-    width: 72px;
-    height: 32px;
+    width: 140px;
+    height: 40px;
     border-radius: var(--radius-5xl);
   }
   
   .tagsToggleSlider:before {
     top: 0px;
-    width: 26px;
-    height: 28px;
-  }
-  
-  .tagsToggleInput:checked + .tagsToggleSlider:before {
-    transform: translateX(40px);
-  }
-  
-  .tagsToggleText {
-    font-size: var(--font-size-sm);
-    right: var(--spacing-xs);
-  }
-  
-  .tagsToggleInput:checked + .tagsToggleSlider .tagsToggleText {
-    right: 32px;
+    left: 0px;
+    width: 38px;
+    height: 38px;
   }
 }
 
 /* Mobile responsive adjustments - only for landscape mobile */
 @media (max-width: 768px) and (orientation: landscape) {
   .tagsToggleSlider {
-    width: 68px;
-    height: 30px;
+    width: 110px;
+    height: 36px;
     border-radius: var(--radius-4xl);
   }
   
   .tagsToggleSlider:before {
-    width: 24px;
-    height: 24px;
+    top: 1px;
+    width: 34px;
+    height: 34px;
   }
   
-  .tagsToggleInput:checked + .tagsToggleSlider:before {
-    transform: translateX(40px);
-  }
-  
-  .tagsToggleText {
-    font-size: var(--font-size-2xs);
-    right: 6px;
-  }
-  
-  .tagsToggleInput:checked + .tagsToggleSlider .tagsToggleText {
-    right: 28px;
-  }
 }
