@@ -145,16 +145,26 @@ export const usePreviewStore = create<PreviewStore>((set, get) => ({
   },
   
   stopPreview: () => {
-    const { previewAudio } = get();
+    const { previewAudio, previewTrackIndex } = get();
     if (previewAudio) {
       previewAudio.pause();
       previewAudio.currentTime = 0;
     }
+    
+    // Set the previewed track as current track to keep player activated
+    if (previewTrackIndex !== null) {
+      const { useAudioStore } = require('../stores/audioStore');
+      useAudioStore.setState({
+        currentTrackIndex: previewTrackIndex,
+        hasTrackBeenSelected: true
+      });
+    }
+    
     set({ 
       isPreviewPlaying: false,
       previewProgress: 0,
       previewCurrentTime: 0,
-      previewTrackIndex: null // Clear the selected track to hide overlay
+      previewTrackIndex: null // Clear the preview state but keep track as current
     });
   },
   
