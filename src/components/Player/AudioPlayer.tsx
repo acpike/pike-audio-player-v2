@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { PlayButton } from './PlayButton';
 import { ProgressBar } from './ProgressBar';
+import { InstructionalText } from '../UI/InstructionalText';
 import { useUIStore } from '../../stores/uiStore';
 import { usePreviewStore } from '../../stores/previewStore';
 import { Track, trackData } from '../../types/tracks';
@@ -49,7 +50,7 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
   togglePlayPause,
   playTrack
 }) => {
-  const { isLandscapeMode } = useUIStore();
+  const { isLandscapeMode, isPortraitMode } = useUIStore();
   const { previewTrackIndex } = usePreviewStore();
   
   // Determine which track to display (preview selected or current)
@@ -59,12 +60,15 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
   
   // Determine if we should show controls (hide during any preview activity)
   const shouldShowControls = previewTrackIndex === null;
-  const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
   const previousTrackRef = useRef<Track | null>(null);
   
   // Auto-hide play button state
   const [isPlayButtonVisible, setIsPlayButtonVisible] = useState(true);
   const hideTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Dynamic title sizing state
+  const [titleSizeClass, setTitleSizeClass] = useState<string>('');
+  const titleRef = useRef<HTMLHeadingElement>(null);
 
   // Swipe gesture state - Conservative implementation (unused in this version)
   // const [isSwipeInProgress, setIsSwipeInProgress] = useState(false);
@@ -136,13 +140,17 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
     touchStartRef.current = null;
   };
 
-  // CSS Modules class helpers - QA Compliant
+  // CSS Modules class helpers - QA Compliant with state detection
   const getAudioPlayerClass = () => {
-    return isLandscapeMode ? styles.audioPlayerLandscape : styles.audioPlayer;
+    const baseClass = isLandscapeMode ? styles.audioPlayerLandscape : styles.audioPlayer;
+    // Add track-selected modifier only in portrait mode
+    if (isPortraitMode && hasTrackBeenSelected) {
+      return `${baseClass} ${styles.audioPlayerPortraitWithTrack}`;
+    }
+    return baseClass;
   };
 
   const getCoverWrapperClass = () => {
-    if (isLandscapeMode && isDescriptionExpanded) return styles.coverWrapperLandscapeExpanded;
     if (isLandscapeMode) return styles.coverWrapperLandscape;
     return styles.coverWrapper;
   };
@@ -168,7 +176,8 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
   const getTrackTitleClass = () => {
     const baseClass = styles.trackTitleBase;
     const specificClass = isLandscapeMode ? styles.trackTitleLandscape : styles.trackTitle;
-    return `${baseClass} ${specificClass}`;
+    const sizeClass = titleSizeClass ? styles[titleSizeClass] : '';
+    return `${baseClass} ${specificClass} ${sizeClass}`.trim();
   };
 
   const getStatusTextClass = () => {
@@ -177,29 +186,7 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
     return `${baseClass} ${specificClass}`;
   };
 
-  const getDescriptionWrapperClass = () => {
-    if (isLandscapeMode && isDescriptionExpanded) return styles.descriptionWrapperLandscapeExpanded;
-    if (isLandscapeMode) return styles.descriptionWrapperLandscape;
-    if (isDescriptionExpanded) return styles.descriptionWrapperExpanded;
-    return styles.descriptionWrapper;
-  };
 
-  const getMorphingDescriptionClass = () => {
-    if (isLandscapeMode && isDescriptionExpanded) return styles.morphingDescriptionLandscapeExpanded;
-    if (isLandscapeMode) return styles.morphingDescriptionLandscape;
-    if (isDescriptionExpanded) return styles.morphingDescriptionExpanded;
-    return styles.morphingDescription;
-  };
-
-  const getDescriptionTextClass = () => {
-    const baseClass = styles.descriptionTextBase;
-    const specificClass = isLandscapeMode ? styles.descriptionTextLandscape : styles.descriptionText;
-    return `${baseClass} ${specificClass}`;
-  };
-
-  const getButtonTextClass = () => {
-    return isLandscapeMode ? styles.buttonTextLandscape : styles.buttonText;
-  };
 
   // Auto-hide play button after 3 seconds when playing
   useEffect(() => {
@@ -231,27 +218,51 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
     };
   }, [isPlaying, hasTrackBeenSelected]);
 
-  // Auto-collapse description when track changes, auto-expand during preview
+  // Track previous track for reference
   useEffect(() => {
-    if (previousTrackRef.current && currentTrack && previousTrackRef.current.title !== currentTrack.title) {
-      setIsDescriptionExpanded(false);
-    }
     previousTrackRef.current = currentTrack;
   }, [currentTrack]);
-  
-  // Auto-expand description during preview (playing or paused), collapse when preview ends
-  useEffect(() => {
-    if (previewTrackIndex !== null) {
-      setIsDescriptionExpanded(true);
-    } else {
-      // Collapse description when preview ends completely
-      setIsDescriptionExpanded(false);
-    }
-  }, [previewTrackIndex]);
 
-  const toggleDescription = () => {
-    setIsDescriptionExpanded(!isDescriptionExpanded);
-  };
+  // Dynamic title sizing - measures actual text width vs container width
+  useEffect(() => {
+    const measureTitleSize = () => {
+      if (!titleRef.current || !hasTrackBeenSelected || !displayTrack) {
+        setTitleSizeClass('');
+        return;
+      }
+
+      const titleElement = titleRef.current;
+      const containerWidth = titleElement.offsetWidth;
+      
+      // Temporarily remove size class to measure natural width
+      titleElement.style.fontSize = '32px'; // Base size
+      titleElement.style.letterSpacing = '0.03em';
+      titleElement.style.whiteSpace = 'nowrap';
+      
+      const textWidth = titleElement.scrollWidth;
+      const ratio = textWidth / containerWidth;
+      
+      // Determine appropriate size class based on overflow ratio
+      if (ratio > 1.4) {
+        setTitleSizeClass('titleVeryLong');
+      } else if (ratio > 1.1) {
+        setTitleSizeClass('titleLong');
+      } else {
+        setTitleSizeClass('');
+      }
+    };
+
+    // Measure on title change, orientation change, or initial load
+    measureTitleSize();
+    
+    // Re-measure on window resize (orientation changes, etc.)
+    window.addEventListener('resize', measureTitleSize);
+    
+    return () => {
+      window.removeEventListener('resize', measureTitleSize);
+    };
+  }, [displayTrack?.title, hasTrackBeenSelected, isLandscapeMode, isPortraitMode]);
+  
 
   const toggleDebugPanel = () => {
     window.dispatchEvent(new Event('toggleDebugPanel'));
@@ -317,8 +328,8 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
         )}
       </div>
       
-      {/* Album info below cover art - only shown on initial load in landscape */}
-      {isLandscapeMode && !hasTrackBeenSelected && (
+      {/* Album info below cover art - shown on initial load in landscape only */}
+      {!hasTrackBeenSelected && !isPortraitMode && previewTrackIndex === null && (
         <div className={styles.initialAlbumInfo}>
           <div className={styles.initialAlbumName}>
             {trackData[0]?.album || UI_STRINGS.UNKNOWN_ALBUM}
@@ -328,74 +339,38 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
           </div>
         </div>
       )}
+
       
       <div className={getTrackInfoClass()}>
         {!isLandscapeMode && (
           <>
             <h1 
+              ref={titleRef}
               className={getTrackTitleClass()}
               onClick={toggleDebugPanel}
               style={{ cursor: 'pointer' }}
             >
-              {previewTrackIndex !== null && displayTrack ? (
-                <>
-                  {displayTrack.title}
-                  <span style={{ 
-                    fontSize: '0.6em', 
-                    fontWeight: 400, 
-                    marginLeft: '8px',
-                    opacity: 0.8 
-                  }}>
-                    (preview)
-                  </span>
-                </>
-              ) : displayTrack 
+              {displayTrack 
                 ? displayTrack.title 
-                : UI_STRINGS.UNKNOWN_ALBUM
+                : UI_STRINGS.SELECT_TRACK_BELOW
               }
             </h1>
             
-            <div className={getStatusTextClass()}>
-              {hasTrackBeenSelected 
-                ? (isLoading ? UI_STRINGS.LOADING : isPlaying ? 'Playing' : 'Paused')
-                : 'Tap a track to play'
-              }
-            </div>
+            {(hasTrackBeenSelected || previewTrackIndex !== null) && (
+              <div className={`${getStatusTextClass()} ${isLoading ? styles.statusTextLoading : ''}`}>
+                {isLoading ? UI_STRINGS.LOADING : 
+                 previewTrackIndex !== null ? UI_STRINGS.PREVIEWING :
+                 hasTrackBeenSelected ? UI_STRINGS.NOW_PLAYING : 
+                 UI_STRINGS.MUSIC_PLAYER}
+              </div>
+            )}
           </>
         )}
         
-        {/* Morphing Description Component */}
-        {(hasTrackBeenSelected || previewTrackIndex !== null) && displayTrack && (
-          <div className={getDescriptionWrapperClass()}>
-            <div 
-              key={displayTrack.title}
-              className={getMorphingDescriptionClass()}
-              onClick={previewTrackIndex !== null ? undefined : toggleDescription}
-              role={previewTrackIndex !== null ? undefined : "button"}
-              tabIndex={previewTrackIndex !== null ? -1 : 0}
-              onKeyDown={previewTrackIndex !== null ? undefined : (e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault();
-                  toggleDescription();
-                }
-              }}
-              aria-label={previewTrackIndex !== null ? 'Preview description' : (isDescriptionExpanded ? 'Collapse description' : 'Expand description')}
-              style={previewTrackIndex !== null ? { cursor: 'default' } : undefined}
-            >
-              {isDescriptionExpanded ? (
-                <p className={getDescriptionTextClass()}>
-                  {displayTrack.description || 'No description available for this track.'}
-                </p>
-              ) : (
-                <span className={getButtonTextClass()}>
-                  {UI_STRINGS.DESCRIPTION}
-                </span>
-              )}
-            </div>
-          </div>
-        )}
-        
       </div>
+      
+      {/* Instructional text for first-time users */}
+      <InstructionalText isVisible={!hasTrackBeenSelected && previewTrackIndex === null} />
     </div>
   );
 };

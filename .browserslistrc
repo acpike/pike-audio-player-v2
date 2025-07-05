@@ -1,0 +1,31 @@
+# Browser support targets for PostCSS Autoprefixer
+# Target modern browsers while ensuring compatibility for music production use
+
+# Chrome - target 80+ (covers most professional users)
+Chrome >= 80
+
+# Safari - target 12+ for broader iOS compatibility
+Safari >= 12
+
+# iOS Safari - critical for mobile music players
+iOS >= 12
+
+# Firefox - target 78+ (ESR baseline)
+Firefox >= 78
+
+# Edge - modern Edge based on Chromium
+Edge >= 80
+
+# Samsung Internet - popular on Android
+Samsung >= 12
+
+# Android browser - for older Android devices
+Android >= 80
+
+# Exclude Internet Explorer entirely
+not IE 11
+not IE_Mob 11
+
+# Exclude very old browsers
+not dead
+not < 0.25%

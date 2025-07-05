@@ -18,18 +18,135 @@
   display: flex;
   flex-direction: column;
   gap: var(--spacing-sm);
-  max-height: var(--track-list-max-height);
+  /* Enhanced height with dynamic viewport units for iOS Safari */
+  max-height: 76.5vh; /* Fallback for older browsers */
   overflow-y: auto;
   overflow-x: visible;
   position: relative;
   scroll-snap-type: y mandatory;
   padding: var(--container-padding-sm) 0 var(--spacing-lg) 0;
   margin-top: calc(-1 * var(--spacing-xs));
-  overflow-x: visible;
   
   /* Hidden scrollbars */
   scrollbar-width: none;
   -ms-overflow-style: none;
+  
+  /* Mask effects */
+  mask: var(--mask-gradient-standard);
+  -webkit-mask: var(--mask-gradient-standard);
+  padding-top: var(--spacing-lg);
+}
+
+/* iOS Safari specific height fix for TrackList */
+@supports (-webkit-appearance: none) {
+  .trackListContainer {
+    max-height: -webkit-fill-available; /* iOS Safari specific */
+  }
+}
+
+/* Modern dynamic viewport height for TrackList */
+@supports (height: 100dvh) {
+  .trackListContainer {
+    max-height: 76.5dvh; /* Modern dynamic viewport height */
+  }
+}
+
+/* Portrait mode: Pure flexbox sizing without competing height systems */
+@media (orientation: portrait) {
+  .trackList {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    height: 100%;
+  }
+  
+  
+  .trackListHeader {
+    flex-shrink: 0;
+    margin-bottom: var(--spacing-sm);
+  }
+  
+  .trackListWrapper {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    background: transparent; /* Match main space black background */
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-lg);
+    backdrop-filter: var(--backdrop-blur-light);
+  }
+  
+  .trackListContainer {
+    flex: 1;
+    min-height: 0;
+    /* Enhanced height with dynamic viewport units for iOS Safari */
+    max-height: 76.5vh; /* Fallback for older browsers */
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    
+    /* Smart scroll padding with minimal edge spacing */
+    padding: var(--spacing-lg) var(--spacing-xs) var(--spacing-xl) var(--spacing-xs); /* Minimal horizontal padding - tracks almost touch container border */
+    margin: 0;
+    position: relative;
+  }
+  
+  /* iOS Safari specific height fix for portrait TrackList */
+  @supports (-webkit-appearance: none) {
+    .trackListContainer {
+      max-height: -webkit-fill-available; /* iOS Safari specific */
+    }
+  }
+  
+  /* Modern dynamic viewport height for portrait TrackList */
+  @supports (height: 100dvh) {
+    .trackListContainer {
+      max-height: 76.5dvh; /* Modern dynamic viewport height */
+    }
+  }
+  
+  /* Fade effects using mask for modern browsers */
+  @supports (mask: linear-gradient(to bottom, transparent, black)) or (-webkit-mask: linear-gradient(to bottom, transparent, black)) {
+    .trackListContainer {
+      mask: linear-gradient(to bottom,
+        transparent 0px,
+        black var(--mask-solid-distance),
+        black calc(100% - 40px),
+        transparent 100%
+      );
+      -webkit-mask: linear-gradient(to bottom,
+        transparent 0px,
+        black var(--mask-solid-distance),
+        black calc(100% - 40px),
+        transparent 100%
+      );
+    }
+  }
+  
+  /* Fallback fade effects using pseudo-elements for browsers without mask support */
+  @supports not (mask: linear-gradient(to bottom, transparent, black)) and not (-webkit-mask: linear-gradient(to bottom, transparent, black)) {
+    .trackListContainer::before,
+    .trackListContainer::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: var(--mask-solid-distance);
+      pointer-events: none;
+      z-index: 10;
+    }
+    
+    .trackListContainer::before {
+      top: 0;
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 1), transparent);
+    }
+    
+    .trackListContainer::after {
+      bottom: 0;
+      height: 40px;
+      background: linear-gradient(to top, rgba(0, 0, 0, 1), transparent);
+    }
+  }
 }
 
 .trackListContainer::-webkit-scrollbar {
@@ -46,25 +163,6 @@
   width: 100%;
 }
 
-.trackListContainer {
-  mask: linear-gradient(to bottom, 
-    transparent 0px,
-    rgba(0, 0, 0, 0.3) var(--mask-fade-distance),
-    black var(--mask-solid-distance),
-    black calc(100% - var(--mask-solid-distance)),
-    rgba(0, 0, 0, 0.3) calc(100% - var(--mask-fade-distance)),
-    transparent 100%
-  );
-  -webkit-mask: linear-gradient(to bottom, 
-    transparent 0px,
-    rgba(0, 0, 0, 0.3) var(--mask-fade-distance),
-    black var(--mask-solid-distance),
-    black calc(100% - var(--mask-solid-distance)),
-    rgba(0, 0, 0, 0.3) calc(100% - var(--mask-fade-distance)),
-    transparent 100%
-  );
-  padding-top: var(--spacing-lg);
-}
 
 /* QA Compliant CSS Modules - Landscape Classes */
 
@@ -78,36 +176,36 @@
   display: flex;
   flex-direction: column;
   gap: var(--spacing-sm);
-  max-height: var(--track-list-max-height);
+  /* Enhanced height with dynamic viewport units for iOS Safari */
+  max-height: 76.5vh; /* Fallback for older browsers */
   overflow-y: auto;
   overflow-x: visible;
   position: relative;
   scroll-snap-type: y mandatory;
   padding: var(--container-padding-sm) 0 var(--spacing-lg) 0;
   margin-top: calc(-1 * var(--spacing-xs));
-  overflow-x: visible;
-  width: calc(100% + 8px);
+  width: calc(100% + var(--mask-fade-distance));
   padding-left: var(--container-padding-lg);
   padding-right: var(--spacing-xl);
   scrollbar-width: none;
   -ms-overflow-style: none;
-  mask: linear-gradient(to bottom, 
-    transparent 0px,
-    rgba(0, 0, 0, 0.3) var(--mask-fade-distance),
-    black var(--mask-solid-distance),
-    black calc(100% - var(--mask-solid-distance)),
-    rgba(0, 0, 0, 0.3) calc(100% - var(--mask-fade-distance)),
-    transparent 100%
-  );
-  -webkit-mask: linear-gradient(to bottom, 
-    transparent 0px,
-    rgba(0, 0, 0, 0.3) var(--mask-fade-distance),
-    black var(--mask-solid-distance),
-    black calc(100% - var(--mask-solid-distance)),
-    rgba(0, 0, 0, 0.3) calc(100% - var(--mask-fade-distance)),
-    transparent 100%
-  );
+  mask: var(--mask-gradient-standard);
+  -webkit-mask: var(--mask-gradient-standard);
   padding-top: var(--spacing-lg);
+}
+
+/* iOS Safari specific height fix for landscape TrackList */
+@supports (-webkit-appearance: none) {
+  .trackListContainerLandscape {
+    max-height: -webkit-fill-available; /* iOS Safari specific */
+  }
+}
+
+/* Modern dynamic viewport height for landscape TrackList */
+@supports (height: 100dvh) {
+  .trackListContainerLandscape {
+    max-height: 76.5dvh; /* Modern dynamic viewport height */
+  }
 }
 
 .trackListContainerLandscape::-webkit-scrollbar {
@@ -163,14 +261,71 @@
 
 .albumInfo {
   font-family: var(--font-family-primary, "Inter", -apple-system, BlinkMacSystemFont, sans-serif);
-  font-size: var(--font-size-md);
-  font-weight: 400;
-  color: rgba(255, 255, 255, 0.7);
   position: absolute;
   top: calc(var(--spacing-xl) * 2 + 2px);
   right: 0;
   text-align: right;
   padding-right: var(--spacing-xs);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+
+/* Portrait header styles - simple and subtle */
+.portraitHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-lg) var(--spacing-md);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.15);
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  /* Fallback for browsers without backdrop-filter support */
+  background: rgba(20, 20, 20, 0.85);
+  border-top-left-radius: var(--radius-lg);
+  border-top-right-radius: var(--radius-lg);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0; /* Prevent header from shrinking */
+}
+
+/* Enhanced styling when backdrop-filter is supported */
+@supports (backdrop-filter: blur(12px)) or (-webkit-backdrop-filter: blur(12px)) {
+  .portraitHeader {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+}
+
+.portraitAlbumInfo {
+  font-family: var(--font-family-primary, "Inter", sans-serif);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.albumName {
+  font-size: var(--font-size-3xl);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: rgba(255, 255, 255, 0.98);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.separator {
+  font-size: var(--font-size-sm);
+  font-weight: 400;
+  color: var(--primary-blue);
+  margin: 0 var(--spacing-xxs);
+}
+
+.trackCount {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.75);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
 }
 
 /* Mobile optimizations */

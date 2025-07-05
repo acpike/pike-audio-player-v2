@@ -5,6 +5,7 @@ import { trackData } from '../types/tracks';
 import { useAudioDucking } from './useAudioDucking';
 import { UI_STRINGS } from '../constants/strings';
 import { logger } from '../utils/logger';
+import { scrollTrackIntoView } from '../utils/scrollToTrack';
 
 /** Core audio player hook with V7 patterns */
 export const useAudioPlayer = () => {
@@ -27,6 +28,7 @@ export const useAudioPlayer = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const sourceNodeRef = useRef<MediaElementAudioSourceNode | null>(null);
   const wakeLockRef = useRef<WakeLockSentinel | null>(null);
+  const playTrackRef = useRef<((index: number, source?: string, autoPlay?: boolean) => Promise<void>) | null>(null);
 
   // Audio ducking for navigation announcements and phone calls
   const audioDucking = useAudioDucking({
@@ -220,7 +222,22 @@ export const useAudioPlayer = () => {
       canplay: () => store({ isLoading: false }),
       play: () => store({ isPlaying: true }),
       pause: () => store({ isPlaying: false }),
-      ended: () => store({ isPlaying: false, currentTime: 0 }),
+      ended: () => {
+        // Auto-advance to next track for full tracks only (not previews)
+        const state = useAudioStore.getState();
+        if (!state.isPreview && state.currentTrackIndex !== null && state.currentTrackIndex < trackData.length - 1) {
+          // Auto-advance to next track
+          const nextIndex = state.currentTrackIndex + 1;
+          if (playTrackRef.current) {
+            playTrackRef.current(nextIndex);
+            // Scroll the newly selected track into view
+            scrollTrackIntoView(nextIndex);
+          }
+        } else {
+          // No auto-advance: just stop playback
+          store({ isPlaying: false, currentTime: 0 });
+        }
+      },
       error: (event: Event) => {
         // Enhanced audio error handling for loading failures
         const audio = event.target as HTMLAudioElement;
@@ -294,6 +311,9 @@ export const useAudioPlayer = () => {
     const track = trackData[index];
     const audio = audioRef.current;
     if (!track || !audio) return;
+
+    // Scroll the track into view when manually selected
+    scrollTrackIntoView(index);
 
     // Stop any preview that might be playing
     resetPreview();
@@ -411,6 +431,9 @@ export const useAudioPlayer = () => {
       audio.volume = 0.8;
     }
   }, [hasTrackBeenSelected, resetPreview]);
+
+  // Store playTrack in ref for access in event listeners
+  playTrackRef.current = playTrack;
 
   const togglePlayPause = useCallback(async (): Promise<void> => {
     const audio = audioRef.current;

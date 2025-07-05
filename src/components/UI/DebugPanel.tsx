@@ -34,11 +34,11 @@ export const DebugPanel = () => {
         </button>
       </div>
       <div className={styles.content}>
-        <p><strong>Version:</strong> V9_QA_COMPLETE</p>
-        <p><strong>Phase:</strong> QA Enhancement - FULLY IMPLEMENTED</p>
-        <p><strong>Features:</strong> Audio error handling, string constants IMPLEMENTED, enhanced ErrorBoundary, magic numbers eliminated</p>
-        <p><strong>Git Branch:</strong> feature/qa-compliance-data-attributes-to-css-modules</p>
-        <p><strong>Last Commit:</strong> 4308ef6</p>
+        <p><strong>Version:</strong> V32_PREMIUM_TAGS_TOGGLE</p>
+        <p><strong>Phase:</strong> Portrait UI Polish ✅</p>
+        <p><strong>Features:</strong> Dramatic inset toggle with brushed metal knob, enhanced depth shadows, premium frosted glass buttons, improved spacing</p>
+        <p><strong>Git Branch:</strong> feature/portrait-layout-fixes</p>
+        <p><strong>Last Commit:</strong> Premium toggle with dramatic inset and brushed metal knob</p>
         <p><strong>Build Time:</strong> {new Date().toLocaleTimeString()}</p>
       </div>
     </div>

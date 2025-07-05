@@ -33,6 +33,29 @@
   /* Dynamic Glow System */
   --current-glow-color: rgba(96, 165, 250, 0.4);
   
+  /* iOS Safe Areas for iPhone X+ with notches/Dynamic Island */
+  --safe-area-top: env(safe-area-inset-top, 0px);
+  --safe-area-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-area-left: env(safe-area-inset-left, 0px);
+  --safe-area-right: env(safe-area-inset-right, 0px);
+  
+  /* Mask Effects */
+  --mask-gradient-standard: linear-gradient(to bottom,
+    transparent 0px,
+    rgba(0, 0, 0, 0.3) var(--mask-fade-distance),
+    black var(--mask-solid-distance),
+    black calc(100% - var(--mask-solid-distance)),
+    rgba(0, 0, 0, 0.3) calc(100% - var(--mask-fade-distance)),
+    transparent 100%
+  );
+  --mask-gradient-portrait: linear-gradient(to bottom,
+    black 0px,
+    black 20px,
+    black calc(100% - var(--mask-solid-distance)),
+    rgba(0, 0, 0, 0.3) calc(100% - var(--mask-fade-distance)),
+    transparent 100%
+  );
+  
   /* Play Button System */
   --play-button-size: 180px;
   --play-icon-size: 100px;
@@ -95,7 +118,6 @@
   --time-blur: 3px;
   
   /* V7 Play Button */
-  --play-button-size: 180px;
   --play-button-scale-landscape: 0.45;
   --play-button-scale-mobile: 0.45;
   --play-button-scale-ipad: 0.71;
@@ -112,12 +134,14 @@
   --transition-linear: 0.1s linear;
   
   /* V8 Layout Variables */
+  --spacing-xxs: 2px;
   --spacing-xs: 5px;
   --spacing-sm: 12px;
   --spacing-md: 15px;
   --spacing-lg: 20px;
   --spacing-xl: 25px;
   --spacing-xxl: 35px;
+  --portrait-header-height: 43px;
   --container-padding-sm: 15px;
   --container-padding-md: 20px;
   --container-padding-lg: 35px;
@@ -159,7 +183,6 @@
   --offset-negative-lg: -8px;
   
   /* Transition Variants */
-  --transition-quick: 0.2s ease;
   --transition-medium: 0.25s ease;
   --transition-slow: 0.35s ease;
   
@@ -198,23 +221,49 @@
   perspective: 1000px;
 }
 
-/* V7 iframe optimization - lines 41-48 */
+/* V7 iframe optimization - Enhanced for iOS Safari viewport fixes */
 html, body {
   margin: 0 !important;
   padding: 0 !important;
   width: 100vw !important;
-  height: 100vh !important;
-  height: 100dvh !important;
+  height: 100vh !important; /* Fallback for older browsers */
   overflow: hidden !important;
+}
+
+/* iOS Safari specific height fix */
+@supports (-webkit-appearance: none) {
+  html, body {
+    height: -webkit-fill-available !important; /* iOS Safari specific */
+  }
+}
+
+/* Modern dynamic viewport height for supporting browsers */
+@supports (height: 100dvh) {
+  html, body {
+    height: 100dvh !important; /* Modern dynamic viewport height */
+  }
 }
 
 #root {
   width: 100vw !important;
-  height: 100vh !important;
-  height: 100dvh !important;
+  height: 100vh !important; /* Fallback for older browsers */
   margin: 0 !important;
   padding: 0 !important;
   overflow: hidden !important;
+}
+
+/* iOS Safari specific height fix for root */
+@supports (-webkit-appearance: none) {
+  #root {
+    height: -webkit-fill-available !important; /* iOS Safari specific */
+  }
+}
+
+/* Modern dynamic viewport height for root */
+@supports (height: 100dvh) {
+  #root {
+    height: 100dvh !important; /* Modern dynamic viewport height */
+  }
 }
 
 /* V7 Body styles - lines 72-85 */
@@ -256,6 +305,55 @@ body {
   }
 }
 
+/* iPad portrait specific body layout fixes - override centering */
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+  body {
+    display: block !important; /* Override flex centering */
+    align-items: stretch !important; /* Remove centering alignment */
+    justify-content: stretch !important; /* Remove centering justification */
+    padding: 0 !important; /* Remove centering padding */
+    /* Add proper safe area padding for iPad */
+    padding-top: max(10px, env(safe-area-inset-top)) !important;
+    padding-bottom: max(10px, env(safe-area-inset-bottom)) !important;
+    padding-left: max(10px, env(safe-area-inset-left)) !important;
+    padding-right: max(10px, env(safe-area-inset-right)) !important;
+  }
+}
+
+/* Orientation change handling - ensure layout persists through orientation changes */
+@media (min-width: 768px) and (max-width: 1024px) {
+  body {
+    /* Prevent layout jumps during orientation changes */
+    transition: none !important; /* Disable transitions during orientation change */
+  }
+  
+  /* Ensure proper layout reset after orientation change */
+  #root {
+    width: 100vw !important;
+    /* Progressive height with orientation change support */
+    height: 100vh !important; /* Fallback */
+    transition: none !important; /* Disable transitions during orientation change */
+  }
+}
+
+/* iOS Safari specific orientation change fixes */
+@supports (-webkit-appearance: none) {
+  @media (min-width: 768px) and (max-width: 1024px) {
+    #root {
+      height: -webkit-fill-available !important;
+    }
+  }
+}
+
+/* Modern dynamic viewport for orientation changes */
+@supports (height: 100dvh) {
+  @media (min-width: 768px) and (max-width: 1024px) {
+    #root {
+      height: 100dvh !important;
+    }
+  }
+}
+
 /* V7 Utility Classes - Design System */
 .glass-morphism {
   background: var(--glass-bg);
@@ -274,3 +372,4 @@ body {
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
 }
+

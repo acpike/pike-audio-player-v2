@@ -67,7 +67,10 @@ export const usePreviewStore = create<PreviewStore>((set, get) => ({
     });
     
     audio.addEventListener('ended', () => {
-      get().stopPreview();
+      // Delay stop to allow for natural fade-out in audio
+      setTimeout(() => {
+        get().stopPreview();
+      }, 500); // 500ms delay to preserve fade-out
     });
     
     audio.addEventListener('pause', () => {
@@ -142,15 +145,26 @@ export const usePreviewStore = create<PreviewStore>((set, get) => ({
   },
   
   stopPreview: () => {
-    const { previewAudio } = get();
+    const { previewAudio, previewTrackIndex } = get();
     if (previewAudio) {
       previewAudio.pause();
       previewAudio.currentTime = 0;
     }
+    
+    // Set the previewed track as current track to keep player activated
+    if (previewTrackIndex !== null) {
+      const { useAudioStore } = require('../stores/audioStore');
+      useAudioStore.setState({
+        currentTrackIndex: previewTrackIndex,
+        hasTrackBeenSelected: true
+      });
+    }
+    
     set({ 
       isPreviewPlaying: false,
       previewProgress: 0,
-      previewCurrentTime: 0
+      previewCurrentTime: 0,
+      previewTrackIndex: null // Clear the preview state but keep track as current
     });
   },
   

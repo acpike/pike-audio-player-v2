@@ -12,14 +12,22 @@
   position: relative;
   width: 100%;
   height: var(--progress-height, 10px);
-  background: var(--dark-overlay, rgba(0, 0, 0, 0.6));
+  /* Fallback for browsers without backdrop-filter support */
+  background: rgba(0, 0, 0, 0.8);
   border-radius: var(--progress-border-radius, 5px);
   cursor: pointer;
   overflow: visible;
-  -webkit-backdrop-filter: var(--backdrop-blur-light, blur(5px));
-  backdrop-filter: var(--backdrop-blur-light, blur(5px));
   transition: all var(--transition-smooth, 0.3s cubic-bezier(0.4, 0, 0.2, 1));
   z-index: 1;
+}
+
+/* Enhanced styling when backdrop-filter is supported */
+@supports (backdrop-filter: blur(5px)) or (-webkit-backdrop-filter: blur(5px)) {
+  .progressBar {
+    background: var(--dark-overlay, rgba(0, 0, 0, 0.6));
+    -webkit-backdrop-filter: var(--backdrop-blur-light, blur(5px));
+    backdrop-filter: var(--backdrop-blur-light, blur(5px));
+  }
 }
 
 .progressBar:hover,
@@ -28,10 +36,10 @@
   background: rgba(0, 0, 0, 0.7);
 }
 
-/* Ensure expanded state during dragging - override hover */
-.progressBarDragging {
-  height: calc(var(--progress-height, 10px) + 4px) !important;
-  background: rgba(0, 0, 0, 0.8) !important;
+/* Ensure expanded state during dragging - higher specificity overrides hover */
+.progressBar.progressBarDragging {
+  height: calc(var(--progress-height, 10px) + 4px);
+  background: rgba(0, 0, 0, 0.8);
 }
 
 /* V7 doesn't need separate track - handled by progressBar background */
@@ -78,9 +86,9 @@
 .timeDisplay {
   display: flex;
   justify-content: space-between;
-  font-size: var(--time-font-size, 13px);
+  font-size: var(--time-font-size, 15px);
   color: var(--time-color, white);
-  font-weight: 400;
+  font-weight: 600;
   font-variant-numeric: tabular-nums;
   letter-spacing: var(--time-letter-spacing, 0.5px);
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
@@ -100,9 +108,8 @@
   position: absolute;
   bottom: 35px; /* High enough above progress bar to clear finger */
   padding: 8px 12px;
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  /* Fallback for browsers without backdrop-filter support */
+  background: rgba(0, 0, 0, 0.9);
   border: var(--border-width-sm) solid rgba(255, 255, 255, 0.2);
   border-radius: 8px;
   color: white;
@@ -117,6 +124,15 @@
   
   /* NO transitions for instant movement */
   will-change: transform;
+}
+
+/* Enhanced styling when backdrop-filter is supported */
+@supports (backdrop-filter: blur(12px)) or (-webkit-backdrop-filter: blur(12px)) {
+  .scrubTooltip {
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
 }
 
 /* Tooltip arrow pointing down */
@@ -146,7 +162,8 @@
   }
   
   .timeDisplay {
-    font-size: var(--font-size-sm);
+    font-size: var(--font-size-md);
+    font-weight: 600;
   }
   
   /* Mobile tooltip positioning - higher to clear finger */
