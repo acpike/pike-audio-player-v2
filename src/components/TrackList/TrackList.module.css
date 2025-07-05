@@ -18,7 +18,8 @@
   display: flex;
   flex-direction: column;
   gap: var(--spacing-sm);
-  max-height: var(--track-list-max-height);
+  /* Enhanced height with dynamic viewport units for iOS Safari */
+  max-height: 76.5vh; /* Fallback for older browsers */
   overflow-y: auto;
   overflow-x: visible;
   position: relative;
@@ -34,6 +35,20 @@
   mask: var(--mask-gradient-standard);
   -webkit-mask: var(--mask-gradient-standard);
   padding-top: var(--spacing-lg);
+}
+
+/* iOS Safari specific height fix for TrackList */
+@supports (-webkit-appearance: none) {
+  .trackListContainer {
+    max-height: -webkit-fill-available; /* iOS Safari specific */
+  }
+}
+
+/* Modern dynamic viewport height for TrackList */
+@supports (height: 100dvh) {
+  .trackListContainer {
+    max-height: 76.5dvh; /* Modern dynamic viewport height */
+  }
 }
 
 /* Portrait mode: Pure flexbox sizing without competing height systems */
@@ -65,6 +80,8 @@
   .trackListContainer {
     flex: 1;
     min-height: 0;
+    /* Enhanced height with dynamic viewport units for iOS Safari */
+    max-height: 76.5vh; /* Fallback for older browsers */
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     
@@ -72,6 +89,20 @@
     padding: 18px var(--spacing-xs) 25px var(--spacing-xs); /* Minimal horizontal padding - tracks almost touch container border */
     margin: 0;
     position: relative;
+  }
+  
+  /* iOS Safari specific height fix for portrait TrackList */
+  @supports (-webkit-appearance: none) {
+    .trackListContainer {
+      max-height: -webkit-fill-available; /* iOS Safari specific */
+    }
+  }
+  
+  /* Modern dynamic viewport height for portrait TrackList */
+  @supports (height: 100dvh) {
+    .trackListContainer {
+      max-height: 76.5dvh; /* Modern dynamic viewport height */
+    }
   }
   
   /* Fade effects using mask for modern browsers */
@@ -145,7 +176,8 @@
   display: flex;
   flex-direction: column;
   gap: var(--spacing-sm);
-  max-height: var(--track-list-max-height);
+  /* Enhanced height with dynamic viewport units for iOS Safari */
+  max-height: 76.5vh; /* Fallback for older browsers */
   overflow-y: auto;
   overflow-x: visible;
   position: relative;
@@ -160,6 +192,20 @@
   mask: var(--mask-gradient-standard);
   -webkit-mask: var(--mask-gradient-standard);
   padding-top: var(--spacing-lg);
+}
+
+/* iOS Safari specific height fix for landscape TrackList */
+@supports (-webkit-appearance: none) {
+  .trackListContainerLandscape {
+    max-height: -webkit-fill-available; /* iOS Safari specific */
+  }
+}
+
+/* Modern dynamic viewport height for landscape TrackList */
+@supports (height: 100dvh) {
+  .trackListContainerLandscape {
+    max-height: 76.5dvh; /* Modern dynamic viewport height */
+  }
 }
 
 .trackListContainerLandscape::-webkit-scrollbar {

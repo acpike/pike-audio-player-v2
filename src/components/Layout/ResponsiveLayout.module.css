@@ -64,9 +64,14 @@
   gap: var(--landscape-gap);
   max-width: none;
   width: 100%;
-  height: 100vh;
-  max-height: 100vh;
-  padding: 0 15px 0 0;
+  /* Progressive height enhancement for iOS Safari */
+  height: 100vh; /* Fallback for older browsers */
+  max-height: none; /* Remove height constraint */
+  /* Enhanced padding with iOS safe areas */
+  padding-top: calc(var(--spacing-sm) + var(--safe-area-top));
+  padding-bottom: calc(var(--spacing-sm) + var(--safe-area-bottom));
+  padding-left: calc(var(--spacing-sm) + var(--safe-area-left));
+  padding-right: calc(15px + var(--safe-area-right));
   overflow: visible;
   background: rgba(255, 255, 255, 0.03);
   border-radius: var(--radius-3xl);
@@ -77,6 +82,21 @@
     0 25px 80px rgba(0, 0, 0, 0.4),
     0 15px 30px rgba(0, 0, 0, 0.3),
     inset 0 1px rgba(255, 255, 255, 0.1);
+  position: relative;
+}
+
+/* iOS Safari specific height fix for landscape */
+@supports (-webkit-appearance: none) {
+  .playerLandscape {
+    height: -webkit-fill-available; /* iOS Safari specific */
+  }
+}
+
+/* Modern dynamic viewport height for landscape */
+@supports (height: 100dvh) {
+  .playerLandscape {
+    height: 100dvh; /* Modern dynamic viewport height */
+  }
 }
 
 /* 40/60 Split: AudioPlayer takes 40% width and moves closer to left edge */
@@ -126,11 +146,16 @@
   align-items: center;
   max-width: 500px;
   width: 100%;
-  height: 100vh;
-  max-height: 100vh;
+  /* Progressive height enhancement for iOS Safari */
+  height: 100vh; /* Fallback for older browsers */
+  max-height: none; /* Remove height constraint */
   background: rgba(255, 255, 255, 0.03);
   border-radius: var(--radius-3xl);
-  padding: var(--spacing-lg) var(--spacing-sm) var(--spacing-sm); /* top=20px, sides/bottom=12px */
+  /* Enhanced padding with iOS safe areas */
+  padding-top: calc(var(--spacing-lg) + var(--safe-area-top));
+  padding-bottom: calc(var(--spacing-sm) + var(--safe-area-bottom));
+  padding-left: calc(var(--spacing-sm) + var(--safe-area-left));
+  padding-right: calc(var(--spacing-sm) + var(--safe-area-right));
   -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
   border: var(--border-width-sm) solid rgba(255, 255, 255, 0.15);
@@ -141,6 +166,21 @@
   gap: var(--spacing-md);
   overflow: visible;
   box-sizing: border-box;
+  position: relative;
+}
+
+/* iOS Safari specific height fix */
+@supports (-webkit-appearance: none) {
+  .playerPortrait {
+    height: -webkit-fill-available; /* iOS Safari specific */
+  }
+}
+
+/* Modern dynamic viewport height for supporting browsers */
+@supports (height: 100dvh) {
+  .playerPortrait {
+    height: 100dvh; /* Modern dynamic viewport height */
+  }
 }
 
 
@@ -152,23 +192,60 @@
 
 /* Portrait Layout: Removed duplicate rule - using unified rule below */
 
-/* Portrait Layout: AudioPlayer takes top 40% height */
+/* Portrait Layout: AudioPlayer takes flexible height based on content */
 .playerPortrait > :first-child {
-  flex: 0 0 40%;
+  flex: 0 0 auto; /* Let AudioPlayer size naturally based on content */
   width: 100%;
   max-width: 100%;
+  min-height: 0; /* Safari flexbox fix to prevent overlapping */
 }
 
-/* Portrait Layout: TrackList anchored to bottom for fade effect */
+/* Portrait Layout: TrackList anchored to bottom with responsive height */
 .playerPortrait > :nth-child(2) {
   position: absolute;
-  bottom: 0; /* No bottom padding - fade effect handles visual separation */
+  bottom: 0; /* Anchor to bottom */
   left: 50%;
   transform: translateX(-50%);
   width: calc(100% - 2 * var(--spacing-xs));
   max-width: calc(500px - 2 * var(--spacing-xs)); /* Respect container width */
-  height: 55vh;
-  overflow: hidden;
+  /* Default: Small constrained viewport (mobile browsers) - maximize track space */
+  height: 51vh; /* Fallback for older browsers */
+  overflow: hidden; /* For fade effects, not blocking scroll */
+}
+
+/* iOS Safari specific height fix for portrait TrackList */
+@supports (-webkit-appearance: none) {
+  .playerPortrait > :nth-child(2) {
+    height: 51vh; /* Small screens need maximum track space */
+  }
+}
+
+/* Modern dynamic viewport height for portrait TrackList */
+@supports (height: 100dvh) {
+  .playerPortrait > :nth-child(2) {
+    height: 51dvh; /* Small constrained viewports */
+  }
+}
+
+/* Larger screens OR generous height (iPad, PWA, desktop) - more generous spacing */
+@media (min-width: 768px), (min-height: 800px) {
+  .playerPortrait > :nth-child(2) {
+    height: 57vh; /* Fallback for older browsers */
+  }
+  
+  /* iOS Safari specific for larger screens */
+  @supports (-webkit-appearance: none) {
+    .playerPortrait > :nth-child(2) {
+      height: 57vh;
+    }
+  }
+  
+  /* Modern dynamic viewport for larger screens */
+  @supports (height: 100dvh) {
+    .playerPortrait > :nth-child(2) {
+      height: 57dvh; /* Full viewport environments */
+    }
+  }
 }
 
 /* DebugPanel remains unaffected by height constraints */
@@ -196,6 +273,59 @@
   .playerPortrait {
     padding: var(--spacing-xl);
     max-width: 500px;
+  }
+}
+
+/* iPad portrait specific fixes - Use full screen width and height */
+@media (orientation: portrait) and (min-width: 768px) and (max-width: 1024px) {
+  .playerPortrait {
+    /* Enhanced height for iPad portrait - use full screen */
+    height: 100vh; /* Fallback for older browsers */
+    max-height: none; /* Remove any height constraints */
+    /* Full width utilization for iPad portrait - no constraints */
+    max-width: none !important; /* Override any width constraints */
+    width: 100vw !important; /* Use full viewport width */
+    /* Enhanced padding with iOS safe areas for iPad - reduced for full width */
+    padding-top: calc(var(--spacing-md) + var(--safe-area-top));
+    padding-bottom: calc(var(--spacing-md) + var(--safe-area-bottom));
+    padding-left: calc(var(--spacing-md) + var(--safe-area-left));
+    padding-right: calc(var(--spacing-md) + var(--safe-area-right));
+    /* Override any margin that might cause centering */
+    margin: 0 !important;
+  }
+  
+  /* iOS Safari specific height fix for iPad portrait */
+  @supports (-webkit-appearance: none) {
+    .playerPortrait {
+      height: -webkit-fill-available; /* iOS Safari specific */
+      width: 100vw !important; /* Ensure full width in Safari */
+    }
+  }
+  
+  /* Modern dynamic viewport height for iPad portrait */
+  @supports (height: 100dvh) {
+    .playerPortrait {
+      height: 100dvh; /* Modern dynamic viewport height */
+      width: 100dvw !important; /* Modern dynamic viewport width */
+    }
+  }
+}
+
+/* Orientation change persistence - iPad and large devices */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .playerPortrait,
+  .playerLandscape {
+    /* Disable transitions during orientation changes to prevent layout jumping */
+    transition: none !important;
+  }
+  
+  /* Ensure layout rules persist through orientation changes */
+  .playerPortrait {
+    box-sizing: border-box !important;
+  }
+  
+  .playerLandscape {
+    box-sizing: border-box !important;
   }
 }
 
