@@ -31,10 +31,20 @@ export const PreviewOverlay: React.FC<PreviewOverlayProps> = ({
 
   return (
     <div className={`${styles.overlay} ${shouldFadeOut ? styles.fadeOut : ''}`}>
-      <svg className={styles.progressRing} width="48" height="48">
+      <svg 
+        width="48" 
+        height="48"
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          transform: 'rotate(-90deg)'
+        }}
+      >
         {/* Background circle */}
         <circle
-          className={styles.progressRingBackground}
           stroke="rgba(255, 255, 255, 0.4)"
           strokeWidth="3"
           fill="transparent"
@@ -44,16 +54,17 @@ export const PreviewOverlay: React.FC<PreviewOverlayProps> = ({
         />
         {/* Progress circle */}
         <circle
-          className={styles.progressRingProgress}
           stroke="rgba(96, 165, 250, 1)"
           strokeWidth="3"
           fill="transparent"
           r="22"
           cx="24"
           cy="24"
+          strokeLinecap="round"
           style={{
             strokeDasharray: circumference,
             strokeDashoffset: strokeDashoffset,
+            transition: 'stroke-dashoffset 0.1s linear'
           }}
         />
       </svg>
