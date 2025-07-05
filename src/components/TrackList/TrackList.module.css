@@ -201,7 +201,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: var(--spacing-xs) var(--spacing-md);
+  padding: var(--spacing-md) var(--spacing-md);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   background: rgba(255, 255, 255, 0.04);
   border-top-left-radius: var(--radius-lg);
@@ -217,7 +217,7 @@
 }
 
 .albumName {
-  font-size: var(--font-size-md);
+  font-size: var(--font-size-2xl);
   font-weight: 700;
   letter-spacing: 0.02em;
   color: rgba(255, 255, 255, 0.95);

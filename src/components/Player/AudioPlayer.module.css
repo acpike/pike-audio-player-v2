@@ -171,7 +171,8 @@
 }
 
 .trackTitle {
-  font-size: var(--font-size-5xl); /* Use same size as landscape for consistency */
+  font-size: var(--font-size-6xl); /* Larger for more prominence */
+  margin-bottom: var(--spacing-sm); /* Add space below title */
 }
 
 .trackTitleLandscape {
@@ -191,6 +192,7 @@
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
+  margin-top: var(--spacing-xs); /* Add space above status text */
 }
 
 .statusTextLandscape {

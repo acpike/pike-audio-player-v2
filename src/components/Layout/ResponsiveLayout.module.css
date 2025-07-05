@@ -167,7 +167,7 @@
   transform: translateX(-50%);
   width: calc(100% - 2 * var(--spacing-xs));
   max-width: calc(500px - 2 * var(--spacing-xs)); /* Respect container width */
-  height: 53vh;
+  height: 55vh;
   overflow: hidden;
 }
 

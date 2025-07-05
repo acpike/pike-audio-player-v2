@@ -21,7 +21,7 @@ export const trackData: Track[] = [
     short30: "https://static.wixstatic.com/mp3/ec6721_69f870710d6b4c9e82a62e102511c9d2.wav",
     description: "A haunting blend of acoustic guitar and atmospheric synths that evokes solitude and reflection. Ideal for introspective scenes and dramatic character moments.",
     tags: ["Acoustic", "Atmospheric", "Cinematic", "Melancholic"],
-    duration: "2:45",
+    duration: "2:08",
     album: "Demo Tracks"
   },
   {
@@ -54,7 +54,7 @@ export const trackData: Track[] = [
     short30: "https://static.wixstatic.com/mp3/ec6721_6818db3899f54d349f5c2a4c5809d8ea.wav",
     description: "An uplifting and expansive composition featuring soaring strings and hopeful melodies. Perfect for inspirational moments, success montages, and triumphant conclusions.",
     tags: ["Uplifting", "Orchestral", "Hopeful", "Triumphant"],
-    duration: "3:12",
+    duration: "2:02",
     album: "Demo Tracks"
   },
   {
@@ -65,7 +65,7 @@ export const trackData: Track[] = [
     short30: "https://static.wixstatic.com/mp3/ec6721_b3c501203acb4d988be4cba041a88b70.wav",
     description: "Intense and driving with powerful percussion and dark orchestral elements. Perfect for action sequences, conflict scenes, and high-stakes dramatic moments.",
     tags: ["Intense", "Percussion", "Dark", "Action"],
-    duration: "2:58",
+    duration: "1:55",
     album: "Demo Tracks"
   }
 ];
