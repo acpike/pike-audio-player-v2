@@ -235,7 +235,7 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
       const containerWidth = titleElement.offsetWidth;
       
       // Temporarily remove size class to measure natural width
-      titleElement.style.fontSize = '32px'; // Base size
+      titleElement.style.fontSize = '32px'; // Matches --font-size-6xl base size
       titleElement.style.letterSpacing = '0.03em';
       titleElement.style.whiteSpace = 'nowrap';
       

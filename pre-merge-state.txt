@@ -1,0 +1,10 @@
+caedd9e fix(preview): Resolve countdown reappearing after preview ends
+6e844e5 refactor: Technical debt cleanup per QA recommendations
+c2c420e feat(compatibility): Comprehensive iOS Safari viewport fixes
+4ab552a feat(compat): Comprehensive iOS Safari viewport compatibility fixes
+7753aab feat(compat): Comprehensive portrait mode compatibility fixes
+4d6685a Merge branch 'feature/portrait-layout-fixes' into develop
+293b799 feat(ui-polish): Enhance album info with premium typography and vintage knob
+604893f feat(tags-toggle): Premium toggle with dramatic inset and brushed metal knob
+758a7b4 feat(preview-button): Enhance with premium frosted glass styling
+4dd06a1 feat(portrait): Enhanced track list UX and auto-scroll functionality

@@ -261,33 +261,33 @@
     height: 100vh; /* Fallback for older browsers */
     max-height: none; /* Remove any height constraints */
     /* Full width utilization for iPad portrait - no constraints */
-    max-width: none !important; /* Override any width constraints */
-    width: 100vw !important; /* Use full viewport width */
+    max-width: none; /* Remove width constraints */
+    width: 100vw; /* Use full viewport width */
     /* Enhanced padding with iOS safe areas for iPad - reduced for full width */
     padding-top: calc(var(--spacing-md) + var(--safe-area-top));
     padding-bottom: calc(var(--spacing-md) + var(--safe-area-bottom));
     padding-left: calc(var(--spacing-md) + var(--safe-area-left));
     padding-right: calc(var(--spacing-md) + var(--safe-area-right));
-    /* Override any margin that might cause centering */
-    margin: 0 !important;
+    /* Remove any margin that might cause centering */
+    margin: 0;
   }
   
-  /* Extend full-width behavior to child components */
-  .playerPortrait > :first-child {
-    max-width: none !important; /* AudioPlayer uses full width */
-    width: 100% !important;
+  /* Extend full-width behavior to child components - use higher specificity */
+  body .playerPortrait > :first-child {
+    max-width: none; /* AudioPlayer uses full width */
+    width: 100%;
   }
   
-  .playerPortrait > :nth-child(2) {
-    max-width: none !important; /* TrackList uses full width */
-    width: calc(100% - 2 * var(--spacing-md)) !important; /* Account for container padding */
+  body .playerPortrait > :nth-child(2) {
+    max-width: none; /* TrackList uses full width */
+    width: calc(100% - 2 * var(--spacing-md)); /* Account for container padding */
   }
   
   /* iOS Safari specific height fix for iPad portrait */
   @supports (-webkit-appearance: none) {
     .playerPortrait {
       height: -webkit-fill-available; /* iOS Safari specific */
-      width: 100vw !important; /* Ensure full width in Safari */
+      width: 100vw; /* Full width in Safari */
     }
   }
   
@@ -295,7 +295,7 @@
   @supports (height: 100dvh) {
     .playerPortrait {
       height: 100dvh; /* Modern dynamic viewport height */
-      width: 100dvw !important; /* Modern dynamic viewport width */
+      width: 100dvw; /* Modern dynamic viewport width */
     }
   }
 }

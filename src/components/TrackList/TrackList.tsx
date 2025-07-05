@@ -35,8 +35,6 @@ export const TrackList: React.FC<TrackListProps> = ({ playTrack, togglePlayPause
   const containerRef = useRef<HTMLDivElement>(null);
   const lastSnappedIndexRef = useRef<number>(-1);
   
-  // Debug logging
-  console.log('TrackList debug:', { currentTrackIndex, previewTrackIndex });
 
   const toggleDebugPanel = () => {
     window.dispatchEvent(new Event('toggleDebugPanel'));
