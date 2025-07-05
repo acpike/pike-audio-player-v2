@@ -3,22 +3,22 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 40px;
-  height: 40px;
+  width: 48px;
+  height: 48px;
   pointer-events: none;
   z-index: 10;
   
-  /* Glass morphism background with less blur inside */
-  background: rgba(0, 0, 0, 0.6);
+  /* More transparent to show cover art underneath */
+  background: rgba(0, 0, 0, 0.25);
   border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  -webkit-backdrop-filter: blur(5px);
-  backdrop-filter: blur(5px);
+  border: 1.5px solid rgba(255, 255, 255, 0.6);
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
   
   /* Enhanced shadow for better visibility */
   box-shadow: 
-    0 4px 12px rgba(0, 0, 0, 0.5),
-    0 0 0 1px rgba(255, 255, 255, 0.1);
+    0 4px 16px rgba(0, 0, 0, 0.6),
+    0 0 0 1px rgba(255, 255, 255, 0.2);
 }
 
 .progressRing {
@@ -31,16 +31,16 @@
 }
 
 .progressRingBackground {
-  opacity: 0.4;
-  stroke-width: 2.5;
+  opacity: 0.5;
+  stroke-width: 3;
 }
 
 .progressRingProgress {
   transition: stroke-dashoffset 0.1s linear;
   stroke-linecap: round;
-  stroke-width: 2.5;
+  stroke-width: 3;
   /* More visible progress color */
-  stroke: rgba(96, 165, 250, 0.9) !important;
+  stroke: rgba(96, 165, 250, 1) !important;
 }
 
 .countdown {
@@ -49,12 +49,13 @@
   left: 50%;
   transform: translate(-50%, -50%);
   
-  font-size: 12px;
-  font-weight: 700;
+  font-size: 14px;
+  font-weight: 800;
   color: white;
   text-shadow: 
-    0 1px 3px rgba(0, 0, 0, 0.8),
-    0 0 1px rgba(0, 0, 0, 0.9);
+    0 2px 4px rgba(0, 0, 0, 0.9),
+    0 0 2px rgba(0, 0, 0, 1),
+    0 0 8px rgba(0, 0, 0, 0.5);
   
   /* Prevent text selection */
   user-select: none;

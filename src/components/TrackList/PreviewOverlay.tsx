@@ -12,34 +12,34 @@ export const PreviewOverlay: React.FC<PreviewOverlayProps> = ({
   progress,
   timeRemaining
 }) => {
-  // Hide overlay when preview completes (timeRemaining <= 0)
-  if (!isVisible || timeRemaining <= 0) return null;
+  // Hide overlay when not visible or when progress indicates completion
+  if (!isVisible || progress >= 100) return null;
 
-  const circumference = 2 * Math.PI * 18; // radius = 18px
+  const circumference = 2 * Math.PI * 22; // radius = 22px for larger overlay
   const strokeDashoffset = circumference - (progress / 100) * circumference;
 
   return (
     <div className={styles.overlay}>
-      <svg className={styles.progressRing} width="40" height="40">
+      <svg className={styles.progressRing} width="48" height="48">
         {/* Background circle */}
         <circle
           className={styles.progressRingBackground}
-          stroke="rgba(255, 255, 255, 0.3)"
-          strokeWidth="2.5"
+          stroke="rgba(255, 255, 255, 0.4)"
+          strokeWidth="3"
           fill="transparent"
-          r="18"
-          cx="20"
-          cy="20"
+          r="22"
+          cx="24"
+          cy="24"
         />
         {/* Progress circle */}
         <circle
           className={styles.progressRingProgress}
-          stroke="rgba(96, 165, 250, 0.9)"
-          strokeWidth="2.5"
+          stroke="rgba(96, 165, 250, 1)"
+          strokeWidth="3"
           fill="transparent"
-          r="18"
-          cx="20"
-          cy="20"
+          r="22"
+          cx="24"
+          cy="24"
           style={{
             strokeDasharray: circumference,
             strokeDashoffset: strokeDashoffset,
