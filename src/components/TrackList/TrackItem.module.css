@@ -127,6 +127,13 @@
   margin-bottom: 2px;
 }
 
+/* Container for thumbnail that maintains positioning context when floated */
+.thumbnailFloatContainer {
+  float: left;
+  margin-right: var(--spacing-md);
+  margin-bottom: 2px;
+}
+
 .thumbnailGlow {
   transform: scale(var(--track-thumbnail-scale-active));
   box-shadow: 

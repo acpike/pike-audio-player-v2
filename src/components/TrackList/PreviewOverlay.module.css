@@ -31,16 +31,12 @@
 }
 
 .progressRingBackground {
-  opacity: 0.5;
-  stroke-width: 3;
+  transition: stroke-dashoffset 0.1s linear;
 }
 
 .progressRingProgress {
   transition: stroke-dashoffset 0.1s linear;
   stroke-linecap: round;
-  stroke-width: 3;
-  /* More visible progress color */
-  stroke: rgba(96, 165, 250, 1) !important;
 }
 
 .countdown {

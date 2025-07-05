@@ -150,7 +150,8 @@ export const usePreviewStore = create<PreviewStore>((set, get) => ({
     set({ 
       isPreviewPlaying: false,
       previewProgress: 0,
-      previewCurrentTime: 0
+      previewCurrentTime: 0,
+      previewTrackIndex: null // Clear the selected track to hide overlay
     });
   },
   

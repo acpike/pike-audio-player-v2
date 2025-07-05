@@ -210,7 +210,13 @@ export const TrackItem: React.FC<TrackItemProps> = ({ track, index, isActive, pl
           '--glow-b': trackColors.b
         } as React.CSSProperties : undefined}
       >
-      <div style={{ position: 'relative' }}>
+      <div 
+        style={{ 
+          position: 'relative',
+          display: tagsToggleState === 'description' ? 'inline-block' : 'block'
+        }}
+        className={tagsToggleState === 'description' ? styles.thumbnailFloatContainer : ''}
+      >
         <img 
           src={track.art} 
           alt={`${track.title} cover art`}
