@@ -192,8 +192,8 @@ export const TrackItem: React.FC<TrackItemProps> = ({ track, index, isActive, pl
       }
     } else {
       // Start preview for this track
-      setPreviewTrack(index, track.short30);
-      playPreview(track.short30);
+      setPreviewTrack(index, track.short15);
+      playPreview(track.short15);
     }
   };
 

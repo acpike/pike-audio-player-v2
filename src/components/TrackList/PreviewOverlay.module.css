@@ -8,15 +8,17 @@
   pointer-events: none;
   z-index: 10;
   
-  /* Glass morphism background */
-  background: rgba(0, 0, 0, 0.4);
+  /* Glass morphism background with less blur inside */
+  background: rgba(0, 0, 0, 0.6);
   border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
   
-  /* Subtle shadow */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  /* Enhanced shadow for better visibility */
+  box-shadow: 
+    0 4px 12px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(255, 255, 255, 0.1);
 }
 
 .progressRing {
@@ -29,12 +31,16 @@
 }
 
 .progressRingBackground {
-  opacity: 0.3;
+  opacity: 0.4;
+  stroke-width: 2.5;
 }
 
 .progressRingProgress {
   transition: stroke-dashoffset 0.1s linear;
   stroke-linecap: round;
+  stroke-width: 2.5;
+  /* More visible progress color */
+  stroke: rgba(96, 165, 250, 0.9) !important;
 }
 
 .countdown {
@@ -43,10 +49,12 @@
   left: 50%;
   transform: translate(-50%, -50%);
   
-  font-size: 11px;
-  font-weight: 600;
+  font-size: 12px;
+  font-weight: 700;
   color: white;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  text-shadow: 
+    0 1px 3px rgba(0, 0, 0, 0.8),
+    0 0 1px rgba(0, 0, 0, 0.9);
   
   /* Prevent text selection */
   user-select: none;

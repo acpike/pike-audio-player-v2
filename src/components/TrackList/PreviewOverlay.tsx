@@ -12,7 +12,8 @@ export const PreviewOverlay: React.FC<PreviewOverlayProps> = ({
   progress,
   timeRemaining
 }) => {
-  if (!isVisible) return null;
+  // Hide overlay when preview completes (timeRemaining <= 0)
+  if (!isVisible || timeRemaining <= 0) return null;
 
   const circumference = 2 * Math.PI * 18; // radius = 18px
   const strokeDashoffset = circumference - (progress / 100) * circumference;
@@ -23,8 +24,8 @@ export const PreviewOverlay: React.FC<PreviewOverlayProps> = ({
         {/* Background circle */}
         <circle
           className={styles.progressRingBackground}
-          stroke="rgba(255, 255, 255, 0.2)"
-          strokeWidth="2"
+          stroke="rgba(255, 255, 255, 0.3)"
+          strokeWidth="2.5"
           fill="transparent"
           r="18"
           cx="20"
@@ -33,8 +34,8 @@ export const PreviewOverlay: React.FC<PreviewOverlayProps> = ({
         {/* Progress circle */}
         <circle
           className={styles.progressRingProgress}
-          stroke="rgba(96, 165, 250, 0.8)"
-          strokeWidth="2"
+          stroke="rgba(96, 165, 250, 0.9)"
+          strokeWidth="2.5"
           fill="transparent"
           r="18"
           cx="20"
