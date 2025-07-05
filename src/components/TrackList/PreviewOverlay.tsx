@@ -26,46 +26,37 @@ export const PreviewOverlay: React.FC<PreviewOverlayProps> = ({
   // Hide overlay when not visible
   if (!isVisible) return null;
 
-  const circumference = 2 * Math.PI * 22; // radius = 22px for larger overlay
+  // Calculate stroke-dashoffset for progress
+  const radius = 22;
+  const circumference = 2 * Math.PI * radius;
   const strokeDashoffset = circumference - (progress / 100) * circumference;
 
   return (
     <div className={`${styles.overlay} ${shouldFadeOut ? styles.fadeOut : ''}`}>
-      <svg 
-        width="48" 
-        height="48"
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          transform: 'rotate(-90deg)'
-        }}
-      >
-        {/* Background circle */}
+      {/* Back to simple SVG but with clean implementation */}
+      <svg width="48" height="48" className={styles.progressSvg}>
+        {/* Background ring */}
         <circle
-          stroke="rgba(255, 255, 255, 0.4)"
-          strokeWidth="3"
-          fill="transparent"
-          r="22"
           cx="24"
           cy="24"
+          r={radius}
+          fill="none"
+          stroke="rgba(255, 255, 255, 0.4)"
+          strokeWidth="2"
         />
-        {/* Progress circle */}
+        {/* Progress ring */}
         <circle
+          cx="24"
+          cy="24"
+          r={radius}
+          fill="none"
           stroke="rgba(96, 165, 250, 1)"
           strokeWidth="3"
-          fill="transparent"
-          r="22"
-          cx="24"
-          cy="24"
           strokeLinecap="round"
-          style={{
-            strokeDasharray: circumference,
-            strokeDashoffset: strokeDashoffset,
-            transition: 'stroke-dashoffset 0.1s linear'
-          }}
+          strokeDasharray={circumference}
+          strokeDashoffset={strokeDashoffset}
+          transform="rotate(-90 24 24)"
+          style={{ transition: 'stroke-dashoffset 0.1s linear' }}
         />
       </svg>
       <div className={styles.countdown}>
