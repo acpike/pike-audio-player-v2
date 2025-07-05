@@ -187,6 +187,7 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
   };
 
 
+
   // Auto-hide play button after 3 seconds when playing
   useEffect(() => {
     // Clear any existing timeout
@@ -356,7 +357,7 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
             </h1>
             
             {(hasTrackBeenSelected || previewTrackIndex !== null) && (
-              <div className={getStatusTextClass()}>
+              <div className={`${getStatusTextClass()} ${isLoading ? styles.statusTextLoading : ''}`}>
                 {isLoading ? UI_STRINGS.LOADING : 
                  previewTrackIndex !== null ? UI_STRINGS.PREVIEWING :
                  hasTrackBeenSelected ? UI_STRINGS.NOW_PLAYING : 
