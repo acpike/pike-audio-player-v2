@@ -227,33 +227,6 @@
   font-weight: 400;
 }
 
-.previewButtons {
-  display: flex;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-/* Float preview buttons when description wrapping is active */
-.trackItemWrapped .previewButtons {
-  float: right;
-  margin-left: var(--spacing-sm);
-}
-
-.previewButton {
-  padding: 6px 12px;
-  border: var(--border-width-sm) solid rgba(255, 255, 255, 0.2);
-  border-radius: var(--radius-xl);
-  background: rgba(255, 255, 255, 0.05);
-  color: rgba(255, 255, 255, 0.8);
-  font-size: var(--font-size-base);
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.previewButton:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: white;
-}
 
 /* QA Compliant CSS Modules - Landscape Classes */
 
@@ -308,29 +281,6 @@
   padding-right: var(--spacing-xs); /* Breathing room from border */
 }
 
-.previewButtonsLandscape {
-  display: flex;
-  justify-content: center;
-  flex-shrink: 0;
-  min-width: 35px; /* Reduced space needed for single button */
-}
-
-.previewButtonLandscape {
-  padding: 6px 14px; /* Better proportions for single button */
-  border: var(--border-width-sm) solid rgba(255, 255, 255, 0.2);
-  border-radius: var(--radius-xl);
-  background: rgba(255, 255, 255, 0.05);
-  color: rgba(255, 255, 255, 0.8);
-  font-size: var(--font-size-base);
-  cursor: pointer;
-  transition: all 0.3s ease;
-  min-width: 50px; /* Consistent button sizing */
-}
-
-.previewButtonLandscape:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: white;
-}
 
 
 /* Mobile optimizations */
@@ -349,10 +299,6 @@
     font-size: var(--font-size-lg);
   }
   
-  .previewButton {
-    padding: 4px 8px;
-    font-size: var(--font-size-sm);
-  }
 }
 
 /* Portrait mode track prominence - only when track is selected */

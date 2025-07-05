@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { PlayButton } from './PlayButton';
 import { ProgressBar } from './ProgressBar';
+import { InstructionalText } from '../UI/InstructionalText';
 import { useUIStore } from '../../stores/uiStore';
 import { usePreviewStore } from '../../stores/previewStore';
 import { Track, trackData } from '../../types/tracks';
@@ -366,6 +367,9 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
         )}
         
       </div>
+      
+      {/* Instructional text for first-time users */}
+      <InstructionalText isVisible={!hasTrackBeenSelected && previewTrackIndex === null} />
     </div>
   );
 };
