@@ -5,23 +5,26 @@ interface PreviewOverlayProps {
   isVisible: boolean;
   progress: number; // 0-100
   timeRemaining: number; // seconds remaining
+  isPausedManually?: boolean; // Track if manually paused to show counter
 }
 
 export const PreviewOverlay: React.FC<PreviewOverlayProps> = ({
   isVisible,
   progress,
-  timeRemaining
+  timeRemaining,
+  isPausedManually = false
 }) => {
   const [shouldFadeOut, setShouldFadeOut] = React.useState(false);
   
   // Start fade-out when preview is near completion (last 0.5 seconds or when reaching 100%)
+  // But only if not manually paused - manual pause should keep counter visible
   React.useEffect(() => {
-    if (progress >= 95 || timeRemaining <= 0.5) {
+    if (!isPausedManually && (progress >= 95 || timeRemaining <= 0.5)) {
       setShouldFadeOut(true);
     } else {
       setShouldFadeOut(false);
     }
-  }, [progress, timeRemaining]);
+  }, [progress, timeRemaining, isPausedManually]);
   
   // Hide overlay when not visible
   if (!isVisible) return null;
