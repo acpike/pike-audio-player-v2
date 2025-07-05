@@ -21,6 +21,10 @@
   padding: var(--container-padding-lg);
   background: transparent;
   border-right: 1px solid rgba(255, 255, 255, 0.1);
+  /* Ensure content fits within container height */
+  height: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
 .coverWrapper {
@@ -390,6 +394,12 @@
   margin-top: var(--spacing-lg);
   position: relative;
   width: 100%;
+}
+
+/* Landscape specific adjustments for initialAlbumInfo */
+.audioPlayerLandscape .initialAlbumInfo {
+  margin-top: var(--spacing-sm); /* Reduce top margin in landscape to fit content */
+  flex-shrink: 0; /* Prevent shrinking */
 }
 
 .initialAlbumName {

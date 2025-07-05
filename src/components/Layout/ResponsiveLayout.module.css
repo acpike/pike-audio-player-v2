@@ -99,16 +99,14 @@
   }
 }
 
-/* 40/60 Split: AudioPlayer takes 40% width and moves closer to left edge */
+/* 40/60 Split: AudioPlayer takes 40% width */
 .playerLandscape > :first-child {
   flex: 0 0 var(--landscape-audio-width);
   max-width: var(--landscape-audio-width);
-  height: calc(100% + 20px);
+  height: 100%;
   margin: 0;
   padding: 0;
   position: relative;
-  left: -10px;
-  top: -10px;
 }
 
 /* 40/60 Split: TrackList takes 58% width */
@@ -135,7 +133,7 @@
     .playerLandscape {
       gap: calc(var(--landscape-gap) + 1%);
       padding: 12px 20px;
-      max-width: 1200px;
+      /* Remove max-width constraint to allow force full width */
     }
   }
 
@@ -200,48 +198,28 @@
   min-height: 0; /* Safari flexbox fix to prevent overlapping */
 }
 
-/* Portrait Layout: TrackList anchored to bottom with responsive height */
+/* Portrait Layout: TrackList with flexbox-based positioning for PWA compatibility */
 .playerPortrait > :nth-child(2) {
-  position: absolute;
-  bottom: 0; /* Anchor to bottom */
-  left: 50%;
-  transform: translateX(-50%);
-  width: calc(100% - 2 * var(--spacing-xs));
-  max-width: calc(500px - 2 * var(--spacing-xs)); /* Respect container width */
+  /* Use flexbox instead of absolute positioning for better PWA compatibility */
+  flex: 0 0 auto;
+  align-self: stretch; /* Use full width of container */
+  width: 100%;
+  max-width: 100%;
   /* Default: Small constrained viewport (mobile browsers) - maximize track space */
   height: 51vh; /* Fallback for older browsers */
   overflow: hidden; /* For fade effects, not blocking scroll */
+  /* Add margin for visual spacing */
+  margin-top: auto; /* Push to bottom using flexbox */
 }
 
-/* iOS Safari specific height fix for portrait TrackList */
-@supports (-webkit-appearance: none) {
-  .playerPortrait > :nth-child(2) {
-    height: 51vh; /* Small screens need maximum track space */
-  }
-}
-
-/* Modern dynamic viewport height for portrait TrackList */
+/* Progressive enhancement for TrackList height - consolidated approach */
 @supports (height: 100dvh) {
   .playerPortrait > :nth-child(2) {
-    height: 51dvh; /* Small constrained viewports */
-  }
-}
-
-/* Larger screens OR generous height (iPad, PWA, desktop) - more generous spacing */
-@media (min-width: 768px), (min-height: 800px) {
-  .playerPortrait > :nth-child(2) {
-    height: 57vh; /* Fallback for older browsers */
+    height: 52dvh; /* Small constrained viewports - flexbox positioning freed up space */
   }
   
-  /* iOS Safari specific for larger screens */
-  @supports (-webkit-appearance: none) {
-    .playerPortrait > :nth-child(2) {
-      height: 57vh;
-    }
-  }
-  
-  /* Modern dynamic viewport for larger screens */
-  @supports (height: 100dvh) {
+  /* Larger screens OR generous height (iPad, PWA, desktop) - more generous spacing */
+  @media (min-width: 768px), (min-height: 800px) {
     .playerPortrait > :nth-child(2) {
       height: 57dvh; /* Full viewport environments */
     }
@@ -294,6 +272,17 @@
     margin: 0 !important;
   }
   
+  /* Extend full-width behavior to child components */
+  .playerPortrait > :first-child {
+    max-width: none !important; /* AudioPlayer uses full width */
+    width: 100% !important;
+  }
+  
+  .playerPortrait > :nth-child(2) {
+    max-width: none !important; /* TrackList uses full width */
+    width: calc(100% - 2 * var(--spacing-md)) !important; /* Account for container padding */
+  }
+  
   /* iOS Safari specific height fix for iPad portrait */
   @supports (-webkit-appearance: none) {
     .playerPortrait {
@@ -335,3 +324,4 @@
     padding: 15px;
   }
 }
+
