@@ -507,7 +507,7 @@
 
 /* Dynamic title sizing for long titles - works in all orientations */
 .titleLong {
-  font-size: 28px !important;
+  font-size: var(--font-size-4xl) !important;
   letter-spacing: 0.02em !important;
 }
 

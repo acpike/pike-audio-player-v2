@@ -182,10 +182,10 @@
   font-size: var(--font-size-2xl);
   font-weight: 600;
   letter-spacing: -0.01em;
-  margin: 0 !important;
-  padding: 0 !important;
+  margin: 0;
+  padding: 0;
   color: white;
-  line-height: 1.2 !important; /* Slightly more breathing room for single line */
+  line-height: 1.2; /* Slightly more breathing room for single line */
   
   /* Text truncation */
   white-space: nowrap;
@@ -267,10 +267,10 @@
   font-size: var(--font-size-2xl);
   font-weight: 600;
   letter-spacing: -0.01em;
-  margin: 0 !important;
-  padding: 0 !important;
+  margin: 0;
+  padding: 0;
   color: white;
-  line-height: 1.2 !important;
+  line-height: 1.2;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

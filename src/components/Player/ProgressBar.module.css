@@ -36,10 +36,10 @@
   background: rgba(0, 0, 0, 0.7);
 }
 
-/* Ensure expanded state during dragging - override hover */
-.progressBarDragging {
-  height: calc(var(--progress-height, 10px) + 4px) !important;
-  background: rgba(0, 0, 0, 0.8) !important;
+/* Ensure expanded state during dragging - higher specificity overrides hover */
+.progressBar.progressBarDragging {
+  height: calc(var(--progress-height, 10px) + 4px);
+  background: rgba(0, 0, 0, 0.8);
 }
 
 /* V7 doesn't need separate track - handled by progressBar background */

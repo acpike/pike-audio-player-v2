@@ -86,7 +86,7 @@
     -webkit-overflow-scrolling: touch;
     
     /* Smart scroll padding with minimal edge spacing */
-    padding: 18px var(--spacing-xs) 25px var(--spacing-xs); /* Minimal horizontal padding - tracks almost touch container border */
+    padding: var(--spacing-lg) var(--spacing-xs) var(--spacing-xl) var(--spacing-xs); /* Minimal horizontal padding - tracks almost touch container border */
     margin: 0;
     position: relative;
   }
@@ -110,13 +110,13 @@
     .trackListContainer {
       mask: linear-gradient(to bottom,
         transparent 0px,
-        black 30px,
+        black var(--mask-solid-distance),
         black calc(100% - 40px),
         transparent 100%
       );
       -webkit-mask: linear-gradient(to bottom,
         transparent 0px,
-        black 30px,
+        black var(--mask-solid-distance),
         black calc(100% - 40px),
         transparent 100%
       );
@@ -131,7 +131,7 @@
       position: absolute;
       left: 0;
       right: 0;
-      height: 30px;
+      height: var(--mask-solid-distance);
       pointer-events: none;
       z-index: 10;
     }
@@ -184,7 +184,7 @@
   scroll-snap-type: y mandatory;
   padding: var(--container-padding-sm) 0 var(--spacing-lg) 0;
   margin-top: calc(-1 * var(--spacing-xs));
-  width: calc(100% + 8px);
+  width: calc(100% + var(--mask-fade-distance));
   padding-left: var(--container-padding-lg);
   padding-right: var(--spacing-xl);
   scrollbar-width: none;
