@@ -49,10 +49,20 @@
   }
 }
 
-/* Desktop: >1200px */
+/* Desktop: >1200px - Full screen expansion */
 @media (min-width: 1201px) {
   .player {
-    max-width: 900px;
+    max-width: none; /* Remove width constraint for full screen usage */
+    width: calc(100vw - 40px); /* Use full screen width minus small margins */
+    margin: 20px; /* Add consistent margins around the player */
+  }
+}
+
+/* Ultra-wide desktop: >1920px - Add reasonable upper limit */
+@media (min-width: 1921px) {
+  .player {
+    max-width: 1800px; /* Reasonable limit for ultrawide monitors */
+    margin: 20px auto; /* Center on ultrawide screens */
   }
 }
 
