@@ -9,10 +9,8 @@ export const InstructionalText: React.FC<InstructionalTextProps> = ({ isVisible 
   if (!isVisible) return null;
 
   return (
-    <div className={styles.instructionalText}>
-      <span className={styles.instruction}>
-        Tap for full track <span className={styles.separator}>•</span> Double tap for preview
-      </span>
-    </div>
+    <span className={styles.instruction}>
+      Tap to play <span className={styles.separator}>•</span> Double tap for preview
+    </span>
   );
 };
