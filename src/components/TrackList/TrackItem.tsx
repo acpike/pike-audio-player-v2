@@ -40,7 +40,7 @@ export const TrackItem: React.FC<TrackItemProps> = ({ track, index, isActive, pl
   
   
   // Determine if THIS track is currently playing a preview
-  // const isThisTrackPreviewPlaying = previewTrackIndex === index && isPreviewPlaying;
+  const isThisTrackPreviewPlaying = previewTrackIndex === index && isPreviewPlaying;
   
   // Determine if THIS track is the selected preview (playing OR paused)
   const isThisTrackPreviewSelected = previewTrackIndex === index;
@@ -224,7 +224,7 @@ export const TrackItem: React.FC<TrackItemProps> = ({ track, index, isActive, pl
           loading="lazy"
         />
         <PreviewOverlay
-          isVisible={isThisTrackPreviewSelected}
+          isVisible={isThisTrackPreviewPlaying}
           progress={previewProgress}
           timeRemaining={15 - previewCurrentTime}
         />
