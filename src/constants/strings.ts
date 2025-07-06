@@ -18,6 +18,7 @@ export const UI_STRINGS = {
   
   // Track List
   SELECT_TRACK_BELOW: 'Select a track below',
+  SELECT_TRACK: 'Select a track',
   UNKNOWN_TRACK: 'Unknown Track',
   UNKNOWN_ALBUM: 'Unknown Album',
   

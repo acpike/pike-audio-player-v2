@@ -10,6 +10,7 @@ interface NowPlayingInfoProps {
   previewTrackIndex: number | null;
   onTitleClick?: () => void;
   className?: string;
+  isLandscapeLayout?: boolean;
 }
 
 /**
@@ -24,7 +25,8 @@ export const NowPlayingInfo: React.FC<NowPlayingInfoProps> = ({
   previewTrack,
   previewTrackIndex,
   onTitleClick,
-  className = '' 
+  className = '',
+  isLandscapeLayout = false
 }) => {
   // Determine current state and content
   let label: string;
@@ -41,6 +43,23 @@ export const NowPlayingInfo: React.FC<NowPlayingInfoProps> = ({
     title = UI_STRINGS.SELECT_TRACK_BELOW;
   }
 
+  // Landscape layout: title first, then label (no border)
+  if (isLandscapeLayout) {
+    return (
+      <div className={`${styles.nowPlayingInfo} ${styles.nowPlayingInfoLandscape} ${className}`}>
+        <h2 
+          className={styles.nowPlayingTitle}
+          onClick={onTitleClick}
+          style={onTitleClick ? { cursor: 'pointer' } : undefined}
+        >
+          {title}
+        </h2>
+        <div className={styles.nowPlayingLabel}>{label}</div>
+      </div>
+    );
+  }
+
+  // Default layout: label first, then title (with border)
   return (
     <div className={`${styles.nowPlayingInfo} ${className}`}>
       <div className={styles.nowPlayingLabel}>{label}</div>

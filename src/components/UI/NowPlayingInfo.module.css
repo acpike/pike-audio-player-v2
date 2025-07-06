@@ -28,3 +28,9 @@
   margin: 0 0 var(--spacing-xs) 0;
   line-height: 1.1;
 }
+
+/* Landscape layout - no border, different ordering */
+.nowPlayingInfoLandscape {
+  border-bottom: none;
+  padding-bottom: 0;
+}

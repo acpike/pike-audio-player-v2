@@ -1,6 +1,9 @@
 import React from 'react';
 import { AlbumInfo } from '../UI/AlbumInfo';
 import { TagsToggle } from '../UI/TagsToggle';
+import { InstructionalText } from '../UI/InstructionalText';
+import { useAudioStore } from '../../stores/audioStore';
+import { usePreviewStore } from '../../stores/previewStore';
 import styles from './TrackListHeader.module.css';
 
 interface TrackListHeaderProps {}
@@ -8,21 +11,35 @@ interface TrackListHeaderProps {}
 /**
  * TrackListHeader - Simplified header for both portrait and landscape
  * 
- * Shows only AlbumInfo and TagsToggle consistently in both orientations.
+ * Shows AlbumInfo, TagsToggle, and conditional InstructionalText.
  * NOW PLAYING info has been moved to the cover art area in landscape mode.
  */
 export const TrackListHeader: React.FC<TrackListHeaderProps> = () => {
+  const { currentTrackIndex } = useAudioStore();
+  const { previewTrackIndex } = usePreviewStore();
+  
+  // Same condition as used in AudioPlayer
+  const hasTrackBeenSelected = currentTrackIndex !== null;
+  const shouldShowInstructions = !hasTrackBeenSelected && previewTrackIndex === null;
+
   return (
     <div className={styles.trackListHeader}>
-      {/* Album Info - left side */}
-      <AlbumInfo 
-        albumName="Demo Tracks"
-        trackCount={5}
-        className={styles.albumInfoPosition}
-      />
+      {/* Top row: Album Info and Tags Toggle */}
+      <div className={styles.topRow}>
+        <AlbumInfo 
+          albumName="Demo Tracks"
+          trackCount={5}
+          className={styles.albumInfoPosition}
+        />
+        <TagsToggle className={styles.tagsTogglePosition} />
+      </div>
 
-      {/* Tags Toggle - right side */}
-      <TagsToggle className={styles.tagsTogglePosition} />
+      {/* Bottom row: Instructional Text (conditional) */}
+      {shouldShowInstructions && (
+        <div className={styles.bottomRow}>
+          <InstructionalText isVisible={true} />
+        </div>
+      )}
     </div>
   );
 };

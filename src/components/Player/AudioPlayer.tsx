@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { PlayButton } from './PlayButton';
 import { ProgressBar } from './ProgressBar';
-import { InstructionalText } from '../UI/InstructionalText';
 import { NowPlayingInfo } from '../UI/NowPlayingInfo';
 import { useUIStore } from '../../stores/uiStore';
 import { usePreviewStore } from '../../stores/previewStore';
@@ -329,62 +328,36 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
         )}
       </div>
       
-      {/* NOW PLAYING info - Only shown in landscape mode under cover art */}
-      {isLandscapeMode && (
-        <div className={styles.landscapeNowPlayingInfo}>
-          <NowPlayingInfo 
-            currentTrack={currentTrack}
-            currentTrackIndex={currentTrackIndex}
-            previewTrack={previewTrackIndex !== null ? trackData[previewTrackIndex] : null}
-            previewTrackIndex={previewTrackIndex}
-            onTitleClick={() => window.dispatchEvent(new Event('toggleDebugPanel'))}
-          />
-        </div>
-      )}
+      {/* NOW PLAYING info removed - now handled in unified TrackListHeader */}
       
-      {/* Album info below cover art - shown on initial load in landscape only */}
-      {!hasTrackBeenSelected && !isPortraitMode && previewTrackIndex === null && (
-        <div className={styles.initialAlbumInfo}>
-          <div className={styles.initialAlbumName}>
-            {trackData[0]?.album || UI_STRINGS.UNKNOWN_ALBUM}
-          </div>
-          <div className={styles.initialTrackCount}>
-            {UI_STRINGS.TRACKS_COUNT(trackData.length)}
-          </div>
-        </div>
-      )}
+      {/* Album info removed - now handled by unified track header */}
 
       
+      {/* Track info shown in both orientations for unified red border behavior */}
       <div className={getTrackInfoClass()}>
-        {!isLandscapeMode && (
-          <>
-            <h1 
-              ref={titleRef}
-              className={getTrackTitleClass()}
-              onClick={toggleDebugPanel}
-              style={{ cursor: 'pointer' }}
-            >
-              {displayTrack 
-                ? displayTrack.title 
-                : UI_STRINGS.SELECT_TRACK_BELOW
-              }
-            </h1>
-            
-            {(hasTrackBeenSelected || previewTrackIndex !== null) && (
-              <div className={`${getStatusTextClass()} ${isLoading ? styles.statusTextLoading : ''}`}>
-                {isLoading ? UI_STRINGS.LOADING : 
-                 previewTrackIndex !== null ? UI_STRINGS.PREVIEWING :
-                 hasTrackBeenSelected ? UI_STRINGS.NOW_PLAYING : 
-                 UI_STRINGS.MUSIC_PLAYER}
-              </div>
-            )}
-          </>
-        )}
+        <h1 
+          ref={titleRef}
+          className={getTrackTitleClass()}
+          onClick={toggleDebugPanel}
+          style={{ cursor: 'pointer' }}
+        >
+          {displayTrack 
+            ? displayTrack.title 
+            : isLandscapeMode 
+              ? UI_STRINGS.SELECT_TRACK 
+              : UI_STRINGS.SELECT_TRACK_BELOW
+          }
+        </h1>
         
+        {(hasTrackBeenSelected || previewTrackIndex !== null) && (
+          <div className={`${getStatusTextClass()} ${isLoading ? styles.statusTextLoading : ''}`}>
+            {isLoading ? UI_STRINGS.LOADING : 
+             previewTrackIndex !== null ? UI_STRINGS.PREVIEWING :
+             hasTrackBeenSelected ? UI_STRINGS.NOW_PLAYING : 
+             UI_STRINGS.MUSIC_PLAYER}
+          </div>
+        )}
       </div>
-      
-      {/* Instructional text for first-time users */}
-      <InstructionalText isVisible={!hasTrackBeenSelected && previewTrackIndex === null} />
     </div>
   );
 };

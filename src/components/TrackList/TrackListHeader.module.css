@@ -2,8 +2,7 @@
 
 .trackListHeader {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
   width: 100%;
   padding: var(--spacing-lg) var(--spacing-md);
   border-bottom: 2px solid rgba(255, 255, 255, 0.15);
@@ -12,6 +11,23 @@
   border-top-left-radius: var(--radius-lg);
   border-top-right-radius: var(--radius-lg);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  /* DEBUG: Track list header border */
+  border: 3px solid pink !important;
+}
+
+.topRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.bottomRow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: var(--spacing-sm);
 }
 
 @supports (backdrop-filter: blur(12px)) or (-webkit-backdrop-filter: blur(12px)) {
