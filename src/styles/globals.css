@@ -230,9 +230,10 @@
 html, body {
   margin: 0 !important;
   padding: 0 !important;
-  width: 100vw !important;
-  height: 100vh !important; /* Fallback for older browsers */
-  overflow: hidden !important;
+  width: 100% !important;
+  height: 100% !important; /* Fallback for older browsers */
+  overflow-x: hidden !important;
+  overflow-y: hidden !important;
   background-color: var(--true-black) !important; /* Prevent white bars with app background */
   box-sizing: border-box !important;
 }
@@ -252,8 +253,8 @@ html, body {
 }
 
 #root {
-  width: 100vw !important;
-  height: 100vh !important; /* Fallback for older browsers */
+  width: 100% !important;
+  height: 100% !important; /* Fallback for older browsers */
   margin: 0 !important;
   padding: 0 !important;
   overflow: hidden !important;

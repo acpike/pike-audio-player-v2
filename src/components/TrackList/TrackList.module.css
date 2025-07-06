@@ -18,8 +18,8 @@
   display: flex;
   flex-direction: column;
   gap: var(--spacing-sm);
-  /* Enhanced height with dynamic viewport units for iOS Safari */
-  max-height: 76.5vh; /* Fallback for older browsers */
+  /* Reduced base height to prevent overflow */
+  max-height: 45vh; /* Fallback for older browsers */
   overflow-y: auto;
   overflow-x: visible;
   position: relative;
@@ -35,19 +35,21 @@
   mask: var(--mask-gradient-standard);
   -webkit-mask: var(--mask-gradient-standard);
   padding-top: var(--spacing-lg);
+  /* DEBUG: Track list container border */
+  border: 2px solid teal !important;
 }
 
 /* iOS Safari specific height fix for TrackList */
 @supports (-webkit-appearance: none) {
   .trackListContainer {
-    max-height: -webkit-fill-available; /* iOS Safari specific */
+    max-height: 45vh; /* Consistent base height */
   }
 }
 
 /* Modern dynamic viewport height for TrackList */
 @supports (height: 100dvh) {
   .trackListContainer {
-    max-height: 76.5dvh; /* Modern dynamic viewport height */
+    max-height: 45dvh; /* Consistent base height */
   }
 }
 
@@ -75,15 +77,17 @@
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: var(--radius-lg);
     backdrop-filter: var(--backdrop-blur-light);
+    touch-action: none; /* Disable pinch-to-zoom gestures */
   }
   
   .trackListContainer {
     flex: 1;
     min-height: 0;
-    /* Enhanced height with dynamic viewport units for iOS Safari */
-    max-height: 76.5vh; /* Fallback for older browsers */
+    /* More aggressive height reduction */
+    max-height: 45vh; /* Fallback for older browsers */
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
+    touch-action: pan-y; /* Allow vertical scrolling but prevent pinch-to-zoom */
     
     /* Smart scroll padding with minimal edge spacing */
     padding: var(--spacing-lg) var(--spacing-xs) var(--spacing-xl) var(--spacing-xs); /* Minimal horizontal padding - tracks almost touch container border */
@@ -94,14 +98,14 @@
   /* iOS Safari specific height fix for portrait TrackList */
   @supports (-webkit-appearance: none) {
     .trackListContainer {
-      max-height: -webkit-fill-available; /* iOS Safari specific */
+      max-height: 45vh; /* More aggressive reduction */
     }
   }
   
   /* Modern dynamic viewport height for portrait TrackList */
   @supports (height: 100dvh) {
     .trackListContainer {
-      max-height: 76.5dvh; /* Modern dynamic viewport height */
+      max-height: 45dvh; /* More aggressive reduction */
     }
   }
   
@@ -155,12 +159,17 @@
 
 .trackList {
   width: 100%;
+  touch-action: none; /* Disable pinch-to-zoom gestures */
+  /* DEBUG: Main track list border */
+  border: 3px solid magenta !important;
 }
 
 .trackListWrapper {
   position: relative;
   height: 100%;
   width: 100%;
+  /* DEBUG: Track list wrapper border */
+  border: 2px solid lime !important;
 }
 
 
@@ -176,8 +185,8 @@
   display: flex;
   flex-direction: column;
   gap: var(--spacing-sm);
-  /* Enhanced height with dynamic viewport units for iOS Safari */
-  max-height: 76.5vh; /* Fallback for older browsers */
+  /* Reduced height for landscape to prevent overflow */
+  max-height: 60vh; /* Fallback for older browsers */
   overflow-y: auto;
   overflow-x: visible;
   position: relative;
@@ -197,14 +206,14 @@
 /* iOS Safari specific height fix for landscape TrackList */
 @supports (-webkit-appearance: none) {
   .trackListContainerLandscape {
-    max-height: -webkit-fill-available; /* iOS Safari specific */
+    max-height: 60vh; /* Use consistent height instead of fill-available */
   }
 }
 
 /* Modern dynamic viewport height for landscape TrackList */
 @supports (height: 100dvh) {
   .trackListContainerLandscape {
-    max-height: 76.5dvh; /* Modern dynamic viewport height */
+    max-height: 60dvh; /* Reduced to prevent overflow */
   }
 }
 
