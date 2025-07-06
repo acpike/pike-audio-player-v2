@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iPhone Lock Screen Style Controls</title>
+    <style>
+        /* Design System */
+        :root {
+            --primary-blue: rgba(96, 165, 250, 1);
+            --text-primary: white;
+            --text-secondary: rgba(255, 255, 255, 0.8);
+            
+            --true-black: #000000;
+            --deep-charcoal: #0a0a0a;
+            
+            --font-size-sm: 11px;
+            --font-size-3xl: 18px;
+            
+            --spacing-xs: 5px;
+            --spacing-sm: 12px;
+            --spacing-md: 15px;
+            --spacing-lg: 20px;
+            
+            --radius-lg: 12px;
+            
+            --transition-quick: 0.2s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, var(--deep-charcoal) 0%, var(--true-black) 100%);
+            color: var(--text-primary);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .demo-container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 24px;
+            padding: 40px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 
+                0 25px 80px rgba(0, 0, 0, 0.4),
+                0 15px 30px rgba(0, 0, 0, 0.3),
+                inset 0 1px rgba(255, 255, 255, 0.1);
+        }
+
+        .demo-title {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--primary-blue);
+        }
+
+        .demo-subtitle {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        /* Header Container */
+        .header-container {
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: var(--radius-lg);
+            margin-bottom: 30px;
+        }
+
+        /* Current Header */
+        .current-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--spacing-lg) var(--spacing-md);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.15);
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(20, 20, 20, 0.85);
+            border-top-left-radius: var(--radius-lg);
+            border-top-right-radius: var(--radius-lg);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            min-height: 68px;
+            width: 100%;
+        }
+
+        @supports (backdrop-filter: blur(12px)) {
+            .current-header {
+                background: rgba(255, 255, 255, 0.08);
+                backdrop-filter: blur(12px);
+                -webkit-backdrop-filter: blur(12px);
+            }
+        }
+
+        .portrait-album-info {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+
+        .album-name {
+            font-size: var(--font-size-3xl);
+            font-weight: 800;
+            letter-spacing: -0.01em;
+            color: rgba(255, 255, 255, 0.98);
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        .separator {
+            font-size: var(--font-size-sm);
+            font-weight: 400;
+            color: var(--primary-blue);
+            margin: 0 2px;
+        }
+
+        .track-count {
+            font-size: var(--font-size-sm);
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.75);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+        }
+
+        .tags-toggle {
+            display: flex;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 32px;
+            padding: 3px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .tags-toggle-option {
+            padding: 6px 12px;
+            border-radius: 28px;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all var(--transition-quick);
+            color: rgba(255, 255, 255, 0.6);
+            white-space: nowrap;
+        }
+
+        .tags-toggle-option.active {
+            background: var(--primary-blue);
+            color: white;
+        }
+
+        /* iPhone Lock Screen Style Header */
+        .iphone-header {
+            display: flex;
+            flex-direction: column;
+            padding: var(--spacing-lg) var(--spacing-md);
+            background: rgba(20, 20, 20, 0.85);
+            min-height: 68px;
+            gap: var(--spacing-sm);
+        }
+
+        @supports (backdrop-filter: blur(12px)) {
+            .iphone-header {
+                background: rgba(255, 255, 255, 0.08);
+                backdrop-filter: blur(12px);
+                -webkit-backdrop-filter: blur(12px);
+            }
+        }
+
+        /* Album Info Small */
+        .album-info-small {
+            font-size: 9px;
+            color: rgba(255, 255, 255, 0.6);
+            text-align: center;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            margin-bottom: 2px;
+        }
+
+        .small-separator {
+            color: var(--primary-blue);
+            margin: 0 3px;
+        }
+
+        /* iPhone Controls Row - Exact Layout */
+        .iphone-controls-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: 0 8px;
+        }
+
+        /* Control Button - iPhone Style */
+        .iphone-btn {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            transition: all var(--transition-quick);
+            color: rgba(255, 255, 255, 0.85);
+            border-radius: 50%;
+        }
+
+        .iphone-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: scale(1.05);
+        }
+
+        .iphone-btn.active {
+            color: var(--primary-blue);
+        }
+
+        /* Volume Row - iPhone Style */
+        .volume-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            margin-top: 4px;
+        }
+
+        .volume-icon {
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .volume-slider {
+            flex: 1;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 2px;
+            position: relative;
+            cursor: pointer;
+            margin: 0 12px;
+        }
+
+        .volume-fill {
+            width: 60%;
+            height: 100%;
+            background: white;
+            border-radius: 2px;
+        }
+
+        /* Icons */
+        .icon {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
+        .icon-sm {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+        }
+
+        .notes {
+            margin-top: 40px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .note-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--primary-blue);
+            margin-bottom: 10px;
+        }
+
+        .note-text {
+            font-size: var(--font-size-sm);
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <h1 class="demo-title">iPhone Lock Screen Style</h1>
+        <p class="demo-subtitle">Exact replica of iPhone lock screen controls with Loop & Shuffle instead of Star & Broadcast</p>
+        
+        <div class="header-container">
+            <!-- Current Portrait Header -->
+            <div class="current-header">
+                <div class="portrait-album-info">
+                    <span class="album-name">Demo Tracks</span>
+                    <span class="separator">•</span>
+                    <span class="track-count">5 tracks</span>
+                </div>
+                <div class="tags-toggle">
+                    <div class="tags-toggle-option">OFF</div>
+                    <div class="tags-toggle-option active">TAGS</div>
+                    <div class="tags-toggle-option">DESC</div>
+                </div>
+            </div>
+
+            <!-- iPhone Lock Screen Style Header -->
+            <div class="iphone-header">
+                <div class="album-info-small">
+                    Demo Tracks<span class="small-separator">•</span>5 tracks
+                </div>
+                
+                <!-- Main Controls Row - Exact iPhone Layout -->
+                <div class="iphone-controls-row">
+                    <!-- Loop (instead of Star) -->
+                    <button class="iphone-btn active">
+                        <svg class="icon" viewBox="0 0 24 24">
+                            <path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z"/>
+                        </svg>
+                    </button>
+                    
+                    <!-- Previous Track -->
+                    <button class="iphone-btn">
+                        <svg class="icon" viewBox="0 0 24 24">
+                            <path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/>
+                        </svg>
+                    </button>
+                    
+                    <!-- Pause (center button) -->
+                    <button class="iphone-btn">
+                        <svg class="icon" viewBox="0 0 24 24">
+                            <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+                        </svg>
+                    </button>
+                    
+                    <!-- Next Track -->
+                    <button class="iphone-btn">
+                        <svg class="icon" viewBox="0 0 24 24">
+                            <path d="M6 18l8.5-6L6 6v12zm8.5-6L23 6v12z"/>
+                        </svg>
+                    </button>
+                    
+                    <!-- Shuffle (instead of Broadcast) -->
+                    <button class="iphone-btn">
+                        <svg class="icon" viewBox="0 0 24 24">
+                            <path d="M10.59 9.17L5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.33 9.41l-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z"/>
+                        </svg>
+                    </button>
+                </div>
+                
+                <!-- Volume Row - Exact iPhone Layout -->
+                <div class="volume-row">
+                    <div class="volume-icon">
+                        <svg class="icon-sm" viewBox="0 0 24 24">
+                            <path d="M3 9v6h4l5 5V4L7 9H3z"/>
+                        </svg>
+                    </div>
+                    <div class="volume-slider">
+                        <div class="volume-fill"></div>
+                    </div>
+                    <div class="volume-icon">
+                        <svg class="icon-sm" viewBox="0 0 24 24">
+                            <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notes -->
+        <div class="notes">
+            <div class="note-title">Perfect iPhone Lock Screen Replica:</div>
+            <div class="note-text">
+                • <strong>Exact Layout</strong> - Matches iPhone lock screen spacing and button arrangement<br>
+                • <strong>Loop Icon</strong> - Replaces star icon (left position)<br>
+                • <strong>Shuffle Icon</strong> - Replaces broadcast icon (right position)<br>
+                • <strong>Same Height</strong> - No vertical expansion from original header<br>
+                • <strong>Volume Row</strong> - Identical to iPhone with speaker icons and slider<br>
+                • <strong>Clean & Simple</strong> - Proven UI pattern that users understand
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Interactive volume slider
+        document.querySelector('.volume-slider').addEventListener('click', (e) => {
+            const rect = e.target.getBoundingClientRect();
+            const percent = ((e.clientX - rect.left) / rect.width) * 100;
+            const fill = document.querySelector('.volume-fill');
+            fill.style.width = `${Math.max(0, Math.min(100, percent))}%`;
+        });
+
+        // Toggle control buttons
+        document.querySelectorAll('.iphone-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Only toggle loop and shuffle buttons
+                const svg = btn.querySelector('svg path');
+                const pathData = svg?.getAttribute('d') || '';
+                
+                // Loop button (first) and Shuffle button (last)
+                if (pathData.includes('7 7h10') || pathData.includes('10.59')) {
+                    btn.classList.toggle('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
