@@ -6,10 +6,9 @@
   align-items: center;
   gap: 0; /* Removed phantom gap - let ResponsiveLayout handle top spacing */
   width: 100%;
-  overflow: hidden; /* Prevent content overflow */
+  overflow: visible; /* Allow natural content flow */
   touch-action: none; /* Disable pinch-to-zoom gestures */
-  /* DEBUG: Main player container border */
-  border: 3px solid red !important;
+  box-sizing: border-box;
 }
 
 .audioPlayerLandscape {
@@ -48,8 +47,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  /* DEBUG: Cover wrapper border */
-  border: 3px solid blue !important;
 }
 
 /* iOS Safari - use responsive approach for landscape */
@@ -125,8 +122,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  /* DEBUG: Cover wrapper border */
-  border: 3px solid blue !important;
 }
 
 .coverWrapperLandscapeExpanded {
@@ -211,9 +206,8 @@
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   margin-top: 0; /* Remove gap - make yellow border touch blue border */
   padding-top: var(--spacing-md); /* Add internal padding for breathing room */
-  /* DEBUG: Track info border */
-  border: 2px solid yellow !important;
 }
+
 
 .trackInfoPortraitExpanded {
   text-align: center;
@@ -434,8 +428,6 @@
   margin-top: var(--spacing-lg);
   position: relative;
   width: 100%;
-  /* DEBUG: Initial album info border */
-  border: 2px solid cyan !important;
 }
 
 /* Landscape specific adjustments for initialAlbumInfo */
@@ -592,7 +584,5 @@
   flex-direction: column;
   align-items: center;
   flex-shrink: 0;
-  /* DEBUG: NOW PLAYING section border */
-  border: 3px solid green !important;
 }
 

@@ -32,6 +32,13 @@
   /* Low-end device optimizations */
 }
 
+/* Portrait mode gap reduction */
+@media (orientation: portrait) {
+  .player {
+    gap: 0; /* Eliminate gap so red and magenta borders touch */
+  }
+}
+
 /* Landscape mode foundation */
 
 /* Phone Detection: ≤768px */
@@ -71,7 +78,7 @@
 .playerLandscape {
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
+  align-items: center;
   gap: var(--landscape-gap);
   max-width: none;
   width: 100%;
@@ -81,7 +88,7 @@
   /* Enhanced padding with iOS safe areas */
   padding-top: calc(var(--spacing-sm) + var(--safe-area-top));
   padding-bottom: calc(var(--spacing-sm) + var(--safe-area-bottom));
-  padding-left: calc(var(--spacing-sm) + var(--safe-area-left));
+  padding-left: calc(var(--spacing-md) + var(--safe-area-left));
   padding-right: calc(var(--spacing-md) + var(--safe-area-right));
   overflow: hidden; /* Prevent content overflow */
   touch-action: none; /* Disable pinch-to-zoom gestures */
@@ -156,14 +163,14 @@
   align-items: center;
   max-width: 500px;
   width: 100%;
-  /* Allow flexible height for proper viewport scaling */
-  min-height: 100%; /* Minimum full height but allow scaling */
-  max-height: 100%; /* Constrain to viewport height */
+  /* Use viewport units for proper height calculation */
+  height: 100vh; /* Full viewport height */
+  max-height: none; /* Remove height constraint */
   background: rgba(255, 255, 255, 0.03);
   border-radius: var(--radius-3xl);
   /* Enhanced padding with iOS safe areas */
   padding-top: calc(var(--spacing-lg) + var(--safe-area-top));
-  padding-bottom: calc(var(--spacing-sm) + var(--safe-area-bottom));
+  padding-bottom: 0; /* TrackList extends to bottom */
   padding-left: calc(var(--spacing-sm) + var(--safe-area-left));
   padding-right: calc(var(--spacing-sm) + var(--safe-area-right));
   -webkit-backdrop-filter: blur(20px);
@@ -173,8 +180,8 @@
     0 25px 80px rgba(0, 0, 0, 0.4),
     0 15px 30px rgba(0, 0, 0, 0.3),
     inset 0 1px rgba(255, 255, 255, 0.1);
-  gap: var(--spacing-md);
-  overflow: hidden; /* Prevent content overflow */
+  gap: var(--spacing-md); /* Medium gap (15px) for better spacing */
+  overflow: visible; /* Allow content to extend for proper layout */
   touch-action: none; /* Disable pinch-to-zoom gestures */
   box-sizing: border-box;
   position: relative;
@@ -213,28 +220,31 @@
 
 /* Portrait Layout: TrackList with flexbox-based positioning for PWA compatibility */
 .playerPortrait > :nth-child(2) {
-  /* Use flexbox instead of absolute positioning for better PWA compatibility */
-  flex: 0 0 auto;
+  /* Use fixed height approach like production */
+  flex: 0 0 auto; /* Don't grow or shrink */
   align-self: stretch; /* Use full width of container */
   width: 100%;
   max-width: 100%;
-  /* Reduced height to prevent overflow */
-  height: 40vh; /* Fallback for older browsers */
+  /* Fixed height for consistent layout */
+  height: 51vh; /* Fallback for older browsers */
   overflow: hidden; /* For fade effects, not blocking scroll */
   /* Add margin for visual spacing */
   margin-top: auto; /* Push to bottom using flexbox */
+  /* Make this a flex container for proper height propagation */
+  display: flex;
+  flex-direction: column;
 }
 
 /* Progressive enhancement for TrackList height - consolidated approach */
 @supports (height: 100dvh) {
   .playerPortrait > :nth-child(2) {
-    height: 40dvh; /* TESTING: Reduced to prevent overflow */
+    height: 52dvh; /* Small constrained viewports - flexbox positioning freed up space */
   }
   
   /* Larger screens OR generous height (iPad, PWA, desktop) - more generous spacing */
   @media (min-width: 768px), (min-height: 800px) {
     .playerPortrait > :nth-child(2) {
-      height: 42dvh; /* TESTING: Reduced for larger screens too */
+      height: 57dvh; /* Full viewport environments */
     }
   }
 }
