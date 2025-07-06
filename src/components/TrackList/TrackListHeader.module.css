@@ -1,0 +1,51 @@
+/* TrackListHeader - Simple consistent header for both orientations */
+
+.trackListHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: var(--spacing-lg) var(--spacing-md);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.15);
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(20, 20, 20, 0.85);
+  border-top-left-radius: var(--radius-lg);
+  border-top-right-radius: var(--radius-lg);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+@supports (backdrop-filter: blur(12px)) or (-webkit-backdrop-filter: blur(12px)) {
+  .trackListHeader {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+}
+
+.albumInfoPosition {
+  /* Album info takes up available space on the left */
+  flex: 1;
+}
+
+.tagsTogglePosition {
+  /* Tags toggle stays on the right */
+  flex-shrink: 0;
+}
+
+/* Responsive adjustments for different screen sizes */
+
+/* Large landscape screens - more generous spacing */
+@media (orientation: landscape) and (min-width: 951px) {
+  .trackListHeader {
+    padding: var(--spacing-lg) var(--spacing-xl);
+    gap: var(--spacing-md);
+  }
+}
+
+/* Small landscape screens - tighter spacing */
+@media (orientation: landscape) and (min-width: 750px) and (max-width: 950px) {
+  .trackListHeader {
+    padding: var(--spacing-md) var(--spacing-sm);
+    gap: var(--spacing-sm);
+  }
+}

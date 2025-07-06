@@ -544,3 +544,11 @@
   }
 }
 
+/* Landscape NOW PLAYING info - positioned under cover art */
+.landscapeNowPlayingInfo {
+  width: 100%;
+  margin-top: var(--spacing-md);
+  padding: 0 var(--spacing-xs);
+  box-sizing: border-box;
+}
+

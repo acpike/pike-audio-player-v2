@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { PlayButton } from './PlayButton';
 import { ProgressBar } from './ProgressBar';
 import { InstructionalText } from '../UI/InstructionalText';
+import { NowPlayingInfo } from '../UI/NowPlayingInfo';
 import { useUIStore } from '../../stores/uiStore';
 import { usePreviewStore } from '../../stores/previewStore';
 import { Track, trackData } from '../../types/tracks';
@@ -327,6 +328,19 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
           </div>
         )}
       </div>
+      
+      {/* NOW PLAYING info - Only shown in landscape mode under cover art */}
+      {isLandscapeMode && (
+        <div className={styles.landscapeNowPlayingInfo}>
+          <NowPlayingInfo 
+            currentTrack={currentTrack}
+            currentTrackIndex={currentTrackIndex}
+            previewTrack={previewTrackIndex !== null ? trackData[previewTrackIndex] : null}
+            previewTrackIndex={previewTrackIndex}
+            onTitleClick={() => window.dispatchEvent(new Event('toggleDebugPanel'))}
+          />
+        </div>
+      )}
       
       {/* Album info below cover art - shown on initial load in landscape only */}
       {!hasTrackBeenSelected && !isPortraitMode && previewTrackIndex === null && (

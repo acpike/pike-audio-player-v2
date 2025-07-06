@@ -1,0 +1,32 @@
+/* AlbumInfo - Shared component styles for both portrait and landscape */
+
+.albumInfo {
+  font-family: var(--font-family-primary, "Inter", sans-serif);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.albumName {
+  font-size: var(--font-size-3xl);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: rgba(255, 255, 255, 0.98);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.separator {
+  font-size: var(--font-size-sm);
+  font-weight: 400;
+  color: var(--primary-blue);
+  margin: 0 var(--spacing-xxs);
+}
+
+.trackCount {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.75);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
