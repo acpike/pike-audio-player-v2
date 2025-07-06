@@ -1,9 +1,10 @@
 /* Play Button Styles - CSS Modules with Design System Variables */
 
 .playButton {
-  /* Base styles with design system variables */
-  width: var(--play-button-size);
-  height: var(--play-button-size);
+  /* Width-only sizing - works universally across any cover art aspect ratio */
+  width: 50%;
+  aspect-ratio: 1 / 1; /* Forces perfect circle - height calculated automatically */
+  max-width: 180px; /* Prevent too large on huge screens */
   background: rgba(255, 255, 255, 0.05);
   border: var(--border-width-md) solid rgba(255, 255, 255, 0.5);
   border-radius: 50%;
@@ -38,8 +39,8 @@
 
 .playIcon {
   fill: white;
-  width: var(--play-icon-size);
-  height: var(--play-icon-size);
+  width: clamp(50px, 60%, 100px);
+  height: clamp(50px, 60%, 100px);
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
   transition: none;
   pointer-events: none;
@@ -51,8 +52,8 @@
 }
 
 .loadingSpinner {
-  width: var(--loading-spinner-size);
-  height: var(--loading-spinner-size);
+  width: clamp(30px, 40%, 60px);
+  height: clamp(30px, 40%, 60px);
   border: var(--border-width-lg) solid rgba(255, 255, 255, 0.3);
   border-top: var(--border-width-lg) solid white;
   border-radius: 50%;
@@ -70,5 +71,23 @@
   transform: scale(0.8);
   transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1),
               transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Mobile-specific fallbacks for browsers without aspect-ratio support */
+@supports not (aspect-ratio: 1) {
+  .playButton {
+    width: 50%;
+    /* Fallback: use width for height to approximate square */
+    height: 50%;
+  }
+}
+
+/* iOS Safari specific enhancements */
+@supports (-webkit-touch-callout: none) {
+  .playButton {
+    /* Ensure consistent sizing on iOS Safari */
+    width: 50% !important;
+    max-width: 180px !important;
+  }
 }
 

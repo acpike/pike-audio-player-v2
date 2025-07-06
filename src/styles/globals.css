@@ -87,6 +87,14 @@
   --progress-z-index: 5;
   --progress-height: 10px;
   --progress-border-radius: 5px;
+  
+  /* Button Positioning System */
+  --button-center-vertical: 45%;
+  --button-center-horizontal: 50%;
+  --button-offset-x: -50%;
+  --button-offset-y: -50%;
+  --button-z-index: 10;
+  --button-container-bottom-offset: calc(var(--progress-bottom) + var(--progress-height) + var(--progress-spacing));
 
   /* Border Radius System */
   --radius-xs: 3px;   /* Small elements, progress buffering */

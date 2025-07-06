@@ -16,16 +16,16 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  gap: var(--spacing-md);
+  justify-content: center;
+  gap: 0; /* Remove gap to make borders touch */
   flex: 1;
   min-width: 300px;
-  max-width: 400px;
+  /* Removed max-width to allow expansion on larger screens like iPad */
   padding: var(--container-padding-lg);
   background: transparent;
   border-right: 1px solid rgba(255, 255, 255, 0.1);
-  /* Constrain height to prevent overflow in landscape */
-  max-height: 100%;
+  /* Fill entire left panel height and center content */
+  height: 100%;
   overflow: hidden;
   touch-action: none; /* Disable pinch-to-zoom gestures */
   box-sizing: border-box;
@@ -35,11 +35,11 @@
 
 .coverWrapper {
   position: relative;
-  /* Unified sizing for all orientations */
-  width: min(90%, 350px);
-  height: min(65%, 250px);
-  max-width: 350px;
-  max-height: 250px;
+  /* Unified sizing for all orientations - increased limit for larger screens */
+  width: min(90%, 450px);
+  height: 250px; /* Fallback for older browsers */
+  aspect-ratio: 4 / 3; /* 4:3 aspect ratio for testing */
+  max-width: 450px;
   margin: var(--spacing-xs) auto 0;
   border-radius: var(--radius-xl);
   overflow: hidden;
@@ -52,14 +52,30 @@
   border: 3px solid blue !important;
 }
 
-/* iOS Safari - use same unified approach */
+/* iOS Safari - use responsive approach for landscape */
 @supports (-webkit-touch-callout: none) {
-  .coverWrapper,
+  .coverWrapper {
+    width: min(90%, 450px);
+    height: 250px; /* Fallback for older browsers */
+    aspect-ratio: 4 / 3; /* 4:3 aspect ratio for testing */
+    max-width: 450px;
+  }
+  
   .coverWrapperLandscape {
-    width: min(90%, 350px);
-    height: min(65%, 250px);
-    max-width: 350px;
-    max-height: 250px;
+    width: calc(100% - 20px) !important; /* Force responsive expansion on iOS Safari */
+    height: unset !important; /* Force removal of height constraint for aspect-ratio */
+    aspect-ratio: 4 / 3; /* Maintains consistent proportions - overrides height */
+    max-width: none !important; /* Override any max-width constraints */
+  }
+}
+
+/* Progressive enhancement for aspect-ratio support */
+@supports (aspect-ratio: 1) {
+  .coverWrapper,
+  .coverWrapperLandscape,
+  .coverWrapperPortraitExpanded,
+  .coverWrapperLandscapeExpanded {
+    height: unset !important; /* Force aspect-ratio to calculate height */
   }
 }
 
@@ -67,10 +83,9 @@
   position: relative;
   /* Responsive sizing without problematic viewport units */
   width: min(90%, 450px);
-  height: 0;
-  padding-bottom: min(65%, 325px); /* Maintains aspect ratio */
+  height: 325px; /* Fallback for older browsers */
+  aspect-ratio: 4 / 3; /* Maintains consistent aspect ratio */
   max-width: 450px;
-  max-height: var(--cover-max-size);
   margin: var(--spacing-xs) auto 0; /* Keep same top margin as normal state */
   transform: scale(0.8); /* Scale down to match landscape */
   transform-origin: top center; /* Keep top edge anchored */
@@ -88,18 +103,19 @@
   .coverWrapperPortraitExpanded {
     width: 90%;
     height: auto;
-    aspect-ratio: 1.38 / 1; /* 90vw / 65vw ratio */
+    aspect-ratio: 4 / 3; /* 90vw / 65vw ratio */
     padding-bottom: 0;
   }
 }
 
 .coverWrapperLandscape {
   position: relative;
-  /* Unified sizing - same as portrait */
-  width: min(90%, 350px);
-  height: min(65%, 250px);
-  max-width: 350px;
-  max-height: 250px;
+  /* Responsive width with minimal padding */
+  width: calc(100% - 20px) !important;
+  height: unset !important; /* Force removal of height constraint for aspect-ratio */
+  aspect-ratio: 4 / 3; /* Maintains consistent proportions - overrides height */
+  /* Removed max-width to allow full expansion on larger screens like iPad */
+  max-width: none !important; /* Override any inherited max-width constraints */
   margin: var(--spacing-xs) auto 0;
   margin-bottom: 0; /* Remove bottom margin to make borders touch */
   border-radius: var(--radius-xl);
@@ -116,9 +132,9 @@
 .coverWrapperLandscapeExpanded {
   position: relative;
   width: 90%;
-  height: 65%;
+  height: 260px; /* Fallback for older browsers */
+  aspect-ratio: 4 / 3; /* Maintains consistent aspect ratio */
   max-width: 380px;
-  max-height: 260px;
   margin: 10px auto 0;
   transform: scale(0.8);
   border-radius: var(--radius-xl);
@@ -158,10 +174,11 @@
 
 .buttonContainer {
   position: absolute;
-  top: 45%; /* Match landscape positioning */
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 10;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: var(--button-container-bottom-offset);
+  z-index: var(--button-z-index);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -169,10 +186,11 @@
 
 .buttonContainerLandscape {
   position: absolute;
-  top: 45%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 10;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: var(--button-container-bottom-offset);
+  z-index: var(--button-z-index);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -180,10 +198,10 @@
 
 .progressOverlay {
   position: absolute;
-  bottom: 8px;
-  left: 20px;
-  right: 20px;
-  z-index: 5;
+  bottom: var(--progress-bottom);
+  left: var(--progress-horizontal);
+  right: var(--progress-horizontal);
+  z-index: var(--progress-z-index);
 }
 
 .trackInfo {
@@ -566,7 +584,7 @@
 /* Landscape NOW PLAYING info - positioned under cover art */
 .landscapeNowPlayingInfo {
   width: 100%;
-  margin-top: var(--spacing-md);
+  margin-top: 0; /* Remove gap to make borders touch */
   padding: 0 var(--spacing-md);
   box-sizing: border-box;
   text-align: center;
