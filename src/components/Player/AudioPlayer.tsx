@@ -163,8 +163,6 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
   const getCoverArtClass = () => {
     // Cover art glow only for full playback, not during any preview activity
     const shouldCoverArtGlow = hasTrackBeenSelected && previewTrackIndex === null;
-    
-    
     if (isLandscapeMode && shouldCoverArtGlow) return styles.coverArtLandscapeWithTrack;
     if (isLandscapeMode) return styles.coverArtLandscape;
     if (shouldCoverArtGlow) return styles.coverArtWithTrack;
