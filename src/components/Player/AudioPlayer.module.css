@@ -28,8 +28,6 @@
   overflow: hidden;
   touch-action: none; /* Disable pinch-to-zoom gestures */
   box-sizing: border-box;
-  /* DEBUG: Container border */
-  border: 3px solid red !important;
 }
 
 .coverWrapper {
@@ -47,6 +45,17 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+/* Apply glow to portrait wrapper - MEDIUM WARM POOL */
+.coverWrapper.withTrackGlow {
+  border-radius: var(--radius-xl); /* Ensure glow container matches image radius */
+  box-shadow: 
+    0 12px 30px rgba(0, 0, 0, 0.4),
+    0 0 6px var(--current-glow-color, rgba(96, 165, 250, 1.0)),
+    0 0 12px var(--current-glow-color, rgba(96, 165, 250, 0.8)),
+    0 0 18px var(--current-glow-color, rgba(96, 165, 250, 0.6)),
+    0 0 24px var(--current-glow-color, rgba(96, 165, 250, 0.4));
 }
 
 /* iOS Safari - use responsive approach for landscape */
@@ -124,6 +133,16 @@
   align-items: center;
 }
 
+/* Apply glow to landscape wrapper - MEDIUM WARM POOL */
+.coverWrapperLandscape.withTrackGlow {
+  border-radius: var(--radius-xl); /* Ensure glow container matches image radius */
+  box-shadow: 
+    0 0 4px var(--current-glow-color, rgba(96, 165, 250, 1.0)),
+    0 0 8px var(--current-glow-color, rgba(96, 165, 250, 0.8)),
+    0 0 12px var(--current-glow-color, rgba(96, 165, 250, 0.6)),
+    0 0 18px var(--current-glow-color, rgba(96, 165, 250, 0.4));
+}
+
 .coverWrapperLandscapeExpanded {
   position: relative;
   width: 90%;
@@ -153,11 +172,7 @@
 }
 
 .coverArtWithTrack {
-  box-shadow: 
-    0 12px 30px rgba(0, 0, 0, 0.4),
-    0 0 30px var(--current-glow-color, rgba(96, 165, 250, 0.5)),
-    0 0 60px var(--current-glow-color, rgba(96, 165, 250, 0.3)),
-    0 0 90px var(--current-glow-color, rgba(96, 165, 250, 0.15));
+  /* Glow moved back to container level */
 }
 
 .coverArtLandscapeWithTrack {
@@ -523,12 +538,17 @@
 }
 
 .audioPlayerPortraitWithTrack .coverArtWithTrack {
-  border: 2px solid var(--current-glow-color);
+  border: 2px solid var(--current-glow-color) !important;
   box-shadow: 
     0 0 12px var(--current-glow-color),
     0 0 24px var(--current-glow-color),
     0 4px 20px rgba(0, 0, 0, 0.3);
   transition: all var(--transition-smooth);
+}
+
+/* Add equivalent rule for landscape to match portrait */
+.coverArtLandscapeWithTrack {
+  border: 2px solid var(--current-glow-color) !important;
 }
 
 .audioPlayerPortraitWithTrack .trackTitleBase {

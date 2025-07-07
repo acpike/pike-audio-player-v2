@@ -112,12 +112,14 @@
     .trackListContainer {
       mask: linear-gradient(to bottom,
         transparent 0px,
+        rgba(0, 0, 0, 0.3) var(--mask-fade-distance),
         black var(--mask-solid-distance),
         black calc(100% - 40px),
         transparent 100%
       );
       -webkit-mask: linear-gradient(to bottom,
         transparent 0px,
+        rgba(0, 0, 0, 0.3) var(--mask-fade-distance),
         black var(--mask-solid-distance),
         black calc(100% - 40px),
         transparent 100%
@@ -164,8 +166,6 @@
   position: relative;
   height: 100%;
   width: 100%;
-  /* DEBUG: Track list wrapper border */
-  border: 2px solid lime !important;
 }
 
 

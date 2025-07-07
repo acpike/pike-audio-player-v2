@@ -28,6 +28,7 @@ export const ColorExtractionProvider: React.FC<ColorExtractionProviderProps> = (
   // Sync glow color to CSS custom property
   useCSSProperty('--current-glow-color', currentGlowColor);
   
+  
   // Extract RGB components and set individual CSS variables to prevent fallback flashing
   const extractRGBFromColor = (color: string) => {
     const rgbaMatch = color.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);

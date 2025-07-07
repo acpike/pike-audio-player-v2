@@ -9,6 +9,7 @@ interface PreviewState {
   previewAudio: HTMLAudioElement | null;
   previewDuration: number;
   previewPausedManually: boolean; // Track manual vs automatic pause
+  previewEnding: boolean; // Track when preview is ending to prevent timer reappearance
 }
 
 interface PreviewActions {
@@ -36,6 +37,7 @@ export const usePreviewStore = create<PreviewStore>((set, get) => ({
   previewAudio: null,
   previewDuration: 0,
   previewPausedManually: false,
+  previewEnding: false,
 
   // Actions
   setPreviewPlaying: (playing) => 
@@ -70,7 +72,7 @@ export const usePreviewStore = create<PreviewStore>((set, get) => ({
     
     audio.addEventListener('ended', () => {
       // Natural completion - not manual pause
-      set({ previewPausedManually: false });
+      set({ previewPausedManually: false, previewEnding: true });
       // Delay stop to allow for natural fade-out in audio
       setTimeout(() => {
         get().stopPreview();
@@ -171,7 +173,8 @@ export const usePreviewStore = create<PreviewStore>((set, get) => ({
       previewProgress: 0,
       previewCurrentTime: 0,
       previewTrackIndex: null, // Clear the preview state but keep track as current
-      previewPausedManually: false // Reset manual pause flag
+      previewPausedManually: false, // Reset manual pause flag
+      previewEnding: false // Reset ending flag
     });
   },
   

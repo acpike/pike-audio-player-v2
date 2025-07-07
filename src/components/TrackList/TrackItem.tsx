@@ -24,6 +24,7 @@ export const TrackItem: React.FC<TrackItemProps> = ({ track, index, isActive, pl
     previewProgress,
     previewCurrentTime,
     previewPausedManually,
+    previewEnding,
     setPreviewTrack,
     playPreview,
     pausePreview,
@@ -229,6 +230,7 @@ export const TrackItem: React.FC<TrackItemProps> = ({ track, index, isActive, pl
           progress={previewProgress}
           timeRemaining={15 - previewCurrentTime}
           isPausedManually={previewPausedManually && !isPreviewPlaying}
+          isEnding={previewEnding}
         />
       </div>
       

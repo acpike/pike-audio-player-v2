@@ -33,6 +33,7 @@
 
 
 
+
 /* Text labels in track */
 .tagsToggleText {
   position: absolute;
@@ -163,7 +164,7 @@
 }
 
 .tagsToggleSlider.tags:before {
-  transform: translateX(93px);
+  transform: translateX(88px);
   content: 'T';
 }
 
@@ -213,7 +214,7 @@
   }
   
   .tagsToggleSlider:before {
-    top: 1px;
+    top: 0px;
     width: 34px;
     height: 34px;
   }

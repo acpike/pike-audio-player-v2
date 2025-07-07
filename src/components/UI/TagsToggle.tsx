@@ -42,6 +42,7 @@ export const TagsToggle: React.FC = () => {
     }
   };
 
+
   return (
     <div className={`${styles.tagsToggleContainer} tagsToggle`}>
       <div className={styles.tagsToggleLabel}>
