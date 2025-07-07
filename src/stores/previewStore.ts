@@ -123,7 +123,7 @@ export const usePreviewStore = create<PreviewStore>((set, get) => ({
       // If same source, just resume from current position
       
       await audio.play();
-      set({ isPreviewPlaying: true, previewSource: source, previewPausedManually: false });
+      set({ isPreviewPlaying: true, previewSource: source, previewPausedManually: false, previewEnding: false });
     } catch (error) {
       console.error('Preview playback error:', error);
       set({ isPreviewPlaying: false });
@@ -144,7 +144,7 @@ export const usePreviewStore = create<PreviewStore>((set, get) => ({
     if (previewAudio) {
       try {
         await previewAudio.play();
-        set({ isPreviewPlaying: true, previewPausedManually: false });
+        set({ isPreviewPlaying: true, previewPausedManually: false, previewEnding: false });
       } catch (error) {
         console.error('Preview resume error:', error);
         set({ isPreviewPlaying: false });
