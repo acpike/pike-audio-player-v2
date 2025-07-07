@@ -10,7 +10,7 @@
 
 import { create } from 'zustand';
 import { ThemeState, ThemeActions, ExtractedColors } from '../types/colors';
-import { DEFAULT_GLOW } from '../constants/colors';
+// import { DEFAULT_GLOW } from '../constants/colors';
 import { logger } from '../utils/logger';
 
 interface ThemeStore extends ThemeState, ThemeActions {}

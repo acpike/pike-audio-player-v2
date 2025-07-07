@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title Treatment Options - 20 Variations</title>
+    <style>
+        /* Import Inter font */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+        /* CSS Variables matching project */
+        :root {
+            --font-family-primary: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-size-sm: 0.875rem;
+            --font-size-6xl: 3.75rem;
+            --primary-blue: #60a5fa;
+            --radius-xl: 1rem;
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 0.75rem;
+            --spacing-md: 1rem;
+            --current-glow-color: #60a5fa;
+        }
+
+        /* Space background */
+        body {
+            margin: 0;
+            padding: 40px;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(120, 119, 198, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 0% 0%, rgba(96, 165, 250, 0.1) 0%, transparent 50%),
+                linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 50%, #0f0f0f 100%);
+            color: white;
+            min-height: 100vh;
+            background-attachment: fixed;
+            font-family: var(--font-family-primary);
+        }
+
+        .mockup-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: var(--primary-blue);
+            text-shadow: 0 0 20px rgba(96, 165, 250, 0.5);
+        }
+
+        .mockup-subtitle {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 3rem;
+            font-size: 1rem;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .option-container {
+            background: rgba(20, 20, 20, 0.4);
+            border-radius: var(--radius-xl);
+            border: 1px solid rgba(96, 165, 250, 0.2);
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .option-label {
+            font-size: 0.9rem;
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .player-demo {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: var(--radius-xl);
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .cover-art {
+            width: 120px;
+            height: 90px;
+            border-radius: var(--radius-xl);
+            object-fit: cover;
+            box-shadow: 
+                0 12px 30px rgba(0, 0, 0, 0.4),
+                0 0 6px var(--current-glow-color),
+                0 0 12px rgba(96, 165, 250, 0.8),
+                0 0 18px rgba(96, 165, 250, 0.6),
+                0 0 24px rgba(96, 165, 250, 0.4);
+        }
+
+        .track-info {
+            flex: 1;
+            text-align: left;
+        }
+
+        .now-playing {
+            font-family: var(--font-family-primary);
+            font-size: var(--font-size-sm);
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            color: rgba(255, 255, 255, 0.6);
+            text-transform: uppercase;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .track-title-base {
+            font-family: var(--font-family-primary);
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: #ffffff;
+            margin: 0;
+            line-height: 1.1;
+        }
+
+        /* Treatment 1: Current Embossed */
+        .treatment-1 {
+            text-shadow: 
+                0 1px 0 rgba(255, 255, 255, 0.6),
+                0 2px 2px rgba(0, 0, 0, 0.4),
+                0 3px 6px rgba(0, 0, 0, 0.8),
+                0 -1px 1px rgba(255, 255, 255, 0.3),
+                0 -2px 4px rgba(255, 255, 255, 0.15);
+            background: linear-gradient(180deg, 
+                rgba(255, 255, 255, 0.05) 0%, 
+                rgba(255, 255, 255, 0.02) 50%, 
+                rgba(0, 0, 0, 0.02) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+        }
+
+        /* Treatment 2: Letterpress */
+        .treatment-2 {
+            text-shadow: 
+                0 -1px 0 rgba(0, 0, 0, 0.8),
+                0 1px 2px rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Treatment 3: Gradient Text */
+        .treatment-3 {
+            background: linear-gradient(135deg, #60a5fa 0%, #ffffff 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Treatment 4: Outer Glow */
+        .treatment-4 {
+            text-shadow: 
+                0 0 10px rgba(96, 165, 250, 0.8),
+                0 0 20px rgba(96, 165, 250, 0.6),
+                0 0 30px rgba(96, 165, 250, 0.4);
+        }
+
+        /* Treatment 5: Inner Glow */
+        .treatment-5 {
+            color: rgba(96, 165, 250, 0.9);
+            text-shadow: 
+                inset 0 0 10px rgba(255, 255, 255, 0.5),
+                0 1px 2px rgba(0, 0, 0, 0.8);
+        }
+
+        /* Treatment 6: Ultra Letter Spacing */
+        .treatment-6 {
+            letter-spacing: 0.2em;
+            font-weight: 300;
+            text-transform: uppercase;
+        }
+
+        /* Treatment 7: Ultra Bold */
+        .treatment-7 {
+            font-weight: 900;
+            letter-spacing: -0.05em;
+        }
+
+        /* Treatment 8: Background Backdrop */
+        .treatment-8 {
+            background: rgba(96, 165, 250, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Treatment 9: Outline/Stroke */
+        .treatment-9 {
+            -webkit-text-stroke: 2px rgba(96, 165, 250, 0.8);
+            color: transparent;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        /* Treatment 10: Double Shadow */
+        .treatment-10 {
+            text-shadow: 
+                2px 2px 0 rgba(96, 165, 250, 0.8),
+                4px 4px 8px rgba(0, 0, 0, 0.6);
+        }
+
+        /* Treatment 11: Neon Effect */
+        .treatment-11 {
+            color: #60a5fa;
+            text-shadow: 
+                0 0 5px #60a5fa,
+                0 0 10px #60a5fa,
+                0 0 20px #60a5fa,
+                0 0 40px #60a5fa;
+        }
+
+        /* Treatment 12: Metallic Gradient */
+        .treatment-12 {
+            background: linear-gradient(135deg, #c0c0c0 0%, #ffffff 25%, #c0c0c0 50%, #ffffff 75%, #c0c0c0 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Treatment 13: Glass Morphism */
+        .treatment-13 {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 1rem;
+        }
+
+        /* Treatment 14: Dynamic Color Match */
+        .treatment-14 {
+            color: #60a5fa;
+            text-shadow: 
+                0 0 8px rgba(96, 165, 250, 0.6),
+                0 2px 4px rgba(0, 0, 0, 0.8);
+        }
+
+        /* Treatment 15: Clean Typography */
+        .treatment-15 {
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        /* Treatment 16: Underline Accent */
+        .treatment-16 {
+            border-bottom: 3px solid #60a5fa;
+            padding-bottom: 0.25rem;
+        }
+
+        /* Treatment 17: Side Accent Bar */
+        .treatment-17 {
+            border-left: 4px solid #60a5fa;
+            padding-left: 1rem;
+        }
+
+        /* Treatment 18: Multi-layer Shadow */
+        .treatment-18 {
+            text-shadow: 
+                1px 1px 0 rgba(96, 165, 250, 0.8),
+                2px 2px 0 rgba(96, 165, 250, 0.6),
+                3px 3px 0 rgba(96, 165, 250, 0.4),
+                4px 4px 8px rgba(0, 0, 0, 0.6);
+        }
+
+        /* Treatment 19: Subtle Animation */
+        .treatment-19 {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .treatment-19:hover {
+            transform: scale(1.05);
+            text-shadow: 0 0 20px rgba(96, 165, 250, 0.8);
+        }
+
+        /* Treatment 20: Combination Effect */
+        .treatment-20 {
+            background: linear-gradient(135deg, #60a5fa 0%, #ffffff 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 
+                0 0 10px rgba(96, 165, 250, 0.5),
+                0 2px 4px rgba(0, 0, 0, 0.8);
+            letter-spacing: 0.05em;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="mockup-title">Title Treatment Options</h1>
+    <p class="mockup-subtitle">20 different ways to style the main track title using Inter font</p>
+
+    <div class="options-grid">
+        <!-- Treatment 1: Current Embossed -->
+        <div class="option-container">
+            <div class="option-label">1. Current Embossed (Baseline)</div>
+            <div class="player-demo">
+                <img src="https://static.wixstatic.com/media/ec6721_c7a874eb856048a1ab26d664a55f8d79~mv2.jpg" alt="Cover" class="cover-art">
+                <div class="track-info">
+                    <div class="now-playing">NOW PLAYING</div>
+                    <div class="track-title-base treatment-1">Wanderer's Lament</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Treatment 2: Letterpress -->
+        <div class="option-container">
+            <div class="option-label">2. Letterpress (Inset Shadow)</div>
+            <div class="player-demo">
+                <img src="https://static.wixstatic.com/media/ec6721_c7a874eb856048a1ab26d664a55f8d79~mv2.jpg" alt="Cover" class="cover-art">
+                <div class="track-info">
+                    <div class="now-playing">NOW PLAYING</div>
+                    <div class="track-title-base treatment-2">Wanderer's Lament</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Treatment 3: Gradient Text -->
+        <div class="option-container">
+            <div class="option-label">3. Gradient Text (Blue to White)</div>
+            <div class="player-demo">
+                <img src="https://static.wixstatic.com/media/ec6721_c7a874eb856048a1ab26d664a55f8d79~mv2.jpg" alt="Cover" class="cover-art">
+                <div class="track-info">
+                    <div class="now-playing">NOW PLAYING</div>
+                    <div class="track-title-base treatment-3">Wanderer's Lament</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Treatment 4: Outer Glow -->
+        <div class="option-container">
+            <div class="option-label">4. Outer Glow Effect</div>
+            <div class="player-demo">
+                <img src="https://static.wixstatic.com/media/ec6721_c7a874eb856048a1ab26d664a55f8d79~mv2.jpg" alt="Cover" class="cover-art">
+                <div class="track-info">
+                    <div class="now-playing">NOW PLAYING</div>
+                    <div class="track-title-base treatment-4">Wanderer's Lament</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Treatment 5: Inner Glow -->
+        <div class="option-container">
+            <div class="option-label">5. Inner Glow Effect</div>
+            <div class="player-demo">
+                <img src="https://static.wixstatic.com/media/ec6721_c7a874eb856048a1ab26d664a55f8d79~mv2.jpg" alt="Cover" class="cover-art">
+                <div class="track-info">
+                    <div class="now-playing">NOW PLAYING</div>
+                    <div class="track-title-base treatment-5">Wanderer's Lament</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Treatment 6: Ultra Letter Spacing -->
+        <div class="option-container">
+            <div class="option-label">6. Ultra Letter Spacing</div>
+            <div class="player-demo">
+                <img src="https://static.wixstatic.com/media/ec6721_c7a874eb856048a1ab26d664a55f8d79~mv2.jpg" alt="Cover" class="cover-art">
+                <div class="track-info">
+                    <div class="now-playing">NOW PLAYING</div>
+                    <div class="track-title-base treatment-6">Wanderer's Lament</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Treatment 7: Ultra Bold -->
+        <div class="option-container">
+            <div class="option-label">7. Ultra Bold Weight</div>
+            <div class="player-demo">
+                <img src="https://static.wixstatic.com/media/ec6721_c7a874eb856048a1ab26d664a55f8d79~mv2.jpg" alt="Cover" class="cover-art">
+                <div class="track-info">
+                    <div class="now-playing">NOW PLAYING</div>
+                    <div class="track-title-base treatment-7">Wanderer's Lament</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Treatment 8: Background Backdrop -->
+        <div class="option-container">
+            <div class="option-label">8. Background Backdrop</div>
+            <div class="player-demo">
+                <img src="https://static.wixstatic.com/media/ec6721_c7a874eb856048a1ab26d664a55f8d79~mv2.jpg" alt="Cover" class="cover-art">
+                <div class="track-info">
+                    <div class="now-playing">NOW PLAYING</div>
+                    <div class="track-title-base treatment-8">Wanderer's Lament</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Treatment 9: Outline/Stroke -->
+        <div class="option-container">
+            <div class="option-label">9. Outline/Stroke Effect</div>
+            <div class="player-demo">
+                <img src="https://static.wixstatic.com/media/ec6721_c7a874eb856048a1ab26d664a55f8d79~mv2.jpg" alt="Cover" class="cover-art">
+                <div class="track-info">
+                    <div class="now-playing">NOW PLAYING</div>
+                    <div class="track-title-base treatment-9">Wanderer's Lament</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Treatment 10: Double Shadow -->
+        <div class="option-container">
+            <div class="option-label">10. Double Shadow</div>
+            <div class="player-demo">
+                <img src="https://static.wixstatic.com/media/ec6721_c7a874eb856048a1ab26d664a55f8d79~mv2.jpg" alt="Cover" class="cover-art">
+                <div class="track-info">
+                    <div class="now-playing">NOW PLAYING</div>
+                    <div class="track-title-base treatment-10">Wanderer's Lament</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Treatment 11: Neon Effect -->
+        <div class="option-container">
+            <div class="option-label">11. Neon Glow Effect</div>
+            <div class="player-demo">
+                <img src="https://static.wixstatic.com/media/ec6721_c7a874eb856048a1ab26d664a55f8d79~mv2.jpg" alt="Cover" class="cover-art">
+                <div class="track-info">
+                    <div class="now-playing">NOW PLAYING</div>
+                    <div class="track-title-base treatment-11">Wanderer's Lament</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Treatment 12: Metallic Gradient -->
+        <div class="option-container">
+            <div class="option-label">12. Metallic Gradient</div>
+            <div class="player-demo">
+                <img src="https://static.wixstatic.com/media/ec6721_c7a874eb856048a1ab26d664a55f8d79~mv2.jpg" alt="Cover" class="cover-art">
+                <div class="track-info">
+                    <div class="now-playing">NOW PLAYING</div>
+                    <div class="track-title-base treatment-12">Wanderer's Lament</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Treatment 13: Glass Morphism -->
+        <div class="option-container">
+            <div class="option-label">13. Glass Morphism Text</div>
+            <div class="player-demo">
+                <img src="https://static.wixstatic.com/media/ec6721_c7a874eb856048a1ab26d664a55f8d79~mv2.jpg" alt="Cover" class="cover-art">
+                <div class="track-info">
+                    <div class="now-playing">NOW PLAYING</div>
+                    <div class="track-title-base treatment-13">Wanderer's Lament</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Treatment 14: Dynamic Color Match -->
+        <div class="option-container">
+            <div class="option-label">14. Dynamic Color Match</div>
+            <div class="player-demo">
+                <img src="https://static.wixstatic.com/media/ec6721_c7a874eb856048a1ab26d664a55f8d79~mv2.jpg" alt="Cover" class="cover-art">
+                <div class="track-info">
+                    <div class="now-playing">NOW PLAYING</div>
+                    <div class="track-title-base treatment-14">Wanderer's Lament</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Treatment 15: Clean Typography -->
+        <div class="option-container">
+            <div class="option-label">15. Clean Typography Only</div>
+            <div class="player-demo">
+                <img src="https://static.wixstatic.com/media/ec6721_c7a874eb856048a1ab26d664a55f8d79~mv2.jpg" alt="Cover" class="cover-art">
+                <div class="track-info">
+                    <div class="now-playing">NOW PLAYING</div>
+                    <div class="track-title-base treatment-15">Wanderer's Lament</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Treatment 16: Underline Accent -->
+        <div class="option-container">
+            <div class="option-label">16. Underline Accent</div>
+            <div class="player-demo">
+                <img src="https://static.wixstatic.com/media/ec6721_c7a874eb856048a1ab26d664a55f8d79~mv2.jpg" alt="Cover" class="cover-art">
+                <div class="track-info">
+                    <div class="now-playing">NOW PLAYING</div>
+                    <div class="track-title-base treatment-16">Wanderer's Lament</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Treatment 17: Side Accent Bar -->
+        <div class="option-container">
+            <div class="option-label">17. Side Accent Bar</div>
+            <div class="player-demo">
+                <img src="https://static.wixstatic.com/media/ec6721_c7a874eb856048a1ab26d664a55f8d79~mv2.jpg" alt="Cover" class="cover-art">
+                <div class="track-info">
+                    <div class="now-playing">NOW PLAYING</div>
+                    <div class="track-title-base treatment-17">Wanderer's Lament</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Treatment 18: Multi-layer Shadow -->
+        <div class="option-container">
+            <div class="option-label">18. Multi-layer Shadow Stack</div>
+            <div class="player-demo">
+                <img src="https://static.wixstatic.com/media/ec6721_c7a874eb856048a1ab26d664a55f8d79~mv2.jpg" alt="Cover" class="cover-art">
+                <div class="track-info">
+                    <div class="now-playing">NOW PLAYING</div>
+                    <div class="track-title-base treatment-18">Wanderer's Lament</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Treatment 19: Subtle Animation -->
+        <div class="option-container">
+            <div class="option-label">19. Subtle Animation (Hover to See)</div>
+            <div class="player-demo">
+                <img src="https://static.wixstatic.com/media/ec6721_c7a874eb856048a1ab26d664a55f8d79~mv2.jpg" alt="Cover" class="cover-art">
+                <div class="track-info">
+                    <div class="now-playing">NOW PLAYING</div>
+                    <div class="track-title-base treatment-19">Wanderer's Lament</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Treatment 20: Combination Effect -->
+        <div class="option-container">
+            <div class="option-label">20. Combination Effect</div>
+            <div class="player-demo">
+                <img src="https://static.wixstatic.com/media/ec6721_c7a874eb856048a1ab26d664a55f8d79~mv2.jpg" alt="Cover" class="cover-art">
+                <div class="track-info">
+                    <div class="now-playing">NOW PLAYING</div>
+                    <div class="track-title-base treatment-20">Wanderer's Lament</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

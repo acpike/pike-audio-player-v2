@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import { trackData } from '../../types/tracks';
 import { useAudioStore } from '../../stores/audioStore';
 import { useUIStore } from '../../stores/uiStore';
-import { usePreviewStore } from '../../stores/previewStore';
+// import { usePreviewStore } from '../../stores/previewStore';
 import { TrackItem } from './TrackItem';
 import { TrackListHeader } from './TrackListHeader';
 import styles from './TrackList.module.css';
@@ -29,15 +29,15 @@ interface TrackListProps {
  */
 export const TrackList: React.FC<TrackListProps> = ({ playTrack, togglePlayPause }) => {
   const { currentTrackIndex } = useAudioStore();
-  const { isLandscapeMode, isPortraitMode } = useUIStore();
-  const { previewTrackIndex } = usePreviewStore();
+  const { isLandscapeMode } = useUIStore();
+  // const { previewTrackIndex } = usePreviewStore();
   const containerRef = useRef<HTMLDivElement>(null);
   const lastSnappedIndexRef = useRef<number>(-1);
   
 
-  const toggleDebugPanel = () => {
-    window.dispatchEvent(new Event('toggleDebugPanel'));
-  };
+  // const toggleDebugPanel = () => {
+  //   window.dispatchEvent(new Event('toggleDebugPanel'));
+  // };
 
   // Haptic feedback when tracks snap into position
   useEffect(() => {

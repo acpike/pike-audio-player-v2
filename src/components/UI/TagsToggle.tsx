@@ -2,7 +2,11 @@ import React from 'react';
 import { useUIStore } from '../../stores/uiStore';
 import styles from './TagsToggle.module.css';
 
-export const TagsToggle: React.FC = () => {
+interface TagsToggleProps {
+  className?: string;
+}
+
+export const TagsToggle: React.FC<TagsToggleProps> = ({ className = '' }) => {
   const { tagsToggleState, setTagsToggle } = useUIStore();
 
   const handleClick = (e: React.MouseEvent) => {
@@ -43,7 +47,7 @@ export const TagsToggle: React.FC = () => {
   };
 
   return (
-    <div className={`${styles.tagsToggleContainer} tagsToggle`}>
+    <div className={`${styles.tagsToggleContainer} tagsToggle ${className}`}>
       <div className={styles.tagsToggleLabel}>
         <div 
           className={`${styles.tagsToggleSlider} ${styles[tagsToggleState]}`}

@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Header Redesign Options - 10 High-Quality Variations</title>
+    <style>
+        /* Base Space Theme */
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #000000 0%, #0a0a0a 25%, #141414 50%, #0a0a0a 75%, #000000 100%);
+            color: white;
+            min-height: 100vh;
+        }
+
+        /* Layout Container */
+        .mockup-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .mockup-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: rgba(96, 165, 250, 1);
+            text-shadow: 0 0 20px rgba(96, 165, 250, 0.5);
+        }
+
+        /* Design Variation Container */
+        .design-variation {
+            margin-bottom: 4rem;
+            padding: 2rem;
+            background: rgba(20, 20, 20, 0.3);
+            border-radius: 20px;
+            border: 1px solid rgba(96, 165, 250, 0.2);
+        }
+
+        .variation-title {
+            font-size: 1.5rem;
+            color: rgba(96, 165, 250, 1);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .variation-description {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+
+        /* Orientation Layouts */
+        .orientations {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .orientation-demo {
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+
+        .orientation-label {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(96, 165, 250, 1);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        /* Portrait Layout */
+        .portrait {
+            width: 300px;
+            height: 500px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .portrait-player {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .portrait-cover {
+            width: 200px;
+            height: 200px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+            margin-bottom: 1rem;
+            box-shadow: 0 0 20px rgba(74, 144, 226, 0.4);
+        }
+
+        .portrait-now-playing {
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 0.5rem;
+        }
+
+        .portrait-track-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .portrait-tracklist {
+            height: 200px;
+            overflow-y: auto;
+        }
+
+        /* Landscape Layout */
+        .landscape {
+            width: 600px;
+            height: 350px;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .landscape-player {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .landscape-cover {
+            width: 150px;
+            height: 150px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+            margin-bottom: 1rem;
+            box-shadow: 0 0 20px rgba(74, 144, 226, 0.4);
+        }
+
+        .landscape-now-playing {
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 0.5rem;
+        }
+
+        .landscape-track-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .landscape-tracklist {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        /* Track List Items */
+        .track-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem;
+            margin-bottom: 0.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .track-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .track-thumbnail {
+            width: 40px;
+            height: 40px;
+            border-radius: 6px;
+            background: linear-gradient(135deg, #666 0%, #333 100%);
+        }
+
+        .track-info {
+            flex: 1;
+        }
+
+        .track-name {
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 0.2rem;
+        }
+
+        .track-duration {
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Tags Toggle */
+        .tags-toggle {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 20px;
+            padding: 0.3rem 0.8rem;
+            color: white;
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .tags-toggle:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Header Variations */
+        
+        /* 1. Invisible Integration */
+        .header-invisible {
+            padding: 0;
+            background: transparent;
+            border: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .header-invisible .album-info {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* 2. Space Gradient */
+        .header-space-gradient {
+            background: linear-gradient(135deg, rgba(20, 20, 20, 0.8) 0%, rgba(40, 40, 40, 0.4) 100%);
+            padding: 0.75rem 1rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .header-space-gradient .album-info {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* 3. Minimal Glass */
+        .header-minimal-glass {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 0.75rem 1rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .header-minimal-glass .album-info {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* 4. Dynamic Glow */
+        .header-dynamic-glow {
+            background: rgba(20, 20, 20, 0.6);
+            padding: 0.75rem 1rem;
+            border-radius: 12px;
+            border: 1px solid rgba(96, 165, 250, 0.3);
+            box-shadow: 0 0 20px rgba(96, 165, 250, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .header-dynamic-glow .album-info {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* 5. Typography Focus */
+        .header-typography {
+            padding: 0.5rem 0;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .header-typography .album-info {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+        }
+
+        /* 6. Floating Content */
+        .header-floating {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 0.75rem 1rem;
+            border-radius: 20px;
+            border: none;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .header-floating .album-info {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* 7. Depth Shadows */
+        .header-depth {
+            background: rgba(15, 15, 15, 0.9);
+            padding: 0.75rem 1rem;
+            border-radius: 12px;
+            border: none;
+            box-shadow: 
+                0 2px 10px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .header-depth .album-info {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* 8. Color Harmony */
+        .header-harmony {
+            background: linear-gradient(135deg, rgba(74, 144, 226, 0.1) 0%, rgba(53, 122, 189, 0.05) 100%);
+            padding: 0.75rem 1rem;
+            border-radius: 12px;
+            border: 1px solid rgba(74, 144, 226, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .header-harmony .album-info {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* 9. Geometric Minimal */
+        .header-geometric {
+            background: transparent;
+            padding: 0.75rem 1rem;
+            border: none;
+            border-left: 3px solid rgba(96, 165, 250, 0.8);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .header-geometric .album-info {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* 10. Ambient Blend */
+        .header-ambient {
+            background: rgba(10, 10, 10, 0.8);
+            padding: 0.75rem 1rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .header-ambient .album-info {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .orientations {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .landscape {
+                width: 100%;
+                max-width: 500px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="mockup-container">
+        <h1 class="mockup-title">Header Redesign Options</h1>
+        <p style="text-align: center; color: rgba(255, 255, 255, 0.7); margin-bottom: 3rem;">10 High-Quality Design Variations • Portrait & Landscape</p>
+
+        <!-- 1. Invisible Integration -->
+        <div class="design-variation">
+            <h2 class="variation-title">1. Invisible Integration</h2>
+            <p class="variation-description">Pure content focus with no visual styling. Maximum cohesion with existing design.</p>
+            <div class="orientations">
+                <div class="orientation-demo portrait">
+                    <div class="orientation-label">Portrait</div>
+                    <div class="portrait-player">
+                        <div class="portrait-cover"></div>
+                        <div class="portrait-now-playing">NOW PLAYING</div>
+                        <div class="portrait-track-title">Wanderer's Lament</div>
+                    </div>
+                    <div class="portrait-tracklist">
+                        <div class="header-invisible">
+                            <div class="album-info">Demo Tracks • 5 tracks</div>
+                            <div class="tags-toggle">OFF</div>
+                        </div>
+                        <div class="track-item">
+                            <div class="track-thumbnail"></div>
+                            <div class="track-info">
+                                <div class="track-name">Wanderer's Lament</div>
+                                <div class="track-duration">2:08</div>
+                            </div>
+                        </div>
+                        <div class="track-item">
+                            <div class="track-thumbnail"></div>
+                            <div class="track-info">
+                                <div class="track-name">No Return</div>
+                                <div class="track-duration">2:47</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="orientation-demo landscape">
+                    <div class="orientation-label">Landscape</div>
+                    <div class="landscape-player">
+                        <div class="landscape-cover"></div>
+                        <div class="landscape-now-playing">NOW PLAYING</div>
+                        <div class="landscape-track-title">Wanderer's Lament</div>
+                    </div>
+                    <div class="landscape-tracklist">
+                        <div class="header-invisible">
+                            <div class="album-info">Demo Tracks • 5 tracks</div>
+                            <div class="tags-toggle">OFF</div>
+                        </div>
+                        <div class="track-item">
+                            <div class="track-thumbnail"></div>
+                            <div class="track-info">
+                                <div class="track-name">Wanderer's Lament</div>
+                                <div class="track-duration">2:08</div>
+                            </div>
+                        </div>
+                        <div class="track-item">
+                            <div class="track-thumbnail"></div>
+                            <div class="track-info">
+                                <div class="track-name">No Return</div>
+                                <div class="track-duration">2:47</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. Space Gradient -->
+        <div class="design-variation">
+            <h2 class="variation-title">2. Space Gradient</h2>
+            <p class="variation-description">Subtle gradient matching the space background theme. Maintains depth without harsh contrast.</p>
+            <div class="orientations">
+                <div class="orientation-demo portrait">
+                    <div class="orientation-label">Portrait</div>
+                    <div class="portrait-player">
+                        <div class="portrait-cover"></div>
+                        <div class="portrait-now-playing">NOW PLAYING</div>
+                        <div class="portrait-track-title">Wanderer's Lament</div>
+                    </div>
+                    <div class="portrait-tracklist">
+                        <div class="header-space-gradient">
+                            <div class="album-info">Demo Tracks • 5 tracks</div>
+                            <div class="tags-toggle">OFF</div>
+                        </div>
+                        <div class="track-item">
+                            <div class="track-thumbnail"></div>
+                            <div class="track-info">
+                                <div class="track-name">Wanderer's Lament</div>
+                                <div class="track-duration">2:08</div>
+                            </div>
+                        </div>
+                        <div class="track-item">
+                            <div class="track-thumbnail"></div>
+                            <div class="track-info">
+                                <div class="track-name">No Return</div>
+                                <div class="track-duration">2:47</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="orientation-demo landscape">
+                    <div class="orientation-label">Landscape</div>
+                    <div class="landscape-player">
+                        <div class="landscape-cover"></div>
+                        <div class="landscape-now-playing">NOW PLAYING</div>
+                        <div class="landscape-track-title">Wanderer's Lament</div>
+                    </div>
+                    <div class="landscape-tracklist">
+                        <div class="header-space-gradient">
+                            <div class="album-info">Demo Tracks • 5 tracks</div>
+                            <div class="tags-toggle">OFF</div>
+                        </div>
+                        <div class="track-item">
+                            <div class="track-thumbnail"></div>
+                            <div class="track-info">
+                                <div class="track-name">Wanderer's Lament</div>
+                                <div class="track-duration">2:08</div>
+                            </div>
+                        </div>
+                        <div class="track-item">
+                            <div class="track-thumbnail"></div>
+                            <div class="track-info">
+                                <div class="track-name">No Return</div>
+                                <div class="track-duration">2:47</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Minimal Glass -->
+        <div class="design-variation">
+            <h2 class="variation-title">3. Minimal Glass</h2>
+            <p class="variation-description">Very light glass morphism effect. Subtle backdrop blur with minimal visual weight.</p>
+            <div class="orientations">
+                <div class="orientation-demo portrait">
+                    <div class="orientation-label">Portrait</div>
+                    <div class="portrait-player">
+                        <div class="portrait-cover"></div>
+                        <div class="portrait-now-playing">NOW PLAYING</div>
+                        <div class="portrait-track-title">Wanderer's Lament</div>
+                    </div>
+                    <div class="portrait-tracklist">
+                        <div class="header-minimal-glass">
+                            <div class="album-info">Demo Tracks • 5 tracks</div>
+                            <div class="tags-toggle">OFF</div>
+                        </div>
+                        <div class="track-item">
+                            <div class="track-thumbnail"></div>
+                            <div class="track-info">
+                                <div class="track-name">Wanderer's Lament</div>
+                                <div class="track-duration">2:08</div>
+                            </div>
+                        </div>
+                        <div class="track-item">
+                            <div class="track-thumbnail"></div>
+                            <div class="track-info">
+                                <div class="track-name">No Return</div>
+                                <div class="track-duration">2:47</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="orientation-demo landscape">
+                    <div class="orientation-label">Landscape</div>
+                    <div class="landscape-player">
+                        <div class="landscape-cover"></div>
+                        <div class="landscape-now-playing">NOW PLAYING</div>
+                        <div class="landscape-track-title">Wanderer's Lament</div>
+                    </div>
+                    <div class="landscape-tracklist">
+                        <div class="header-minimal-glass">
+                            <div class="album-info">Demo Tracks • 5 tracks</div>
+                            <div class="tags-toggle">OFF</div>
+                        </div>
+                        <div class="track-item">
+                            <div class="track-thumbnail"></div>
+                            <div class="track-info">
+                                <div class="track-name">Wanderer's Lament</div>
+                                <div class="track-duration">2:08</div>
+                            </div>
+                        </div>
+                        <div class="track-item">
+                            <div class="track-thumbnail"></div>
+                            <div class="track-info">
+                                <div class="track-name">No Return</div>
+                                <div class="track-duration">2:47</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. Dynamic Glow -->
+        <div class="design-variation">
+            <h2 class="variation-title">4. Dynamic Glow</h2>
+            <p class="variation-description">Integrated with cover art glow colors. Creates visual harmony with the player's color extraction system.</p>
+            <div class="orientations">
+                <div class="orientation-demo portrait">
+                    <div class="orientation-label">Portrait</div>
+                    <div class="portrait-player">
+                        <div class="portrait-cover"></div>
+                        <div class="portrait-now-playing">NOW PLAYING</div>
+                        <div class="portrait-track-title">Wanderer's Lament</div>
+                    </div>
+                    <div class="portrait-tracklist">
+                        <div class="header-dynamic-glow">
+                            <div class="album-info">Demo Tracks • 5 tracks</div>
+                            <div class="tags-toggle">OFF</div>
+                        </div>
+                        <div class="track-item">
+                            <div class="track-thumbnail"></div>
+                            <div class="track-info">
+                                <div class="track-name">Wanderer's Lament</div>
+                                <div class="track-duration">2:08</div>
+                            </div>
+                        </div>
+                        <div class="track-item">
+                            <div class="track-thumbnail"></div>
+                            <div class="track-info">
+                                <div class="track-name">No Return</div>
+                                <div class="track-duration">2:47</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="orientation-demo landscape">
+                    <div class="orientation-label">Landscape</div>
+                    <div class="landscape-player">
+                        <div class="landscape-cover"></div>
+                        <div class="landscape-now-playing">NOW PLAYING</div>
+                        <div class="landscape-track-title">Wanderer's Lament</div>
+                    </div>
+                    <div class="landscape-tracklist">
+                        <div class="header-dynamic-glow">
+                            <div class="album-info">Demo Tracks • 5 tracks</div>
+                            <div class="tags-toggle">OFF</div>
+                        </div>
+                        <div class="track-item">
+                            <div class="track-thumbnail"></div>
+                            <div class="track-info">
+                                <div class="track-name">Wanderer's Lament</div>
+                                <div class="track-duration">2:08</div>
+                            </div>
+                        </div>
+                        <div class="track-item">
+                            <div class="track-thumbnail"></div>
+                            <div class="track-info">
+                                <div class="track-name">No Return</div>
+                                <div class="track-duration">2:47</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. Typography Focus -->
+        <div class="design-variation">
+            <h2 class="variation-title">5. Typography Focus</h2>
+            <p class="variation-description">Emphasis on clean text hierarchy. Minimal line separator maintains organization without visual weight.</p>
+            <div class="orientations">
+                <div class="orientation-demo portrait">
+                    <div class="orientation-label">Portrait</div>
+                    <div class="portrait-player">
+                        <div class="portrait-cover"></div>
+                        <div class="portrait-now-playing">NOW PLAYING</div>
+                        <div class="portrait-track-title">Wanderer's Lament</div>
+                    </div>
+                    <div class="portrait-tracklist">
+                        <div class="header-typography">
+                            <div class="album-info">Demo Tracks • 5 tracks</div>
+                            <div class="tags-toggle">OFF</div>
+                        </div>
+                        <div class="track-item">
+                            <div class="track-thumbnail"></div>
+                            <div class="track-info">
+                                <div class="track-name">Wanderer's Lament</div>
+                                <div class="track-duration">2:08</div>
+                            </div>
+                        </div>
+                        <div class="track-item">
+                            <div class="track-thumbnail"></div>
+                            <div class="track-info">
+                                <div class="track-name">No Return</div>
+                                <div class="track-duration">2:47</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="orientation-demo landscape">
+                    <div class="orientation-label">Landscape</div>
+                    <div class="landscape-player">
+                        <div class="landscape-cover"></div>
+                        <div class="landscape-now-playing">NOW PLAYING</div>
+                        <div class="landscape-track-title">Wanderer's Lament</div>
+                    </div>
+                    <div class="landscape-tracklist">
+                        <div class="header-typography">
+                            <div class="album-info">Demo Tracks • 5 tracks</div>
+                            <div class="tags-toggle">OFF</div>
+                        </div>
+                        <div class="track-item">
+                            <div class="track-thumbnail"></div>
+                            <div class="track-info">
+                                <div class="track-name">Wanderer's Lament</div>
+                                <div class="track-duration">2:08</div>
+                            </div>
+                        </div>
+                        <div class="track-item">
+                            <div class="track-thumbnail"></div>
+                            <div class="track-info">
+                                <div class="track-name">No Return</div>
+                                <div class="track-duration">2:47</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6. Floating Content -->
+        <div class="design-variation">
+            <h2 class="variation-title">6. Floating Content</h2>
+            <p class="variation-description">Elevated content without harsh borders. Subtle shadow creates depth while maintaining elegance.</p>
+            <div class="orientations">
+                <div class="orientation-demo portrait">
+                    <div class="orientation-label">Portrait</div>
+                    <div class="portrait-player">
+                        <div class="portrait-cover"></div>
+                        <div class="portrait-now-playing">NOW PLAYING</div>
+                        <div class="portrait-track-title">Wanderer's Lament</div>
+                    </div>
+                    <div class="portrait-tracklist">
+                        <div class="header-floating">
+                            <div class="album-info">Demo Tracks • 5 tracks</div>
+                            <div class="tags-toggle">OFF</div>
+                        </div>
+                        <div class="track-item">
+                            <div class="track-thumbnail"></div>
+                            <div class="track-info">
+                                <div class="track-name">Wanderer's Lament</div>
+                                <div class="track-duration">2:08</div>
+                            </div>
+                        </div>
+                        <div class="track-item">
+                            <div class="track-thumbnail"></div>
+                            <div class="track-info">
+                                <div class="track-name">No Return</div>
+                                <div class="track-duration">2:47</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="orientation-demo landscape">
+                    <div class="orientation-label">Landscape</div>
+                    <div class="landscape-player">
+                        <div class="landscape-cover"></div>
+                        <div class="landscape-now-playing">NOW PLAYING</div>
+                        <div class="landscape-track-title">Wanderer's Lament</div>
+                    </div>
+                    <div class="landscape-tracklist">
+                        <div class="header-floating">
+                            <div class="album-info">Demo Tracks • 5 tracks</div>
+                            <div class="tags-toggle">OFF</div>
+                        </div>
+                        <div class="track-item">
+                            <div class="track-thumbnail"></div>
+                            <div class="track-info">
+                                <div class="track-name">Wanderer's Lament</div>
+                                <div class="track-duration">2:08</div>
+                            </div>
+                        </div>
+                        <div class="track-item">
+                            <div class="track-thumbnail"></div>
+                            <div class="track-info">
+                                <div class="track-name">No Return</div>
+                                <div class="track-duration">2:47</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 7. Depth Shadows -->
+        <div class="design-variation">
+            <h2 class="variation-title">7. Depth Shadows</h2>
+            <p class="variation-description">Subtle depth without harsh borders. Inset highlights create dimensional sophistication.</p>
+            <div class="orientations">
+                <div class="orientation-demo portrait">
+                    <div class="orientation-label">Portrait</div>
+                    <div class="portrait-player">
+                        <div class="portrait-cover"></div>
+                        <div class="portrait-now-playing">NOW PLAYING</div>
+                        <div class="portrait-track-title">Wanderer's Lament</div>
+                    </div>
+                    <div class="portrait-tracklist">
+                        <div class="header-depth">
+                            <div class="album-info">Demo Tracks • 5 tracks</div>
+                            <div class="tags-toggle">OFF</div>
+                        </div>
+                        <div class="track-item">
+                            <div class="track-thumbnail"></div>
+                            <div class="track-info">
+                                <div class="track-name">Wanderer's Lament</div>
+                                <div class="track-duration">2:08</div>
+                            </div>
+                        </div>
+                        <div class="track-item">
+                            <div class="track-thumbnail"></div>
+                            <div class="track-info">
+                                <div class="track-name">No Return</div>
+                                <div class="track-duration">2:47</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="orientation-demo landscape">
+                    <div class="orientation-label">Landscape</div>
+                    <div class="landscape-player">
+                        <div class="landscape-cover"></div>
+                        <div class="landscape-now-playing">NOW PLAYING</div>
+                        <div class="landscape-track-title">Wanderer's Lament</div>
+                    </div>
+                    <div class="landscape-tracklist">
+                        <div class="header-depth">
+                            <div class="album-info">Demo Tracks • 5 tracks</div>
+                            <div class="tags-toggle">OFF</div>
+                        </div>
+                        <div class="track-item">
+                            <div class="track-thumbnail"></div>
+                            <div class="track-info">
+                                <div class="track-name">Wanderer's Lament</div>
+                                <div class="track-duration">2:08</div>
+                            </div>
+                        </div>
+                        <div class="track-item">
+                            <div class="track-thumbnail"></div>
+                            <div class="track-info">
+                                <div class="track-name">No Return</div>
+                                <div class="track-duration">2:47</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 8. Color Harmony -->
+        <div class="design-variation">
+            <h2 class="variation-title">8. Color Harmony</h2>
+            <p class="variation-description">Integrated with extracted cover colors. Creates visual harmony throughout the entire interface.</p>
+            <div class="orientations">
+                <div class="orientation-demo portrait">
+                    <div class="orientation-label">Portrait</div>
+                    <div class="portrait-player">
+                        <div class="portrait-cover"></div>
+                        <div class="portrait-now-playing">NOW PLAYING</div>
+                        <div class="portrait-track-title">Wanderer's Lament</div>
+                    </div>
+                    <div class="portrait-tracklist">
+                        <div class="header-harmony">
+                            <div class="album-info">Demo Tracks • 5 tracks</div>
+                            <div class="tags-toggle">OFF</div>
+                        </div>
+                        <div class="track-item">
+                            <div class="track-thumbnail"></div>
+                            <div class="track-info">
+                                <div class="track-name">Wanderer's Lament</div>
+                                <div class="track-duration">2:08</div>
+                            </div>
+                        </div>
+                        <div class="track-item">
+                            <div class="track-thumbnail"></div>
+                            <div class="track-info">
+                                <div class="track-name">No Return</div>
+                                <div class="track-duration">2:47</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="orientation-demo landscape">
+                    <div class="orientation-label">Landscape</div>
+                    <div class="landscape-player">
+                        <div class="landscape-cover"></div>
+                        <div class="landscape-now-playing">NOW PLAYING</div>
+                        <div class="landscape-track-title">Wanderer's Lament</div>
+                    </div>
+                    <div class="landscape-tracklist">
+                        <div class="header-harmony">
+                            <div class="album-info">Demo Tracks • 5 tracks</div>
+                            <div class="tags-toggle">OFF</div>
+                        </div>
+                        <div class="track-item">
+                            <div class="track-thumbnail"></div>
+                            <div class="track-info">
+                                <div class="track-name">Wanderer's Lament</div>
+                                <div class="track-duration">2:08</div>
+                            </div>
+                        </div>
+                        <div class="track-item">
+                            <div class="track-thumbnail"></div>
+                            <div class="track-info">
+                                <div class="track-name">No Return</div>
+                                <div class="track-duration">2:47</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 9. Geometric Minimal -->
+        <div class="design-variation">
+            <h2 class="variation-title">9. Geometric Minimal</h2>
+            <p class="variation-description">Clean lines with space-age aesthetic. Subtle accent line creates organization without visual weight.</p>
+            <div class="orientations">
+                <div class="orientation-demo portrait">
+                    <div class="orientation-label">Portrait</div>
+                    <div class="portrait-player">
+                        <div class="portrait-cover"></div>
+                        <div class="portrait-now-playing">NOW PLAYING</div>
+                        <div class="portrait-track-title">Wanderer's Lament</div>
+                    </div>
+                    <div class="portrait-tracklist">
+                        <div class="header-geometric">
+                            <div class="album-info">Demo Tracks • 5 tracks</div>
+                            <div class="tags-toggle">OFF</div>
+                        </div>
+                        <div class="track-item">
+                            <div class="track-thumbnail"></div>
+                            <div class="track-info">
+                                <div class="track-name">Wanderer's Lament</div>
+                                <div class="track-duration">2:08</div>
+                            </div>
+                        </div>
+                        <div class="track-item">
+                            <div class="track-thumbnail"></div>
+                            <div class="track-info">
+                                <div class="track-name">No Return</div>
+                                <div class="track-duration">2:47</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="orientation-demo landscape">
+                    <div class="orientation-label">Landscape</div>
+                    <div class="landscape-player">
+                        <div class="landscape-cover"></div>
+                        <div class="landscape-now-playing">NOW PLAYING</div>
+                        <div class="landscape-track-title">Wanderer's Lament</div>
+                    </div>
+                    <div class="landscape-tracklist">
+                        <div class="header-geometric">
+                            <div class="album-info">Demo Tracks • 5 tracks</div>
+                            <div class="tags-toggle">OFF</div>
+                        </div>
+                        <div class="track-item">
+                            <div class="track-thumbnail"></div>
+                            <div class="track-info">
+                                <div class="track-name">Wanderer's Lament</div>
+                                <div class="track-duration">2:08</div>
+                            </div>
+                        </div>
+                        <div class="track-item">
+                            <div class="track-thumbnail"></div>
+                            <div class="track-info">
+                                <div class="track-name">No Return</div>
+                                <div class="track-duration">2:47</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 10. Ambient Blend -->
+        <div class="design-variation">
+            <h2 class="variation-title">10. Ambient Blend</h2>
+            <p class="variation-description">Blends seamlessly with background ambiance. Minimal backdrop blur creates subtle definition.</p>
+            <div class="orientations">
+                <div class="orientation-demo portrait">
+                    <div class="orientation-label">Portrait</div>
+                    <div class="portrait-player">
+                        <div class="portrait-cover"></div>
+                        <div class="portrait-now-playing">NOW PLAYING</div>
+                        <div class="portrait-track-title">Wanderer's Lament</div>
+                    </div>
+                    <div class="portrait-tracklist">
+                        <div class="header-ambient">
+                            <div class="album-info">Demo Tracks • 5 tracks</div>
+                            <div class="tags-toggle">OFF</div>
+                        </div>
+                        <div class="track-item">
+                            <div class="track-thumbnail"></div>
+                            <div class="track-info">
+                                <div class="track-name">Wanderer's Lament</div>
+                                <div class="track-duration">2:08</div>
+                            </div>
+                        </div>
+                        <div class="track-item">
+                            <div class="track-thumbnail"></div>
+                            <div class="track-info">
+                                <div class="track-name">No Return</div>
+                                <div class="track-duration">2:47</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="orientation-demo landscape">
+                    <div class="orientation-label">Landscape</div>
+                    <div class="landscape-player">
+                        <div class="landscape-cover"></div>
+                        <div class="landscape-now-playing">NOW PLAYING</div>
+                        <div class="landscape-track-title">Wanderer's Lament</div>
+                    </div>
+                    <div class="landscape-tracklist">
+                        <div class="header-ambient">
+                            <div class="album-info">Demo Tracks • 5 tracks</div>
+                            <div class="tags-toggle">OFF</div>
+                        </div>
+                        <div class="track-item">
+                            <div class="track-thumbnail"></div>
+                            <div class="track-info">
+                                <div class="track-name">Wanderer's Lament</div>
+                                <div class="track-duration">2:08</div>
+                            </div>
+                        </div>
+                        <div class="track-item">
+                            <div class="track-thumbnail"></div>
+                            <div class="track-info">
+                                <div class="track-name">No Return</div>
+                                <div class="track-duration">2:47</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 4rem; color: rgba(255, 255, 255, 0.6);">
+            <p>Each design maintains functionality while addressing visual cohesion concerns.</p>
+            <p>All options preserve the responsive component architecture from the landscape redesign.</p>
+        </div>
+    </div>
+</body>
+</html>
