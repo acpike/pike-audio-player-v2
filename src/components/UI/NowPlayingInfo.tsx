@@ -8,6 +8,7 @@ interface NowPlayingInfoProps {
   currentTrackIndex: number | null;
   previewTrack: Track | null;
   previewTrackIndex: number | null;
+  isPlaying?: boolean;
   onTitleClick?: () => void;
   className?: string;
   isLandscapeLayout?: boolean;
@@ -24,6 +25,7 @@ export const NowPlayingInfo: React.FC<NowPlayingInfoProps> = ({
   currentTrackIndex,
   previewTrack,
   previewTrackIndex,
+  isPlaying = false,
   onTitleClick,
   className = '',
   isLandscapeLayout = false
@@ -31,16 +33,20 @@ export const NowPlayingInfo: React.FC<NowPlayingInfoProps> = ({
   // Determine current state and content
   let label: string;
   let title: string;
+  let isInstructional = false;
   
   if (previewTrackIndex !== null) {
+    // Previews always show "PREVIEWING" regardless of play/pause state
     label = UI_STRINGS.PREVIEWING;
     title = previewTrack?.title || UI_STRINGS.UNKNOWN_TRACK;
   } else if (currentTrackIndex !== null) {
-    label = UI_STRINGS.NOW_PLAYING;
+    // Full tracks show "NOW PLAYING" or "PAUSED" based on isPlaying
+    label = isPlaying ? UI_STRINGS.NOW_PLAYING : UI_STRINGS.PAUSED;
     title = currentTrack?.title || UI_STRINGS.UNKNOWN_TRACK;
   } else {
     label = UI_STRINGS.MUSIC_PLAYER;
     title = UI_STRINGS.SELECT_TRACK_BELOW;
+    isInstructional = true;
   }
 
   // Landscape layout: title first, then label (no border)
@@ -48,7 +54,7 @@ export const NowPlayingInfo: React.FC<NowPlayingInfoProps> = ({
     return (
       <div className={`${styles.nowPlayingInfo} ${styles.nowPlayingInfoLandscape} ${className}`}>
         <h2 
-          className={styles.nowPlayingTitle}
+          className={isInstructional ? styles.nowPlayingTitleInstructional : styles.nowPlayingTitle}
           onClick={onTitleClick}
           style={onTitleClick ? { cursor: 'pointer' } : undefined}
         >
@@ -64,7 +70,7 @@ export const NowPlayingInfo: React.FC<NowPlayingInfoProps> = ({
     <div className={`${styles.nowPlayingInfo} ${className}`}>
       <div className={styles.nowPlayingLabel}>{label}</div>
       <h2 
-        className={styles.nowPlayingTitle}
+        className={isInstructional ? styles.nowPlayingTitleInstructional : styles.nowPlayingTitle}
         onClick={onTitleClick}
         style={onTitleClick ? { cursor: 'pointer' } : undefined}
       >

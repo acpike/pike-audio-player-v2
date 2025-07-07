@@ -13,6 +13,7 @@ export const UI_STRINGS = {
   
   // Player States
   NOW_PLAYING: 'NOW PLAYING',
+  PAUSED: 'PAUSED',
   PREVIEWING: 'PREVIEWING',
   MUSIC_PLAYER: 'MUSIC PLAYER',
   

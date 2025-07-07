@@ -90,17 +90,12 @@
   padding-bottom: calc(var(--spacing-sm) + var(--safe-area-bottom));
   padding-left: calc(var(--spacing-md) + var(--safe-area-left));
   padding-right: calc(var(--spacing-md) + var(--safe-area-right));
-  overflow: hidden; /* Prevent content overflow */
+  overflow: visible; /* Allow glow effects to extend beyond panels */
   touch-action: none; /* Disable pinch-to-zoom gestures */
-  background: rgba(255, 255, 255, 0.03);
-  border-radius: var(--radius-3xl);
-  -webkit-backdrop-filter: blur(20px);
-  backdrop-filter: blur(20px);
-  border: var(--border-width-sm) solid rgba(255, 255, 255, 0.15);
-  box-shadow: 
-    0 25px 80px rgba(0, 0, 0, 0.4),
-    0 15px 30px rgba(0, 0, 0, 0.3),
-    inset 0 1px rgba(255, 255, 255, 0.1);
+  background: transparent; /* Remove glass background for seamless space integration */
+  /* Remove all visual container styling for seamless integration */
+  border-radius: 0;
+  border: none;
   position: relative;
 }
 

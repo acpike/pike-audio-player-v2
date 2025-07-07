@@ -180,6 +180,10 @@
   .tagsToggleContainer {
     margin-top: 5px; /* Move down 5px in landscape */
   }
+  
+  .tagsToggleSlider {
+    border: var(--border-width-fine) solid rgba(255, 255, 255, 0.08);
+  }
 }
 
 /* Portrait mode - use full desktop size for better touch targets */
