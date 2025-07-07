@@ -33,6 +33,11 @@
   /* Dynamic Glow System */
   --current-glow-color: rgba(96, 165, 250, 0.4);
   
+  /* Pre-initialized glow RGB components - prevents blue fallback flashing */
+  --glow-r: 255; /* Neutral white until custom color extracted */
+  --glow-g: 255; /* Neutral white until custom color extracted */
+  --glow-b: 255; /* Neutral white until custom color extracted */
+  
   /* iOS Safe Areas for iPhone X+ with notches/Dynamic Island */
   --safe-area-top: env(safe-area-inset-top, 0px);
   --safe-area-bottom: env(safe-area-inset-bottom, 0px);
@@ -82,6 +87,18 @@
   --progress-z-index: 5;
   --progress-height: 10px;
   --progress-border-radius: 5px;
+  
+  /* Button Positioning System */
+  --button-center-vertical: 45%;
+  --button-center-horizontal: 50%;
+  --button-offset-x: -50%;
+  --button-offset-y: -50%;
+  --button-z-index: 10;
+  --button-container-bottom-offset: calc(var(--progress-bottom) + var(--progress-height) + var(--progress-spacing));
+
+  /* Smart Lip System */
+  --smart-lip-height: var(--spacing-lg);
+  --smart-lip-z-index: 15;
 
   /* Border Radius System */
   --radius-xs: 3px;   /* Small elements, progress buffering */
@@ -221,23 +238,26 @@
   perspective: 1000px;
 }
 
-/* V7 iframe optimization - Enhanced for iOS Safari viewport fixes */
+/* V7 iframe optimization - Enhanced for iOS Safari viewport fixes and PWA support */
 html, body {
   margin: 0 !important;
   padding: 0 !important;
-  width: 100vw !important;
-  height: 100vh !important; /* Fallback for older browsers */
-  overflow: hidden !important;
+  width: 100% !important;
+  height: 100% !important; /* Fallback for older browsers */
+  overflow-x: hidden !important;
+  overflow-y: hidden !important;
+  background-color: transparent !important; /* Let SpaceBackground show through */
+  box-sizing: border-box !important;
 }
 
-/* iOS Safari specific height fix */
+/* iOS Safari specific height fix with PWA support */
 @supports (-webkit-appearance: none) {
   html, body {
     height: -webkit-fill-available !important; /* iOS Safari specific */
   }
 }
 
-/* Modern dynamic viewport height for supporting browsers */
+/* Modern dynamic viewport height for supporting browsers with PWA support */
 @supports (height: 100dvh) {
   html, body {
     height: 100dvh !important; /* Modern dynamic viewport height */
@@ -250,6 +270,9 @@ html, body {
   margin: 0 !important;
   padding: 0 !important;
   overflow: hidden !important;
+  /* Root container inherits safe area handling from body */
+  box-sizing: border-box !important;
+  background-color: transparent !important; /* Let SpaceBackground show through */
 }
 
 /* iOS Safari specific height fix for root */

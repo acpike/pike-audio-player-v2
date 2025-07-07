@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { PlayButton } from './PlayButton';
 import { ProgressBar } from './ProgressBar';
-import { InstructionalText } from '../UI/InstructionalText';
+import { NowPlayingInfo } from '../UI/NowPlayingInfo';
 import { useUIStore } from '../../stores/uiStore';
 import { usePreviewStore } from '../../stores/previewStore';
 import { Track, trackData } from '../../types/tracks';
@@ -151,14 +151,18 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
   };
 
   const getCoverWrapperClass = () => {
-    if (isLandscapeMode) return styles.coverWrapperLandscape;
-    return styles.coverWrapper;
+    const shouldCoverArtGlow = hasTrackBeenSelected && previewTrackIndex === null;
+    const baseClass = isLandscapeMode ? styles.coverWrapperLandscape : styles.coverWrapper;
+    
+    if (shouldCoverArtGlow) {
+      return `${baseClass} ${styles.withTrackGlow}`;
+    }
+    return baseClass;
   };
 
   const getCoverArtClass = () => {
     // Cover art glow only for full playback, not during any preview activity
     const shouldCoverArtGlow = hasTrackBeenSelected && previewTrackIndex === null;
-    
     if (isLandscapeMode && shouldCoverArtGlow) return styles.coverArtLandscapeWithTrack;
     if (isLandscapeMode) return styles.coverArtLandscape;
     if (shouldCoverArtGlow) return styles.coverArtWithTrack;
@@ -235,7 +239,7 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
       const containerWidth = titleElement.offsetWidth;
       
       // Temporarily remove size class to measure natural width
-      titleElement.style.fontSize = '32px'; // Base size
+      titleElement.style.fontSize = '32px'; // Matches --font-size-6xl base size
       titleElement.style.letterSpacing = '0.03em';
       titleElement.style.whiteSpace = 'nowrap';
       
@@ -328,49 +332,40 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
         )}
       </div>
       
-      {/* Album info below cover art - shown on initial load in landscape only */}
-      {!hasTrackBeenSelected && !isPortraitMode && previewTrackIndex === null && (
-        <div className={styles.initialAlbumInfo}>
-          <div className={styles.initialAlbumName}>
-            {trackData[0]?.album || UI_STRINGS.UNKNOWN_ALBUM}
-          </div>
-          <div className={styles.initialTrackCount}>
-            {UI_STRINGS.TRACKS_COUNT(trackData.length)}
-          </div>
-        </div>
-      )}
+      {/* NOW PLAYING info removed - now handled in unified TrackListHeader */}
+      
+      {/* Album info removed - now handled by unified track header */}
 
       
+      {/* Track info shown in both orientations for unified red border behavior */}
       <div className={getTrackInfoClass()}>
-        {!isLandscapeMode && (
-          <>
-            <h1 
-              ref={titleRef}
-              className={getTrackTitleClass()}
-              onClick={toggleDebugPanel}
-              style={{ cursor: 'pointer' }}
-            >
-              {displayTrack 
-                ? displayTrack.title 
-                : UI_STRINGS.SELECT_TRACK_BELOW
-              }
-            </h1>
-            
-            {(hasTrackBeenSelected || previewTrackIndex !== null) && (
-              <div className={`${getStatusTextClass()} ${isLoading ? styles.statusTextLoading : ''}`}>
-                {isLoading ? UI_STRINGS.LOADING : 
-                 previewTrackIndex !== null ? UI_STRINGS.PREVIEWING :
-                 hasTrackBeenSelected ? UI_STRINGS.NOW_PLAYING : 
-                 UI_STRINGS.MUSIC_PLAYER}
-              </div>
-            )}
-          </>
-        )}
+        <h1 
+          ref={titleRef}
+          className={getTrackTitleClass()}
+          onClick={toggleDebugPanel}
+          style={{ cursor: 'pointer' }}
+        >
+          {displayTrack 
+            ? displayTrack.title 
+            : isLandscapeMode 
+              ? UI_STRINGS.SELECT_TRACK 
+              : UI_STRINGS.SELECT_TRACK_BELOW
+          }
+        </h1>
         
+        {(hasTrackBeenSelected || previewTrackIndex !== null) ? (
+          <div className={`${getStatusTextClass()} ${isLoading ? styles.statusTextLoading : ''}`}>
+            {isLoading ? UI_STRINGS.LOADING : 
+             previewTrackIndex !== null ? UI_STRINGS.PREVIEWING :
+             hasTrackBeenSelected ? UI_STRINGS.NOW_PLAYING : 
+             UI_STRINGS.MUSIC_PLAYER}
+          </div>
+        ) : (
+          <div className={styles.instructionalText}>
+            Tap to play <span className={styles.instructionalSeparator}>•</span> Double tap for preview
+          </div>
+        )}
       </div>
-      
-      {/* Instructional text for first-time users */}
-      <InstructionalText isVisible={!hasTrackBeenSelected && previewTrackIndex === null} />
     </div>
   );
 };

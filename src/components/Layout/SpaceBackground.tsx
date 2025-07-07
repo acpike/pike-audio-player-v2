@@ -32,7 +32,9 @@ export const SpaceBackground: React.FC<SpaceBackgroundProps> = ({ children }) =>
   
   return (
     <div className={styles.spaceBackground}>
-      {children}
+      <div className={styles.contentWrapper}>
+        {children}
+      </div>
     </div>
   );
 };

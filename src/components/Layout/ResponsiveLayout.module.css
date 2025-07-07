@@ -32,6 +32,13 @@
   /* Low-end device optimizations */
 }
 
+/* Portrait mode gap reduction */
+@media (orientation: portrait) {
+  .player {
+    gap: 0; /* Eliminate gap so red and magenta borders touch */
+  }
+}
+
 /* Landscape mode foundation */
 
 /* Phone Detection: ≤768px */
@@ -49,10 +56,21 @@
   }
 }
 
-/* Desktop: >1200px */
+/* Desktop: >1200px - Full screen expansion */
 @media (min-width: 1201px) {
   .player {
-    max-width: 900px;
+    max-width: none; /* Remove width constraint for full screen usage */
+    width: 100%; /* Use full available width */
+    max-width: 1800px; /* Reasonable limit for ultrawide monitors */
+    margin: 20px; /* Add consistent margins around the player */
+  }
+}
+
+/* Ultra-wide desktop: >1920px - Add reasonable upper limit */
+@media (min-width: 1921px) {
+  .player {
+    max-width: 1800px; /* Reasonable limit for ultrawide monitors */
+    margin: 20px auto; /* Center on ultrawide screens */
   }
 }
 
@@ -60,19 +78,20 @@
 .playerLandscape {
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
+  align-items: center;
   gap: var(--landscape-gap);
   max-width: none;
   width: 100%;
   /* Progressive height enhancement for iOS Safari */
-  height: 100vh; /* Fallback for older browsers */
-  max-height: none; /* Remove height constraint */
+  height: 100%; /* Fallback for older browsers */
+  max-height: 100%; /* Constrain to container height */
   /* Enhanced padding with iOS safe areas */
   padding-top: calc(var(--spacing-sm) + var(--safe-area-top));
   padding-bottom: calc(var(--spacing-sm) + var(--safe-area-bottom));
-  padding-left: calc(var(--spacing-sm) + var(--safe-area-left));
+  padding-left: calc(var(--spacing-md) + var(--safe-area-left));
   padding-right: calc(var(--spacing-md) + var(--safe-area-right));
-  overflow: visible;
+  overflow: hidden; /* Prevent content overflow */
+  touch-action: none; /* Disable pinch-to-zoom gestures */
   background: rgba(255, 255, 255, 0.03);
   border-radius: var(--radius-3xl);
   -webkit-backdrop-filter: blur(20px);
@@ -103,7 +122,7 @@
 .playerLandscape > :first-child {
   flex: 0 0 var(--landscape-audio-width);
   max-width: var(--landscape-audio-width);
-  height: 100%;
+  max-height: 100%; /* Constrain outer left panel height */
   margin: 0;
   padding: 0;
   position: relative;
@@ -144,14 +163,14 @@
   align-items: center;
   max-width: 500px;
   width: 100%;
-  /* Progressive height enhancement for iOS Safari */
-  height: 100vh; /* Fallback for older browsers */
+  /* Use viewport units for proper height calculation */
+  height: 100vh; /* Full viewport height */
   max-height: none; /* Remove height constraint */
   background: rgba(255, 255, 255, 0.03);
   border-radius: var(--radius-3xl);
   /* Enhanced padding with iOS safe areas */
   padding-top: calc(var(--spacing-lg) + var(--safe-area-top));
-  padding-bottom: calc(var(--spacing-sm) + var(--safe-area-bottom));
+  padding-bottom: 0; /* TrackList extends to bottom */
   padding-left: calc(var(--spacing-sm) + var(--safe-area-left));
   padding-right: calc(var(--spacing-sm) + var(--safe-area-right));
   -webkit-backdrop-filter: blur(20px);
@@ -161,8 +180,9 @@
     0 25px 80px rgba(0, 0, 0, 0.4),
     0 15px 30px rgba(0, 0, 0, 0.3),
     inset 0 1px rgba(255, 255, 255, 0.1);
-  gap: var(--spacing-md);
-  overflow: visible;
+  gap: var(--spacing-md); /* Medium gap (15px) for better spacing */
+  overflow: visible; /* Allow content to extend for proper layout */
+  touch-action: none; /* Disable pinch-to-zoom gestures */
   box-sizing: border-box;
   position: relative;
 }
@@ -200,16 +220,19 @@
 
 /* Portrait Layout: TrackList with flexbox-based positioning for PWA compatibility */
 .playerPortrait > :nth-child(2) {
-  /* Use flexbox instead of absolute positioning for better PWA compatibility */
-  flex: 0 0 auto;
+  /* Use fixed height approach like production */
+  flex: 0 0 auto; /* Don't grow or shrink */
   align-self: stretch; /* Use full width of container */
   width: 100%;
   max-width: 100%;
-  /* Default: Small constrained viewport (mobile browsers) - maximize track space */
+  /* Fixed height for consistent layout */
   height: 51vh; /* Fallback for older browsers */
   overflow: hidden; /* For fade effects, not blocking scroll */
   /* Add margin for visual spacing */
   margin-top: auto; /* Push to bottom using flexbox */
+  /* Make this a flex container for proper height propagation */
+  display: flex;
+  flex-direction: column;
 }
 
 /* Progressive enhancement for TrackList height - consolidated approach */
@@ -258,11 +281,11 @@
 @media (orientation: portrait) and (min-width: 768px) and (max-width: 1024px) {
   .playerPortrait {
     /* Enhanced height for iPad portrait - use full screen */
-    height: 100vh; /* Fallback for older browsers */
+    height: 100%; /* Fallback for older browsers */
     max-height: none; /* Remove any height constraints */
     /* Full width utilization for iPad portrait - no constraints */
     max-width: none !important; /* Override any width constraints */
-    width: 100vw !important; /* Use full viewport width */
+    width: 100% !important; /* Use full available width */
     /* Enhanced padding with iOS safe areas for iPad - reduced for full width */
     padding-top: calc(var(--spacing-md) + var(--safe-area-top));
     padding-bottom: calc(var(--spacing-md) + var(--safe-area-bottom));
@@ -287,7 +310,7 @@
   @supports (-webkit-appearance: none) {
     .playerPortrait {
       height: -webkit-fill-available; /* iOS Safari specific */
-      width: 100vw !important; /* Ensure full width in Safari */
+      width: 100% !important; /* Ensure full width in Safari */
     }
   }
   
@@ -295,7 +318,7 @@
   @supports (height: 100dvh) {
     .playerPortrait {
       height: 100dvh; /* Modern dynamic viewport height */
-      width: 100dvw !important; /* Modern dynamic viewport width */
+      width: 100% !important; /* Modern dynamic viewport width */
     }
   }
 }

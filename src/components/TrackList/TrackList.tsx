@@ -4,8 +4,7 @@ import { useAudioStore } from '../../stores/audioStore';
 import { useUIStore } from '../../stores/uiStore';
 import { usePreviewStore } from '../../stores/previewStore';
 import { TrackItem } from './TrackItem';
-import { TagsToggle } from '../UI/TagsToggle';
-import { UI_STRINGS } from '../../constants/strings';
+import { TrackListHeader } from './TrackListHeader';
 import styles from './TrackList.module.css';
 
 /**
@@ -35,8 +34,6 @@ export const TrackList: React.FC<TrackListProps> = ({ playTrack, togglePlayPause
   const containerRef = useRef<HTMLDivElement>(null);
   const lastSnappedIndexRef = useRef<number>(-1);
   
-  // Debug logging
-  console.log('TrackList debug:', { currentTrackIndex, previewTrackIndex });
 
   const toggleDebugPanel = () => {
     window.dispatchEvent(new Event('toggleDebugPanel'));
@@ -98,75 +95,14 @@ export const TrackList: React.FC<TrackListProps> = ({ playTrack, togglePlayPause
     return isLandscapeMode ? styles.trackListLandscape : styles.trackList;
   };
 
-  const getTrackListHeaderClass = () => {
-    return isLandscapeMode ? styles.trackListHeaderLandscape : styles.trackListHeader;
-  };
-
   const getTrackListContainerClass = () => {
     return isLandscapeMode ? styles.trackListContainerLandscape : styles.trackListContainer;
   };
 
   return (
     <div className={getTrackListClass()}>
-      <div className={getTrackListHeaderClass()}>
-        {isLandscapeMode && (
-          <div className={styles.nowPlayingHeader}>
-            {previewTrackIndex !== null ? (
-              <>
-                <div className={styles.nowPlayingLabel}>{UI_STRINGS.PREVIEWING}</div>
-                <h2 
-                  className={styles.nowPlayingTitle}
-                  onClick={toggleDebugPanel}
-                  style={{ cursor: 'pointer' }}
-                >
-                  {trackData[previewTrackIndex]?.title || UI_STRINGS.UNKNOWN_TRACK}
-                </h2>
-              </>
-            ) : currentTrackIndex !== null ? (
-              <>
-                <div className={styles.nowPlayingLabel}>{UI_STRINGS.NOW_PLAYING}</div>
-                <h2 
-                  className={styles.nowPlayingTitle}
-                  onClick={toggleDebugPanel}
-                  style={{ cursor: 'pointer' }}
-                >
-                  {trackData[currentTrackIndex]?.title || UI_STRINGS.UNKNOWN_TRACK}
-                </h2>
-              </>
-            ) : (
-              <>
-                <div className={styles.nowPlayingLabel}>{UI_STRINGS.MUSIC_PLAYER}</div>
-                <h2 
-                  className={styles.nowPlayingTitle}
-                  onClick={toggleDebugPanel}
-                  style={{ cursor: 'pointer' }}
-                >
-                  {UI_STRINGS.SELECT_TRACK_BELOW}
-                </h2>
-              </>
-            )}
-            {(currentTrackIndex !== null || previewTrackIndex !== null) && (
-              <div className={styles.albumInfo}>
-                <span className={styles.albumName}>Demo Tracks</span>
-                <span className={styles.separator}>•</span>
-                <span className={styles.trackCount}>5 tracks</span>
-              </div>
-            )}
-          </div>
-        )}
-        {!isPortraitMode && <TagsToggle />}
-      </div>
+      <TrackListHeader />
       <div className={styles.trackListWrapper}>
-        {isPortraitMode && (
-          <div className={styles.portraitHeader}>
-            <div className={styles.portraitAlbumInfo}>
-              <span className={styles.albumName}>Demo Tracks</span>
-              <span className={styles.separator}>•</span>
-              <span className={styles.trackCount}>5 tracks</span>
-            </div>
-            <TagsToggle />
-          </div>
-        )}
         <div className={getTrackListContainerClass()} ref={containerRef}>
           {trackData.map((track, index) => (
           <TrackItem

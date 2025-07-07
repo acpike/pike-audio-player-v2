@@ -1,6 +1,5 @@
 import { create } from 'zustand';
 import { UIState, UIActions } from '../types/ui';
-import { LocalStorageManager } from '../utils/localStorage';
 
 interface UIStore extends UIState, UIActions {}
 
@@ -14,7 +13,7 @@ export const useUIStore = create<UIStore>((set) => ({
   isDescriptionExpanded: false,
   isSwipeExpanded: false,
   isSwipeActive: false,
-  tagsToggleState: LocalStorageManager.loadTagsToggleState(),
+  tagsToggleState: 'off', // Always start in off mode - no persistence needed
   screenWidth: window.innerWidth,
   screenHeight: window.innerHeight,
   parentOrigin: null,
@@ -51,7 +50,7 @@ export const useUIStore = create<UIStore>((set) => ({
 
   setTagsToggle: (state) => {
     set({ tagsToggleState: state });
-    LocalStorageManager.persistTagsToggleState(state);
+    // No persistence - always start fresh in 'off' mode on reload
   },
 
   updateScreenDimensions: () => {

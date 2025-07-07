@@ -23,6 +23,8 @@ export const TrackItem: React.FC<TrackItemProps> = ({ track, index, isActive, pl
     previewTrackIndex, 
     previewProgress,
     previewCurrentTime,
+    previewPausedManually,
+    previewEnding,
     setPreviewTrack,
     playPreview,
     pausePreview,
@@ -224,9 +226,11 @@ export const TrackItem: React.FC<TrackItemProps> = ({ track, index, isActive, pl
           loading="lazy"
         />
         <PreviewOverlay
-          isVisible={isThisTrackPreviewPlaying}
+          isVisible={isThisTrackPreviewSelected}
           progress={previewProgress}
           timeRemaining={15 - previewCurrentTime}
+          isPausedManually={previewPausedManually && !isPreviewPlaying}
+          isEnding={previewEnding}
         />
       </div>
       

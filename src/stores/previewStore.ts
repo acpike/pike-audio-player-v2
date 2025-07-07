@@ -8,6 +8,8 @@ interface PreviewState {
   previewSource: string | null;
   previewAudio: HTMLAudioElement | null;
   previewDuration: number;
+  previewPausedManually: boolean; // Track manual vs automatic pause
+  previewEnding: boolean; // Track when preview is ending to prevent timer reappearance
 }
 
 interface PreviewActions {
@@ -34,6 +36,8 @@ export const usePreviewStore = create<PreviewStore>((set, get) => ({
   previewSource: null,
   previewAudio: null,
   previewDuration: 0,
+  previewPausedManually: false,
+  previewEnding: false,
 
   // Actions
   setPreviewPlaying: (playing) => 
@@ -67,6 +71,8 @@ export const usePreviewStore = create<PreviewStore>((set, get) => ({
     });
     
     audio.addEventListener('ended', () => {
+      // Natural completion - not manual pause
+      set({ previewPausedManually: false, previewEnding: true });
       // Delay stop to allow for natural fade-out in audio
       setTimeout(() => {
         get().stopPreview();
@@ -117,7 +123,7 @@ export const usePreviewStore = create<PreviewStore>((set, get) => ({
       // If same source, just resume from current position
       
       await audio.play();
-      set({ isPreviewPlaying: true, previewSource: source });
+      set({ isPreviewPlaying: true, previewSource: source, previewPausedManually: false, previewEnding: false });
     } catch (error) {
       console.error('Preview playback error:', error);
       set({ isPreviewPlaying: false });
@@ -128,6 +134,8 @@ export const usePreviewStore = create<PreviewStore>((set, get) => ({
     const { previewAudio } = get();
     if (previewAudio) {
       previewAudio.pause();
+      // Mark as manually paused to keep counter visible
+      set({ previewPausedManually: true });
     }
   },
   
@@ -136,7 +144,7 @@ export const usePreviewStore = create<PreviewStore>((set, get) => ({
     if (previewAudio) {
       try {
         await previewAudio.play();
-        set({ isPreviewPlaying: true });
+        set({ isPreviewPlaying: true, previewPausedManually: false, previewEnding: false });
       } catch (error) {
         console.error('Preview resume error:', error);
         set({ isPreviewPlaying: false });
@@ -164,7 +172,9 @@ export const usePreviewStore = create<PreviewStore>((set, get) => ({
       isPreviewPlaying: false,
       previewProgress: 0,
       previewCurrentTime: 0,
-      previewTrackIndex: null // Clear the preview state but keep track as current
+      previewTrackIndex: null, // Clear the preview state but keep track as current
+      previewPausedManually: false, // Reset manual pause flag
+      previewEnding: false // Reset ending flag
     });
   },
   
@@ -181,7 +191,8 @@ export const usePreviewStore = create<PreviewStore>((set, get) => ({
       previewTrackIndex: null, 
       previewProgress: 0, 
       previewCurrentTime: 0,
-      previewSource: null 
+      previewSource: null,
+      previewPausedManually: false
     });
   },
 }));

@@ -17,7 +17,7 @@
 
 .tagsToggleSlider {
   position: relative;
-  width: 140px;
+  width: 130px;
   height: 40px;
   background: rgba(0, 0, 0, 0.4);
   border-radius: var(--radius-5xl);
@@ -30,8 +30,6 @@
     0 1px 0 rgba(255, 255, 255, 0.08);
   cursor: pointer;
 }
-
-
 
 /* Text labels in track */
 .tagsToggleText {
@@ -136,7 +134,7 @@
 }
 
 .tagsToggleSlider.off:before {
-  transform: translateX(48px);
+  transform: translateX(45px);
   content: 'OFF';
   font-size: 10px;
 }
@@ -163,7 +161,7 @@
 }
 
 .tagsToggleSlider.tags:before {
-  transform: translateX(100px);
+  transform: translateX(88px);
   content: 'T';
 }
 
@@ -191,7 +189,7 @@
   }
   
   .tagsToggleSlider {
-    width: 140px;
+    width: 130px;
     height: 40px;
     border-radius: var(--radius-5xl);
   }
@@ -213,7 +211,7 @@
   }
   
   .tagsToggleSlider:before {
-    top: 1px;
+    top: 0px;
     width: 34px;
     height: 34px;
   }

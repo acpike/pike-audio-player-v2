@@ -3,7 +3,6 @@ import { useDeviceDetection } from '../../hooks/useDeviceDetection';
 import { useTouchDeviceClasses, useDeviceTypeClasses } from '../../hooks/useBodyClasses';
 import { useUIStore } from '../../stores/uiStore';
 import { useAudioPlayer } from '../../hooks/useAudioPlayer';
-import { logger } from '../../utils/logger';
 import styles from './ResponsiveLayout.module.css';
 
 interface ResponsiveLayoutProps {
@@ -25,17 +24,11 @@ export const ResponsiveLayout: React.FC<ResponsiveLayoutProps> = ({ children }) 
   useTouchDeviceClasses();
   useDeviceTypeClasses(deviceType);
 
-  // V7 Load persisted tags toggle state - From V7 localStorage persistence
+  // Initialize UI store - triggers necessary store updates for color system timing
   useEffect(() => {
-    try {
-      const persistedTagsState = localStorage.getItem('tagsToggleState');
-      if (persistedTagsState !== null) {
-        const state = JSON.parse(persistedTagsState);
-        setTagsToggle(state);
-      }
-    } catch (error) {
-      logger.warn('Failed to load persisted tags toggle state', { error: error instanceof Error ? error.message : String(error) });
-    }
+    // Trigger store initialization to ensure proper color extraction timing
+    // The setTagsToggle call ensures the store is properly initialized for color system
+    setTagsToggle('off'); // Always start in off mode as designed
   }, [setTagsToggle]);
 
   // QA Compliant CSS Modules class selector - UNCHANGED to preserve layout

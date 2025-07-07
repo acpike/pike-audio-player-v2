@@ -6,38 +6,40 @@
   align-items: center;
   gap: 0; /* Removed phantom gap - let ResponsiveLayout handle top spacing */
   width: 100%;
-  overflow: visible;
+  overflow: visible; /* Allow natural content flow */
+  touch-action: none; /* Disable pinch-to-zoom gestures */
+  box-sizing: border-box;
 }
 
 .audioPlayerLandscape {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  gap: var(--spacing-md);
+  justify-content: center;
+  gap: 0; /* Remove gap to make borders touch */
   flex: 1;
   min-width: 300px;
-  max-width: 400px;
+  /* Removed max-width to allow expansion on larger screens like iPad */
   padding: var(--container-padding-lg);
   background: transparent;
   border-right: 1px solid rgba(255, 255, 255, 0.1);
-  /* Ensure content fits within container height */
+  /* Fill entire left panel height and center content */
   height: 100%;
   overflow: hidden;
+  touch-action: none; /* Disable pinch-to-zoom gestures */
   box-sizing: border-box;
 }
 
 .coverWrapper {
   position: relative;
-  /* Responsive sizing without problematic viewport units */
-  width: min(90vw, 450px);
-  height: 0;
-  padding-bottom: min(65vw, 325px); /* Maintains aspect ratio */
+  /* Unified sizing for all orientations - increased limit for larger screens */
+  width: min(90%, 450px);
+  height: 250px; /* Fallback for older browsers */
+  aspect-ratio: 4 / 3; /* 4:3 aspect ratio for testing */
   max-width: 450px;
-  max-height: var(--cover-max-size);
-  margin: var(--spacing-xs) auto 0; /* Add small top margin for mobile-friendly spacing */
+  margin: var(--spacing-xs) auto 0;
   border-radius: var(--radius-xl);
-  overflow: visible;
+  overflow: hidden;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   display: flex;
@@ -45,24 +47,51 @@
   align-items: center;
 }
 
-/* Alternative approach for iOS Safari to avoid viewport unit issues */
+/* Apply glow to portrait wrapper - MEDIUM WARM POOL */
+.coverWrapper.withTrackGlow {
+  border-radius: var(--radius-xl); /* Ensure glow container matches image radius */
+  box-shadow: 
+    0 12px 30px rgba(0, 0, 0, 0.4),
+    0 0 6px var(--current-glow-color, rgba(96, 165, 250, 1.0)),
+    0 0 12px var(--current-glow-color, rgba(96, 165, 250, 0.8)),
+    0 0 18px var(--current-glow-color, rgba(96, 165, 250, 0.6)),
+    0 0 24px var(--current-glow-color, rgba(96, 165, 250, 0.4));
+}
+
+/* iOS Safari - use responsive approach for landscape */
 @supports (-webkit-touch-callout: none) {
   .coverWrapper {
-    width: 90%;
-    height: auto;
-    aspect-ratio: 1.38 / 1; /* 90vw / 65vw ratio */
-    padding-bottom: 0;
+    width: min(90%, 450px);
+    height: 250px; /* Fallback for older browsers */
+    aspect-ratio: 4 / 3; /* 4:3 aspect ratio for testing */
+    max-width: 450px;
+  }
+  
+  .coverWrapperLandscape {
+    width: calc(100% - 20px) !important; /* Force responsive expansion on iOS Safari */
+    height: unset !important; /* Force removal of height constraint for aspect-ratio */
+    aspect-ratio: 4 / 3; /* Maintains consistent proportions - overrides height */
+    max-width: none !important; /* Override any max-width constraints */
+  }
+}
+
+/* Progressive enhancement for aspect-ratio support */
+@supports (aspect-ratio: 1) {
+  .coverWrapper,
+  .coverWrapperLandscape,
+  .coverWrapperPortraitExpanded,
+  .coverWrapperLandscapeExpanded {
+    height: unset !important; /* Force aspect-ratio to calculate height */
   }
 }
 
 .coverWrapperPortraitExpanded {
   position: relative;
   /* Responsive sizing without problematic viewport units */
-  width: min(90vw, 450px);
-  height: 0;
-  padding-bottom: min(65vw, 325px); /* Maintains aspect ratio */
+  width: min(90%, 450px);
+  height: 325px; /* Fallback for older browsers */
+  aspect-ratio: 4 / 3; /* Maintains consistent aspect ratio */
   max-width: 450px;
-  max-height: var(--cover-max-size);
   margin: var(--spacing-xs) auto 0; /* Keep same top margin as normal state */
   transform: scale(0.8); /* Scale down to match landscape */
   transform-origin: top center; /* Keep top edge anchored */
@@ -80,29 +109,46 @@
   .coverWrapperPortraitExpanded {
     width: 90%;
     height: auto;
-    aspect-ratio: 1.38 / 1; /* 90vw / 65vw ratio */
+    aspect-ratio: 4 / 3; /* 90vw / 65vw ratio */
     padding-bottom: 0;
   }
 }
 
 .coverWrapperLandscape {
   position: relative;
-  width: 90%;
-  height: 65%;
-  max-width: 380px;
-  max-height: 260px;
-  margin: 60px auto 0;
+  /* Responsive width with minimal padding */
+  width: calc(100% - 20px) !important;
+  height: unset !important; /* Force removal of height constraint for aspect-ratio */
+  aspect-ratio: 4 / 3; /* Maintains consistent proportions - overrides height */
+  /* Removed max-width to allow full expansion on larger screens like iPad */
+  max-width: none !important; /* Override any inherited max-width constraints */
+  margin: var(--spacing-xs) auto 0;
+  margin-bottom: 0; /* Remove bottom margin to make borders touch */
   border-radius: var(--radius-xl);
-  overflow: visible;
+  overflow: hidden;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Apply glow to landscape wrapper - MEDIUM WARM POOL */
+.coverWrapperLandscape.withTrackGlow {
+  border-radius: var(--radius-xl); /* Ensure glow container matches image radius */
+  box-shadow: 
+    0 0 4px var(--current-glow-color, rgba(96, 165, 250, 1.0)),
+    0 0 8px var(--current-glow-color, rgba(96, 165, 250, 0.8)),
+    0 0 12px var(--current-glow-color, rgba(96, 165, 250, 0.6)),
+    0 0 18px var(--current-glow-color, rgba(96, 165, 250, 0.4));
 }
 
 .coverWrapperLandscapeExpanded {
   position: relative;
   width: 90%;
-  height: 65%;
+  height: 260px; /* Fallback for older browsers */
+  aspect-ratio: 4 / 3; /* Maintains consistent aspect ratio */
   max-width: 380px;
-  max-height: 260px;
   margin: 10px auto 0;
   transform: scale(0.8);
   border-radius: var(--radius-xl);
@@ -111,6 +157,7 @@
 }
 
 
+/* Unified cover art - single class for all states and orientations */
 .coverArt,
 .coverArtLandscape,
 .coverArtWithTrack,
@@ -119,17 +166,13 @@
   height: 100%;
   border-radius: var(--radius-xl);
   object-fit: cover;
-  object-position: center; /* Center the image for balanced cropping */
+  object-position: center;
   filter: brightness(1);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .coverArtWithTrack {
-  box-shadow: 
-    0 12px 30px rgba(0, 0, 0, 0.4),
-    0 0 30px var(--current-glow-color, rgba(96, 165, 250, 0.5)),
-    0 0 60px var(--current-glow-color, rgba(96, 165, 250, 0.3)),
-    0 0 90px var(--current-glow-color, rgba(96, 165, 250, 0.15));
+  /* Glow moved back to container level */
 }
 
 .coverArtLandscapeWithTrack {
@@ -141,10 +184,11 @@
 
 .buttonContainer {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 10;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: var(--button-container-bottom-offset);
+  z-index: var(--button-z-index);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -152,10 +196,11 @@
 
 .buttonContainerLandscape {
   position: absolute;
-  top: 45%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 10;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: var(--button-container-bottom-offset);
+  z-index: var(--button-z-index);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -163,10 +208,10 @@
 
 .progressOverlay {
   position: absolute;
-  bottom: 8px;
-  left: 20px;
-  right: 20px;
-  z-index: 5;
+  bottom: var(--progress-bottom);
+  left: var(--progress-horizontal);
+  right: var(--progress-horizontal);
+  z-index: var(--progress-z-index);
 }
 
 .trackInfo {
@@ -174,7 +219,10 @@
   width: 100%;
   overflow: visible;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-top: 0; /* Remove gap - make yellow border touch blue border */
+  padding-top: var(--spacing-md); /* Add internal padding for breathing room */
 }
+
 
 .trackInfoPortraitExpanded {
   text-align: center;
@@ -214,11 +262,12 @@
 
 .trackTitle {
   font-size: var(--font-size-6xl); /* Larger for more prominence */
-  margin-bottom: var(--spacing-sm); /* Add space below title */
+  margin-bottom: var(--spacing-xxs); /* Reduced space below title */
 }
 
 .trackTitleLandscape {
   font-size: var(--font-size-5xl);
+  margin-bottom: var(--spacing-xxs); /* Reduced space below title */
 }
 
 .statusTextBase {
@@ -230,15 +279,27 @@
 }
 
 .statusText {
-  font-size: var(--font-size-sm);
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  margin-top: var(--spacing-xs); /* Add space above status text */
+  font-size: var(--font-size-lg); /* Match landscape size */
+  margin-top: var(--spacing-xxs); /* Reduced space above status text */
 }
 
 .statusTextLandscape {
-  font-size: var(--font-size-lg);
+  font-size: var(--font-size-sm);
+}
+
+.instructionalText {
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.7);
+  letter-spacing: 0.02em;
+  opacity: 0.8;
+  margin-top: var(--spacing-xxs);
+}
+
+.instructionalSeparator {
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 400;
+  margin: 0 8px;
 }
 
 .statusTextLoading {
@@ -469,11 +530,6 @@
   .initialAlbumInfo {
     margin-top: var(--spacing-lg);
   }
-  
-  /* Add proper spacing for "Select a track below" text in portrait - only when no track selected */
-  .trackTitleBase {
-    margin-top: var(--spacing-lg); /* Add more spacing below cover art */
-  }
 }
 
 /* Portrait mode with track selected - component-level enhancements only */
@@ -482,12 +538,17 @@
 }
 
 .audioPlayerPortraitWithTrack .coverArtWithTrack {
-  border: 2px solid var(--current-glow-color);
+  border: 2px solid var(--current-glow-color) !important;
   box-shadow: 
     0 0 12px var(--current-glow-color),
     0 0 24px var(--current-glow-color),
     0 4px 20px rgba(0, 0, 0, 0.3);
   transition: all var(--transition-smooth);
+}
+
+/* Add equivalent rule for landscape to match portrait */
+.coverArtLandscapeWithTrack {
+  border: 2px solid var(--current-glow-color) !important;
 }
 
 .audioPlayerPortraitWithTrack .trackTitleBase {
@@ -501,7 +562,7 @@
 
 .audioPlayerPortraitWithTrack .trackTitle {
   /* Larger font size for main title when track is selected */
-  font-size: 32px;
+  font-size: var(--font-size-6xl);
   letter-spacing: 0.03em;
 }
 
@@ -512,14 +573,14 @@
 }
 
 .titleVeryLong {
-  font-size: 24px !important;
+  font-size: var(--font-size-5xl) !important;
   letter-spacing: 0.01em !important;
 }
 
 .audioPlayerPortraitWithTrack .statusText {
   /* Status text positioning for track-selected state */
   font-size: var(--font-size-sm);
-  margin-top: 0;
+  margin-top: var(--spacing-xxs) !important;
   color: rgba(255, 255, 255, 0.6);
 }
 
@@ -531,6 +592,7 @@
   text-align: center;
   box-sizing: border-box;
   padding: 0 var(--spacing-xs);
+  padding-top: var(--spacing-md) !important; /* Maintain consistent spacing like base trackInfo */
 }
 
 @keyframes textFadeIn {
@@ -542,5 +604,18 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* Landscape NOW PLAYING info - positioned under cover art */
+.landscapeNowPlayingInfo {
+  width: 100%;
+  margin-top: 0; /* Remove gap to make borders touch */
+  padding: 0 var(--spacing-md);
+  box-sizing: border-box;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
 }
 
