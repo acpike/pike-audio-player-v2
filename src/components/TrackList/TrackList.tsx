@@ -5,7 +5,6 @@ import { useUIStore } from '../../stores/uiStore';
 import { usePreviewStore } from '../../stores/previewStore';
 import { TrackItem } from './TrackItem';
 import { TrackListHeader } from './TrackListHeader';
-import { SmartLip } from '../UI/SmartLip';
 import styles from './TrackList.module.css';
 
 /**
@@ -104,7 +103,6 @@ export const TrackList: React.FC<TrackListProps> = ({ playTrack, togglePlayPause
     <div className={getTrackListClass()}>
       <TrackListHeader />
       <div className={styles.trackListWrapper}>
-        <SmartLip scrollContainer={containerRef.current} />
         <div className={getTrackListContainerClass()} ref={containerRef}>
           {trackData.map((track, index) => (
           <TrackItem

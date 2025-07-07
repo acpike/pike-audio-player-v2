@@ -41,20 +41,10 @@
 
 /* Responsive adjustments for different screen sizes */
 
-/* Large landscape screens - compact spacing to match portrait */
-@media (orientation: landscape) and (min-width: 951px) {
+/* Landscape screens - compact vertical padding */
+@media (orientation: landscape) {
   .trackListHeader {
-    padding: var(--spacing-sm) var(--spacing-xl) var(--spacing-xxs);
+    padding: var(--spacing-xs) var(--spacing-md) var(--spacing-xs);
   }
-  
 }
 
-/* Portrait mode: No additional spacing needed */
-
-/* Small landscape screens - tighter spacing */
-@media (orientation: landscape) and (min-width: 750px) and (max-width: 950px) {
-  .trackListHeader {
-    padding: var(--spacing-sm) var(--spacing-sm) var(--spacing-xxs);
-  }
-  
-}

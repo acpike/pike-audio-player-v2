@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Lip Mockup - Instructional Text</title>
+    <style>
+        /* Design System Variables */
+        :root {
+            --spacing-xs: 5px;
+            --spacing-sm: 12px;
+            --spacing-md: 15px;
+            --spacing-lg: 20px;
+            --spacing-xl: 25px;
+            
+            --font-size-xs: 8px;
+            --font-size-sm: 11px;
+            --font-size-md: 13px;
+            --font-size-lg: 14px;
+            
+            --radius-lg: 12px;
+            --radius-xl: 16px;
+            
+            --mask-solid-distance: 25px;
+            --mask-fade-distance: 8px;
+            
+            --true-black: #000000;
+            --deep-charcoal: #0a0a0a;
+            --dark-gray: #141414;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--true-black);
+            color: white;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .mockup-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-xl);
+            padding: 40px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .controls {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .controls h3 {
+            margin-bottom: 15px;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 16px;
+        }
+
+        .design-options {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .design-option {
+            padding: 8px 16px;
+            background: rgba(96, 165, 250, 0.2);
+            border: 1px solid rgba(96, 165, 250, 0.5);
+            border-radius: var(--radius-lg);
+            color: white;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.2s ease;
+        }
+
+        .design-option:hover {
+            background: rgba(96, 165, 250, 0.3);
+        }
+
+        .design-option.active {
+            background: rgba(96, 165, 250, 0.6);
+            border-color: rgba(96, 165, 250, 0.8);
+        }
+
+        .orientation-toggle {
+            display: flex;
+            gap: 10px;
+        }
+
+        .orientation-btn {
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: var(--radius-lg);
+            color: white;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.2s ease;
+        }
+
+        .orientation-btn.active {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Layout Containers */
+        .layout-container {
+            width: 100%;
+            height: 600px;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            border-radius: var(--radius-lg);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .layout-container.landscape {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .layout-container.portrait {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Audio Player Area (left in landscape, top in portrait) */
+        .audio-player-area {
+            background: rgba(255, 0, 0, 0.1);
+            border: 2px solid red;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+            position: relative;
+        }
+
+        .landscape .audio-player-area {
+            width: 40%;
+            height: 100%;
+        }
+
+        .portrait .audio-player-area {
+            width: 100%;
+            height: 200px;
+        }
+
+        /* Track List Area */
+        .track-list-area {
+            background: rgba(255, 0, 255, 0.1);
+            border: 2px solid magenta;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .landscape .track-list-area {
+            width: 60%;
+            height: 100%;
+        }
+
+        .portrait .track-list-area {
+            width: 100%;
+            flex: 1;
+        }
+
+        /* Track List Header */
+        .track-header {
+            background: rgba(255, 192, 203, 0.2);
+            border: 2px solid pink;
+            padding: var(--spacing-sm) var(--spacing-md) var(--spacing-xs);
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 20;
+        }
+
+        .album-info {
+            font-size: 16px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .tags-toggle {
+            background: rgba(96, 165, 250, 0.3);
+            border: 1px solid rgba(96, 165, 250, 0.6);
+            border-radius: var(--radius-lg);
+            padding: 6px 12px;
+            font-size: 11px;
+            color: white;
+        }
+
+        /* Track List Wrapper */
+        .track-list-wrapper {
+            background: rgba(0, 255, 255, 0.1);
+            border: 2px solid lime;
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Smart Lip Container */
+        .smart-lip-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--spacing-lg);
+            z-index: 15;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Smart Lip Designs */
+        .smart-lip {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .smart-lip.hidden {
+            transform: translateY(-100%);
+            opacity: 0;
+        }
+
+        /* Design Option A: Subtle Text */
+        .smart-lip.design-a {
+            font-size: var(--font-size-sm);
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            text-align: center;
+        }
+
+        .smart-lip.design-a .separator {
+            color: rgba(255, 255, 255, 0.5);
+            margin: 0 6px;
+        }
+
+        /* Design Option B: Pill/Badge */
+        .smart-lip.design-b {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 6px 16px;
+            font-size: var(--font-size-xs);
+            color: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .smart-lip.design-b .separator {
+            color: rgba(96, 165, 250, 0.8);
+            margin: 0 6px;
+        }
+
+        /* Design Option C: Animated Hint Bar (Full Width) */
+        .smart-lip.design-c {
+            background: linear-gradient(90deg, 
+                transparent 0%,
+                rgba(96, 165, 250, 0.1) 25%,
+                rgba(96, 165, 250, 0.2) 50%,
+                rgba(96, 165, 250, 0.1) 75%,
+                transparent 100%
+            );
+            border-top: 1px solid rgba(96, 165, 250, 0.3);
+            border-bottom: 1px solid rgba(96, 165, 250, 0.3);
+            padding: 4px 0;
+            font-size: var(--font-size-xs);
+            color: rgba(255, 255, 255, 0.9);
+            text-align: center;
+            width: 100%;
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        /* Design Option D: Animated Text Bar (Text Width Only) */
+        .smart-lip.design-d {
+            background: linear-gradient(90deg, 
+                rgba(96, 165, 250, 0.1) 0%,
+                rgba(96, 165, 250, 0.2) 50%,
+                rgba(96, 165, 250, 0.1) 100%
+            );
+            border-top: 1px solid rgba(96, 165, 250, 0.3);
+            border-bottom: 1px solid rgba(96, 165, 250, 0.3);
+            padding: 4px 12px;
+            font-size: var(--font-size-xs);
+            color: rgba(255, 255, 255, 0.9);
+            text-align: center;
+            display: inline-block;
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+
+        @keyframes glow {
+            0%, 100% { 
+                box-shadow: 0 0 5px rgba(96, 165, 250, 0.3);
+                border-color: rgba(96, 165, 250, 0.4);
+            }
+            50% { 
+                box-shadow: 0 0 15px rgba(96, 165, 250, 0.6);
+                border-color: rgba(96, 165, 250, 0.7);
+            }
+        }
+
+        .smart-lip.design-c .separator {
+            color: rgba(96, 165, 250, 0.9);
+            margin: 0 8px;
+        }
+
+        .smart-lip.design-d .separator {
+            color: rgba(96, 165, 250, 0.9);
+            margin: 0 6px;
+        }
+
+        /* Track List Container */
+        .track-list-container {
+            background: rgba(0, 128, 128, 0.1);
+            border: 2px solid teal;
+            height: 400px;
+            overflow-y: scroll !important;
+            padding-top: var(--spacing-lg);
+            position: relative;
+            scroll-behavior: smooth;
+            
+            /* Temporarily remove mask to ensure scrolling works */
+            /* mask: linear-gradient(to bottom,
+                transparent 0px,
+                black var(--mask-solid-distance),
+                black calc(100% - 40px),
+                transparent 100%
+            );
+            -webkit-mask: linear-gradient(to bottom,
+                transparent 0px,
+                black var(--mask-solid-distance),
+                black calc(100% - 40px),
+                transparent 100%
+            ); */
+        }
+
+        /* Track Items */
+        .track-item {
+            background: rgba(255, 255, 255, 0.05);
+            margin: 0 15px 12px 15px;
+            padding: 12px 16px;
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .track-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-1px);
+        }
+
+        .track-thumbnail {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 8px;
+            flex-shrink: 0;
+        }
+
+        .track-info {
+            flex: 1;
+        }
+
+        .track-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 4px;
+        }
+
+        .track-tags {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .track-duration {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 500;
+        }
+
+        /* Scroll Indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            padding: 8px 12px;
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.8);
+            z-index: 30;
+        }
+
+        /* Debug Info */
+        .debug-info {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            padding: 8px;
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.9);
+            z-index: 50;
+            font-family: monospace;
+        }
+
+        .track-list-container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .track-list-container::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+
+        .track-list-container::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+        }
+
+        .track-list-container::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .mockup-container {
+                padding: 20px;
+            }
+            
+            .layout-container {
+                height: 500px;
+            }
+            
+            .design-options {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="mockup-container">
+        <div class="controls">
+            <h3>Smart Lip Design Options</h3>
+            <div class="design-options">
+                <button class="design-option active" data-design="a">Option A: Subtle Text</button>
+                <button class="design-option" data-design="b">Option B: Pill/Badge</button>
+                <button class="design-option" data-design="c">Option C: Full Width Bar</button>
+                <button class="design-option" data-design="d">Option D: Text Width Bar</button>
+            </div>
+            
+            <h3>Orientation</h3>
+            <div class="orientation-toggle">
+                <button class="orientation-btn active" data-orientation="portrait">Portrait</button>
+                <button class="orientation-btn" data-orientation="landscape">Landscape</button>
+            </div>
+        </div>
+
+        <div class="layout-container portrait" id="layoutContainer">
+            <div class="audio-player-area">
+                <div>Audio Player<br><small>(Red Border)</small></div>
+            </div>
+            
+            <div class="track-list-area">
+                <div class="track-header">
+                    <div class="album-info">Demo Tracks • 5 tracks</div>
+                    <div class="tags-toggle">Tags</div>
+                </div>
+                
+                <div class="track-list-wrapper">
+                    <!-- Smart Lip positioned here -->
+                    <div class="smart-lip-container">
+                        <div class="smart-lip design-a" id="smartLip">
+                            Tap to play <span class="separator">•</span> Double tap for preview
+                        </div>
+                    </div>
+                    
+                    <div class="track-list-container" id="trackContainer">
+                        <div class="track-item">
+                            <div class="track-thumbnail"></div>
+                            <div class="track-info">
+                                <div class="track-title">Wanderer's Lament</div>
+                                <div class="track-tags">Acoustic • Atmospheric • Cinematic</div>
+                            </div>
+                            <div class="track-duration">2:08</div>
+                        </div>
+                        
+                        <div class="track-item">
+                            <div class="track-thumbnail"></div>
+                            <div class="track-info">
+                                <div class="track-title">No Return</div>
+                                <div class="track-tags">Tense • Minimal • Suspense</div>
+                            </div>
+                            <div class="track-duration">2:47</div>
+                        </div>
+                        
+                        <div class="track-item">
+                            <div class="track-thumbnail"></div>
+                            <div class="track-info">
+                                <div class="track-title">Journey to Montopoli</div>
+                                <div class="track-tags">Orchestral • Epic • Adventure</div>
+                            </div>
+                            <div class="track-duration">2:45</div>
+                        </div>
+                        
+                        <div class="track-item">
+                            <div class="track-thumbnail"></div>
+                            <div class="track-info">
+                                <div class="track-title">Beyond the Horizon</div>
+                                <div class="track-tags">Uplifting • Orchestral • Hopeful</div>
+                            </div>
+                            <div class="track-duration">2:02</div>
+                        </div>
+                        
+                        <div class="track-item">
+                            <div class="track-thumbnail"></div>
+                            <div class="track-info">
+                                <div class="track-title">Overthrown</div>
+                                <div class="track-tags">Intense • Percussion • Dark</div>
+                            </div>
+                            <div class="track-duration">1:55</div>
+                        </div>
+
+                        <!-- Extra items for scrolling -->
+                        <div class="track-item">
+                            <div class="track-thumbnail"></div>
+                            <div class="track-info">
+                                <div class="track-title">Demo Track 6</div>
+                                <div class="track-tags">Example • Demo • Test</div>
+                            </div>
+                            <div class="track-duration">3:15</div>
+                        </div>
+                        
+                        <div class="track-item">
+                            <div class="track-thumbnail"></div>
+                            <div class="track-info">
+                                <div class="track-title">Demo Track 7</div>
+                                <div class="track-tags">Example • Demo • Test</div>
+                            </div>
+                            <div class="track-duration">2:30</div>
+                        </div>
+                        
+                        <div class="track-item">
+                            <div class="track-thumbnail"></div>
+                            <div class="track-info">
+                                <div class="track-title">Demo Track 8</div>
+                                <div class="track-tags">Example • Demo • Test</div>
+                            </div>
+                            <div class="track-duration">4:05</div>
+                        </div>
+
+                        <div class="track-item">
+                            <div class="track-thumbnail"></div>
+                            <div class="track-info">
+                                <div class="track-title">Demo Track 9</div>
+                                <div class="track-tags">Scroll • Test • Demo</div>
+                            </div>
+                            <div class="track-duration">2:45</div>
+                        </div>
+
+                        <div class="track-item">
+                            <div class="track-thumbnail"></div>
+                            <div class="track-info">
+                                <div class="track-title">Demo Track 10</div>
+                                <div class="track-tags">More • Content • Here</div>
+                            </div>
+                            <div class="track-duration">3:20</div>
+                        </div>
+
+                        <div class="track-item">
+                            <div class="track-thumbnail"></div>
+                            <div class="track-info">
+                                <div class="track-title">Demo Track 11</div>
+                                <div class="track-tags">Keep • Scrolling • Down</div>
+                            </div>
+                            <div class="track-duration">1:55</div>
+                        </div>
+
+                        <div class="track-item">
+                            <div class="track-thumbnail"></div>
+                            <div class="track-info">
+                                <div class="track-title">Demo Track 12</div>
+                                <div class="track-tags">Final • Track • Item</div>
+                            </div>
+                            <div class="track-duration">4:12</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="debug-info" id="debugInfo">
+                Scroll: 0px | Lip: visible | Timer: inactive
+            </div>
+            
+            <div class="scroll-indicator">
+                Scroll down to see lip behavior
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Smart Lip Control Logic
+        class SmartLip {
+            constructor() {
+                this.container = document.getElementById('trackContainer');
+                this.lip = document.getElementById('smartLip');
+                this.debugInfo = document.getElementById('debugInfo');
+                
+                this.isVisible = true;
+                this.scrollPosition = 0;
+                this.inactivityTimer = null;
+                this.inactivityDelay = 2000; // 2 seconds
+                
+                this.init();
+            }
+            
+            init() {
+                this.container.addEventListener('scroll', this.handleScroll.bind(this));
+                this.updateDebugInfo();
+            }
+            
+            handleScroll() {
+                const scrollTop = this.container.scrollTop;
+                this.scrollPosition = scrollTop;
+                
+                // Clear existing timer
+                if (this.inactivityTimer) {
+                    clearTimeout(this.inactivityTimer);
+                    this.inactivityTimer = null;
+                }
+                
+                if (scrollTop > 10 && this.isVisible) {
+                    // User scrolled down, hide the lip
+                    this.hideLip();
+                } else if (scrollTop <= 10 && !this.isVisible) {
+                    // User scrolled to top, set timer to show lip after inactivity
+                    this.inactivityTimer = setTimeout(() => {
+                        this.showLip();
+                    }, this.inactivityDelay);
+                }
+                
+                this.updateDebugInfo();
+            }
+            
+            hideLip() {
+                this.isVisible = false;
+                this.lip.classList.add('hidden');
+                this.updateDebugInfo();
+            }
+            
+            showLip() {
+                this.isVisible = true;
+                this.lip.classList.remove('hidden');
+                this.inactivityTimer = null;
+                this.updateDebugInfo();
+            }
+            
+            updateDebugInfo() {
+                const timerStatus = this.inactivityTimer ? 'active' : 'inactive';
+                const lipStatus = this.isVisible ? 'visible' : 'hidden';
+                this.debugInfo.textContent = 
+                    `Scroll: ${this.scrollPosition}px | Lip: ${lipStatus} | Timer: ${timerStatus}`;
+            }
+        }
+        
+        // Design Options Control
+        class DesignController {
+            constructor() {
+                this.lip = document.getElementById('smartLip');
+                this.currentDesign = 'a';
+                this.init();
+            }
+            
+            init() {
+                // Design option buttons
+                document.querySelectorAll('.design-option').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        this.setDesign(e.target.dataset.design);
+                        this.updateActiveButton(e.target, '.design-option');
+                    });
+                });
+                
+                // Orientation buttons
+                document.querySelectorAll('.orientation-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        this.setOrientation(e.target.dataset.orientation);
+                        this.updateActiveButton(e.target, '.orientation-btn');
+                    });
+                });
+            }
+            
+            setDesign(design) {
+                this.lip.className = `smart-lip design-${design}`;
+                this.currentDesign = design;
+                
+                // Update lip content based on design
+                const text = 'Tap to play <span class="separator">•</span> Double tap for preview';
+                this.lip.innerHTML = text;
+            }
+            
+            setOrientation(orientation) {
+                const container = document.getElementById('layoutContainer');
+                container.className = `layout-container ${orientation}`;
+            }
+            
+            updateActiveButton(clickedBtn, selector) {
+                document.querySelectorAll(selector).forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                clickedBtn.classList.add('active');
+            }
+        }
+        
+        // Initialize everything
+        document.addEventListener('DOMContentLoaded', () => {
+            new SmartLip();
+            new DesignController();
+        });
+    </script>
+</body>
+</html>

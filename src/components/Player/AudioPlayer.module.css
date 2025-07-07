@@ -247,12 +247,12 @@
 
 .trackTitle {
   font-size: var(--font-size-6xl); /* Larger for more prominence */
-  margin-bottom: var(--spacing-sm); /* Add space below title */
+  margin-bottom: var(--spacing-xxs); /* Reduced space below title */
 }
 
 .trackTitleLandscape {
   font-size: var(--font-size-5xl);
-  margin-bottom: var(--spacing-sm); /* Match portrait title spacing */
+  margin-bottom: var(--spacing-xxs); /* Reduced space below title */
 }
 
 .statusTextBase {
@@ -265,14 +265,26 @@
 
 .statusText {
   font-size: var(--font-size-lg); /* Match landscape size */
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  margin-top: var(--spacing-xs); /* Add space above status text */
+  margin-top: var(--spacing-xxs); /* Reduced space above status text */
 }
 
 .statusTextLandscape {
-  font-size: var(--font-size-lg);
+  font-size: var(--font-size-sm);
+}
+
+.instructionalText {
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.7);
+  letter-spacing: 0.02em;
+  opacity: 0.8;
+  margin-top: var(--spacing-xxs);
+}
+
+.instructionalSeparator {
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 400;
+  margin: 0 8px;
 }
 
 .statusTextLoading {
@@ -548,7 +560,7 @@
 .audioPlayerPortraitWithTrack .statusText {
   /* Status text positioning for track-selected state */
   font-size: var(--font-size-sm);
-  margin-top: 0;
+  margin-top: var(--spacing-xxs) !important;
   color: rgba(255, 255, 255, 0.6);
 }
 
@@ -560,6 +572,7 @@
   text-align: center;
   box-sizing: border-box;
   padding: 0 var(--spacing-xs);
+  padding-top: var(--spacing-md) !important; /* Maintain consistent spacing like base trackInfo */
 }
 
 @keyframes textFadeIn {

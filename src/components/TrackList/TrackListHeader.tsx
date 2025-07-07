@@ -9,7 +9,7 @@ interface TrackListHeaderProps {}
  * TrackListHeader - Simplified header for both portrait and landscape
  * 
  * Shows AlbumInfo and TagsToggle only. 
- * Instructional text has been moved to SmartLip component.
+ * Instructional text has been moved to the main title area.
  * NOW PLAYING info has been moved to the cover art area in landscape mode.
  */
 export const TrackListHeader: React.FC<TrackListHeaderProps> = () => {

@@ -349,12 +349,16 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
           }
         </h1>
         
-        {(hasTrackBeenSelected || previewTrackIndex !== null) && (
+        {(hasTrackBeenSelected || previewTrackIndex !== null) ? (
           <div className={`${getStatusTextClass()} ${isLoading ? styles.statusTextLoading : ''}`}>
             {isLoading ? UI_STRINGS.LOADING : 
              previewTrackIndex !== null ? UI_STRINGS.PREVIEWING :
              hasTrackBeenSelected ? UI_STRINGS.NOW_PLAYING : 
              UI_STRINGS.MUSIC_PLAYER}
+          </div>
+        ) : (
+          <div className={styles.instructionalText}>
+            Tap to play <span className={styles.instructionalSeparator}>•</span> Double tap for preview
           </div>
         )}
       </div>
