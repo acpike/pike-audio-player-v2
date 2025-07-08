@@ -32,7 +32,7 @@
 }
 
 /* iPhone SE Portrait - Responsive text sizing for small screens */
-@media (max-width: 375px) and (orientation: portrait) {
+@media (max-width: 375px) and (min-height: 600px) and (orientation: portrait) {
   .albumInfo {
     gap: var(--spacing-xxs) !important; /* Tighter spacing */
     width: 100%;
@@ -74,24 +74,24 @@
   }
   
   .albumName {
-    font-size: var(--font-size-md) !important; /* Much smaller font */
+    font-size: var(--font-size-lg) !important; /* Bigger font for better readability */
     font-weight: 600 !important;
     white-space: nowrap !important;
     overflow: hidden !important;
     text-overflow: ellipsis !important;
     flex-shrink: 1 !important;
     min-width: 0 !important;
-    max-width: 80px !important; /* Strict width limit */
+    max-width: 120px !important; /* More space for album name */
   }
   
   .separator {
-    font-size: var(--font-size-xs) !important; /* Smaller separator */
-    margin: 0 1px !important;
+    font-size: var(--font-size-sm) !important; /* Bigger separator */
+    margin: 0 var(--spacing-xxs) !important;
     flex-shrink: 0 !important;
   }
   
   .trackCount {
-    font-size: var(--font-size-xs) !important; /* Smaller track count */
+    font-size: var(--font-size-sm) !important; /* Bigger track count */
     font-weight: 500 !important;
     letter-spacing: 0.02em !important;
     flex-shrink: 0 !important;
