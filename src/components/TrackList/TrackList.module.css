@@ -371,6 +371,13 @@
   }
 }
 
+/* Portrait optimizations for larger phones - restore lost mobile rule */
+@media (orientation: portrait) and (min-width: 480px) and (max-width: 768px) {
+  .trackListContainer {
+    max-height: 350px !important;
+  }
+}
+
 /* iPhone SE Landscape specific fixes - Prevent track list overflow */
 @media (max-width: 667px) and (max-height: 375px) and (orientation: landscape) {
   /* OPTIMIZED: Track list with better proportions for 260px AudioPlayer */

@@ -185,14 +185,18 @@
   margin: 0;
   padding: 0;
   color: white;
-  line-height: 1.2; /* Slightly more breathing room for single line */
+  line-height: 1.2;
   
-  /* Text truncation */
+  /* Dynamic text sizing - no truncation */
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  overflow: visible;
   flex: 1; /* Take available space */
-  min-width: 0; /* Allow truncation */
+  min-width: 0;
+}
+
+/* Smaller font for long track titles */
+.trackTitleSmall {
+  font-size: var(--font-size-xl) !important; /* 16px instead of 17px - subtle reduction */
 }
 
 
@@ -272,8 +276,7 @@
   color: white;
   line-height: 1.2;
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  overflow: visible;
   flex: 1;
   min-width: 0;
 }
@@ -303,7 +306,7 @@
   }
   
   .trackTitle {
-    font-size: var(--font-size-lg);
+    font-size: var(--font-size-2xl); /* Match landscape size: 17px instead of 14px */
   }
 }
 

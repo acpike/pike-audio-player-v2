@@ -32,7 +32,9 @@ export const TrackItem: React.FC<TrackItemProps> = ({ track, index, isActive, pl
   } = usePreviewStore();
   const itemRef = useRef<HTMLDivElement>(null);
   const tagsContainerRef = useRef<HTMLDivElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
   const [visibleTagCount, setVisibleTagCount] = useState(track.tags.length);
+  const [useSmallerFont, setUseSmallerFont] = useState(false);
   
   // Double-tap detection state
   const [lastTapTime, setLastTapTime] = useState(0);
@@ -57,6 +59,47 @@ export const TrackItem: React.FC<TrackItemProps> = ({ track, index, isActive, pl
   
   // Extract colors when any glow is needed (track tile or thumbnail)
   const trackColors = useTrackColors(track.title, track.art, shouldTrackGlow);
+
+  // Dynamic font scaling for track titles
+  useEffect(() => {
+    const checkTitleOverflow = () => {
+      if (!titleRef.current || !itemRef.current) return;
+
+      const titleElement = titleRef.current;
+      const containerElement = itemRef.current;
+
+      // Get computed styles to measure text properly
+      const computedStyle = window.getComputedStyle(titleElement);
+      const canvas = document.createElement('canvas');
+      const context = canvas.getContext('2d');
+
+      if (context) {
+        context.font = `${computedStyle.fontWeight} ${computedStyle.fontSize} ${computedStyle.fontFamily}`;
+        const textMetrics = context.measureText(track.title);
+        const textWidth = textMetrics.width;
+
+        // Get available width (container minus thumbnail, duration, and margins)
+        const containerWidth = containerElement.offsetWidth;
+        const thumbnailWidth = 60; // Default thumbnail width
+        const durationWidth = 45; // Reduced - duration is usually shorter
+        const margins = 30; // Reduced margins for less sensitivity
+        const availableWidth = containerWidth - thumbnailWidth - durationWidth - margins;
+
+        // Use smaller font only when text significantly exceeds available space
+        const threshold = availableWidth * 1.1; // Allow 10% overflow before scaling
+        setUseSmallerFont(textWidth > threshold);
+      }
+    };
+
+    // Check on mount and resize with delay for CSS application
+    const timeoutId = setTimeout(checkTitleOverflow, 100);
+    window.addEventListener('resize', checkTitleOverflow);
+
+    return () => {
+      clearTimeout(timeoutId);
+      window.removeEventListener('resize', checkTitleOverflow);
+    };
+  }, [track.title, isLandscapeMode]);
 
   // Smart tag limiting - measure and hide tags that don't fit
   useEffect(() => {
@@ -131,7 +174,8 @@ export const TrackItem: React.FC<TrackItemProps> = ({ track, index, isActive, pl
   };
 
   const getTrackTitleClass = () => {
-    return isLandscapeMode ? styles.trackTitleLandscape : styles.trackTitle;
+    const baseClass = isLandscapeMode ? styles.trackTitleLandscape : styles.trackTitle;
+    return useSmallerFont ? `${baseClass} ${styles.trackTitleSmall}` : baseClass;
   };
 
 
@@ -236,7 +280,7 @@ export const TrackItem: React.FC<TrackItemProps> = ({ track, index, isActive, pl
       
       <div className={getTrackInfoClass()}>
         <div className={styles.titleDurationRow}>
-          <h3 className={getTrackTitleClass()}>{track.title}</h3>
+          <h3 ref={titleRef} className={getTrackTitleClass()}>{track.title}</h3>
           <div className={getTrackDurationClass()}>{track.duration}</div>
         </div>
         
