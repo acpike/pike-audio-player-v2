@@ -614,3 +614,118 @@
   flex-shrink: 0;
 }
 
+/* iPhone SE Landscape Optimizations - Critical small screen fixes */
+@media (max-width: 667px) and (max-height: 375px) and (orientation: landscape) {
+  /* CRITICAL FIX: Override component-level flex properties that were causing overflow */
+  .audioPlayerLandscape {
+    flex: 0 0 260px !important; /* Optimized width for better proportions */
+    width: 260px !important;
+    max-width: 260px !important;
+    min-width: 0 !important; /* Override min-width: 300px constraint */
+    padding: 6px !important; /* Optimized padding */
+    box-sizing: border-box !important;
+    overflow: visible !important; /* Allow glow effects to extend beyond container */
+  }
+  
+  /* OPTIMIZED: Cover art sized for 260px container with better proportions */
+  .audioPlayerLandscape .coverWrapperLandscape {
+    width: 240px !important; /* Larger cover art for better visual balance */
+    height: 180px !important; /* 4:3 aspect ratio maintained */
+    max-width: 240px !important;
+    max-height: 180px !important;
+    margin: 4px auto !important;
+    aspect-ratio: unset !important; /* Remove aspect-ratio constraint */
+  }
+  
+  /* OPTIMIZED: Track titles with better sizing and centering */
+  .trackTitleBase,
+  .trackTitle,
+  .trackTitleLandscape {
+    font-size: var(--font-size-lg) !important; /* Slightly larger for readability */
+    font-weight: 600 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    max-width: 240px !important; /* Match cover art width for alignment */
+    margin: 0 auto 4px auto !important; /* Center align with margin auto */
+    text-align: center !important; /* Ensure center alignment */
+  }
+  
+  /* CRITICAL: Override landscapeNowPlayingInfo padding for iPhone SE */
+  .landscapeNowPlayingInfo {
+    padding: 0 !important; /* Remove side padding that might offset centering */
+    text-align: center !important;
+    width: 100% !important;
+    max-width: 240px !important; /* Match cover art width */
+    margin: 4px auto 0 auto !important; /* Center the entire component */
+  }
+  
+  /* CRITICAL: Constrain status text and center it */
+  .statusTextBase,
+  .statusText,
+  .statusTextLandscape {
+    font-size: var(--font-size-xs) !important;
+    max-width: 240px !important; /* Match cover art width */
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    text-align: center !important; /* Center the NOW PLAYING text */
+    margin: 0 auto !important; /* Center horizontally */
+    display: block !important; /* Ensure proper centering */
+  }
+  
+  /* CRITICAL: Constrain initial album info that shows before track selection */
+  .initialAlbumInfo {
+    margin-top: 2px !important;
+    width: 100% !important;
+    max-width: 180px !important;
+    overflow: hidden !important;
+  }
+  
+  .initialAlbumName {
+    font-size: var(--font-size-sm) !important; /* Much smaller than 3xl */
+    font-weight: 600 !important;
+    max-width: 160px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    margin-bottom: 2px !important;
+  }
+  
+  .initialTrackCount {
+    font-size: var(--font-size-xs) !important;
+    max-width: 160px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+  
+  .trackTitleBase {
+    font-size: var(--font-size-4xl) !important; /* Reduce from 6xl to 4xl for small screens */
+  }
+  
+  .trackTitle {
+    font-size: var(--font-size-4xl) !important; /* Portrait title smaller on iPhone SE */
+  }
+  
+  .trackTitleLandscape {
+    font-size: var(--font-size-3xl) !important; /* Even smaller for landscape */
+  }
+  
+  .coverWrapperLandscape {
+    margin: 0 auto 0; /* Remove any extra margins */
+    width: calc(100% - 10px) !important; /* Maximize width usage */
+  }
+}
+
+/* Small phone optimizations - General mobile improvements */
+@media (max-width: 480px) {
+  .trackTitleBase {
+    font-size: var(--font-size-5xl); /* Slightly smaller on all small phones */
+  }
+  
+  .trackTitle {
+    font-size: var(--font-size-5xl);
+  }
+}
+

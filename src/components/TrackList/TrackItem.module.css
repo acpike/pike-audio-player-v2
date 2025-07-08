@@ -290,8 +290,8 @@
 
 
 
-/* Mobile optimizations */
-@media (max-width: var(--mobile-max)) {
+/* Mobile-First optimizations */
+@media (min-width: 320px) and (max-width: 479px) {
   .trackItem {
     padding: var(--spacing-sm);
     gap: var(--spacing-sm);
@@ -305,7 +305,43 @@
   .trackTitle {
     font-size: var(--font-size-lg);
   }
+}
+
+/* iPhone SE Landscape - Aggressive text constraints */
+@media (max-width: 568px) and (max-height: 320px) and (orientation: landscape) {
+  .trackItem {
+    padding: 4px 6px !important; /* Minimal padding */
+    gap: 6px !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+  }
   
+  .trackThumbnail {
+    width: 40px !important; /* Smaller thumbnail */
+    height: 40px !important;
+    flex-shrink: 0 !important;
+  }
+  
+  .trackTitle,
+  .trackTitleLandscape {
+    font-size: var(--font-size-md) !important; /* Smaller font */
+    font-weight: 500 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    flex: 1 !important;
+    min-width: 0 !important;
+    max-width: calc(100% - 80px) !important; /* Account for thumbnail + duration */
+  }
+  
+  .trackDuration,
+  .trackDurationLandscape {
+    font-size: var(--font-size-sm) !important; /* Smaller duration */
+    flex-shrink: 0 !important;
+    width: 30px !important; /* Fixed width for duration */
+    text-align: right !important;
+  }
 }
 
 /* Portrait mode track prominence - only when track is selected */

@@ -358,8 +358,8 @@
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
 }
 
-/* Mobile optimizations */
-@media (max-width: var(--mobile-max)) {
+/* Mobile-First optimizations */
+@media (min-width: 320px) and (max-width: 479px) {
   .trackListTitle {
     font-size: var(--font-size-xl);
     margin-bottom: var(--spacing-md);
@@ -368,5 +368,45 @@
   .trackListContainer {
     gap: var(--spacing-sm);
     max-height: 350px;
+  }
+}
+
+/* iPhone SE Landscape specific fixes - Prevent track list overflow */
+@media (max-width: 667px) and (max-height: 375px) and (orientation: landscape) {
+  /* OPTIMIZED: Track list with better proportions for 260px AudioPlayer */
+  .trackListLandscape {
+    flex: 0 0 calc(100% - 260px - 6px) !important; /* More space with 260px AudioPlayer */
+    width: calc(100% - 260px - 6px) !important;
+    max-width: calc(100% - 260px - 6px) !important;
+    min-width: 0 !important; /* Override min-width constraint */
+    margin: 0 3px !important; /* Optimized margin */
+    padding: 3px !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important; /* Prevent content overflow */
+  }
+  
+  .trackList {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+  
+  .trackListContainer {
+    max-height: 250px;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    box-sizing: border-box;
+    padding: 2px 4px;
+  }
+  
+  .trackListTitle {
+    font-size: 12px; /* Smaller font for tight space */
+    margin-bottom: 4px;
+    white-space: nowrap; /* Prevent title wrapping */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Handle long titles gracefully */
   }
 }

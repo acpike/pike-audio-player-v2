@@ -377,6 +377,17 @@ body {
   }
 }
 
+/* iPhone SE Landscape Layout Variables - Global Override */
+/* FIXED: Correct iPhone SE dimensions - 667px × 375px */
+@media (max-width: 667px) and (max-height: 375px) and (orientation: landscape) {
+  :root {
+    /* Override layout variables for iPhone SE landscape (667px × 375px) */
+    --landscape-audio-width: 260px; /* Optimized: 39% of 667px for better balance */
+    --landscape-tracklist-width: calc(100% - 260px - 6px); /* More space for track list */
+    --landscape-gap: 3px; /* Optimized gap */
+  }
+}
+
 /* V7 Utility Classes - Design System */
 .glass-morphism {
   background: var(--glass-bg);
